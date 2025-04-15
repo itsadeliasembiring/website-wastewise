@@ -14,6 +14,38 @@ Route::get('/register', function () {
 })->name('register');
 
 
-Route::get('/register/ayam', function () {
-    return view('auth/register');
-})->name('register');
+Route::get('/tukarpoin', function () {
+    return view('tukar-poin/tukar-poin');
+})->name('tukarpoin');
+
+Route::get('/ubah-profil', function () {
+    return view('profil/ubah-profil');
+})->name('ubah-profil');
+Route::get('/ubah-password', function () {
+    return view('profil/ubah-password');
+})->name('ubah-password');
+
+Route::get('/beranda-edukasi', function () {
+    return view('edukasi/beranda-edukasi');
+})->name('beranda-edukasi');
+Route::get('/detail-artikel', function () {
+    return view('edukasi/detail-artikel');
+})->name('detail-artikel');
+Route::get('/kenali-sampah', function () {
+    return view('edukasi/kenali-sampah');
+})->name('kenali-sampah');
+
+
+Route::get('/setor-sampah', function () {
+    return view('setor-sampah/setor-sampah');
+})->name('setor-sampah');
+Route::get('/setor-langsung', function () {
+    return view('setor-sampah/setor-langsung');
+})->name('setor-langsung');
+
+Route::get('/riwayat-setor-sampah', function () {
+    return view('riwayat/riwayat-setor-sampah');
+})->name('riwayat-setor-sampah');
+Route::get('/riwayat-tukar-poin', function () {
+    return view('riwayat/riwayat-tukar-poin');
+})->name('riwayat-tukar-poin');

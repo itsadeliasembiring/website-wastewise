@@ -160,7 +160,7 @@
                     <!-- Article 1 -->
                     <div class="bg-[#F2F3F7] rounded-md shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('Assets/test1.png') }}" alt="WasteWise App" class="w-full h-full object-cover p-4">
+                            <img src="{{ asset('Assets/waste-wise-artikel.png') }}" alt="WasteWise App" class="w-full h-full object-cover p-4">
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-2">
@@ -177,7 +177,7 @@
                     <!-- Article 2 -->
                     <div class="bg-[#F2F3F7] rounded-md shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('Assets/test2.png') }}" alt="Plastic Waste" class="w-full h-full object-cover p-4">
+                            <img src="{{ asset('Assets/kura-kura.jpg') }}" alt="Plastic Waste" class="w-full h-full object-cover p-4">
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-2">
@@ -194,7 +194,7 @@
                     <!-- Article 3 -->
                     <div class="bg-[#F2F3F7] rounded-md shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="{{ asset('Assets/test3.png') }}" alt="Beach Cleanup" class="w-full h-full object-cover p-4">
+                            <img src="{{ asset('Assets/bersih-pantai.jpg') }}" alt="Beach Cleanup" class="w-full h-full object-cover p-4">
                         </div>
                         <div class="p-6">
                             <div class="flex items-center mb-2">
