@@ -29,7 +29,7 @@
                 <p class="disabled text-[#808080] text-[14px] text-center">
                 adminwastewise@gmail.com
                 </p>
-                <li class="logout"><a href="#">Logout</a></li>
+                <li class="logout"><a href="{{ route('landing-page') }}">Logout</a></li>
             </ul>
         </div>
         </div>
@@ -60,45 +60,7 @@
                 </div>
                 
                 <hr class="solid">
-                
-                {{-- Menu --}}
-                <div class="px-4 pb-6">
-                    <h3 class="mb-2 mt-2 text-xs font-medium uppercase text-gray-500">
-                        Menu
-                    </h3>
-                    <ul class="mb-8 text-sm font-medium">
-                        <li class="min-w-max">
-                            <a href="#" class="relative flex items-center space-x-4 bg-[#38B6FF] bg-opacity-30 px-4 py-3">
-                                <img class="w-[19px] h-[19px] mr-1" src="{{ asset('Assets/dashboard-icon.svg') }}" alt="dashboard-icon" />
-                                <span class="text-[16px] text-[#464748]">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="min-w-max">
-                            <a href="#" class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30">
-                                <img class="w-[19px] h-[19px] mr-1" src="{{ asset('Assets/student-icon.svg') }}" alt="student-icon" />
-                                <span class="text-[16px] text-[#464748]">Daftar Siswa</span>
-                            </a>
-                        </li>
-                        <li class="min-w-max">
-                            <a href="#" class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30">
-                                <img class="w-[19px] h-[19px] mr-1" src="{{ asset('Assets/presensi-icon.svg') }}" alt="presensi-icon" />
-                                <span class="text-[16px] text-[#464748]">Rekap Presensi Siswa</span>
-                            </a>
-                        </li>
-                        <li class="min-w-max">
-                            <a href="#" class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30">
-                                <img class="w-[19px] h-[19px] mr-1" src="{{ asset('Assets/account.svg') }}" alt="account-icon" />
-                                <span class="text-[#464748] text-[16px]">Kelola Akun</span>
-                            </a>
-                        </li>
-                        <li class="min-w-max">
-                            <a href="#" class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30">
-                                <img class="w-[19px] h-[19px] mr-1" src="{{ asset('Assets/kelasjurusan.svg') }}" alt="kelasjurusan-icon" />
-                                <span class="text-[16px] text-[#464748]">Kelola Jurusan & Kelas</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            </div>
         </nav>
     </div>
 </div>
