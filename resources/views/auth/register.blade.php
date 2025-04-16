@@ -122,9 +122,9 @@
                 <!-- Register Link -->
                 <div class="mt-6 text-center">
                     <p class="text-gray-600">
-                        Belum memiliki akun? 
-                        <a class="text-[#3D8D7A] hover:text-[#3D8D7A] font-medium">
-                            Daftar Sekarang
+                        Sudah memiliki akun? 
+                        <a href="{{ route('login') }}" class="text-[#3D8D7A] hover:text-[#3D8D7A] font-medium">
+                            Login sekarang
                         </a>
                     </p>
                 </div>

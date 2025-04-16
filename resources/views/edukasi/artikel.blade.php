@@ -24,8 +24,8 @@
     <body class="font-sans">
         <!-- Header -->
         <header class="bg-white shadow-sm sticky top-0 z-50">
-            <x-header.guest/>
-        </header>
+            <x-header.pengguna/>
+    </header>
 
     <!-- Artikel Section -->
     <section class="pt-10 py-16 px-6 bg-gray-100">
@@ -52,7 +52,7 @@
                         </p>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('landingpage-detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                             Jika tidak segera ditangani, ......</p>
                     </div>    
                     <div class="text-right">
-                        <a href="{{ route('landingpage-detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                             Sampah plastik mendominasi temuan dalam aksi ini, mencerminkan masih kurangnya kesadaran masyarakat terhadap dampak buruk limbah terhadap ekosistem .....</p>
                     </div>
                     <div class="text-right">
-                        <a href="{{ route('landingpage-detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>

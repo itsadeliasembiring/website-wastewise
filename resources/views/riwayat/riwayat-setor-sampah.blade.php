@@ -57,26 +57,10 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
-                <div class="ml-3">
-                    <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
-                    <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
-                </div>
-            </div>
-            <div class="flex gap-6 text-gray-700 font-medium">
-                <a href="#">Beranda</a>
-                <a href="#">Setor Sampah</a>
-                <a href="#">Edukasi</a>
-                <a href="#">Tukar Poin</a>
-                <a href="#" class="text-green-600 font-semibold">Riwayat</a>
-            </div>
-            <img src="{{ asset('Assets/adudu.jpeg') }}" class="h-11 w-11 bg-green-200 rounded-full" alt="User">
-        </div>
-    </nav>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+            <x-header.pengguna/>
+    </header>
 
     <!-- Mobile Navigation Bar (Bottom) -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50">
@@ -123,8 +107,15 @@
             
             <!-- Filter Tabs -->
             <div class="mb-8 flex gap-3">
-                <button class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium shadow-md hover:bg-primary-700 transition duration-200 flex-1 md:flex-none">Riwayat Setor Sampah</button>
-                <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition duration-200 flex-1 md:flex-none">Riwayat Tukar Poin</button>
+                <button class="@if (Route::is('pengguna-riwayat-setor-sampah')) bg-primary-600 text-white @else bg-white border border-gray-300 text-gray-700 @endif px-4 py-2 rounded-lg font-medium shadow-md hover:bg-primary-700 transition duration-200 flex-1 md:flex-none"
+                    onclick="window.location.href='{{ route('pengguna-riwayat-setor-sampah') }}'">
+                    Riwayat Setor Sampah
+                </button>
+
+                <button class="@if (Route::is('pengguna-riwayat-tukar-poin')) bg-primary-600 text-white @else bg-white border border-gray-300 text-gray-700 @endif px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition duration-200 flex-1 md:flex-none"
+                    onclick="window.location.href='{{ route('pengguna-riwayat-tukar-poin') }}'">
+                    Riwayat Tukar Poin
+                </button>
             </div>
             
             <!-- Transaction List -->

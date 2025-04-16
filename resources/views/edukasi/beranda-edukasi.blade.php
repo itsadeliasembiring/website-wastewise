@@ -21,26 +21,10 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
-                <div class="ml-3">
-                    <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
-                    <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
-                </div>
-            </div>
-            <div class="flex gap-6 text-gray-700 font-medium">
-                <a href="#">Beranda</a>
-                <a href="#">Setor Sampah</a>
-                <a href="#" class="text-green-600 font-semibold">Edukasi</a>
-                <a href="#">Tukar Poin</a>
-                <a href="#">Riwayat</a>
-            </div>
-            <img src="{{ asset('Assets/adudu.jpeg') }}" class="h-11 w-11 bg-green-200 rounded-full" alt="User">
-        </div>
-    </nav>
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <x-header.pengguna/>
+        </header>
 
 <!-- Hero Section -->
 <section class="text-white py-14 px-7" style="background-color: #3D8D7A;">
@@ -130,7 +114,10 @@
 
         <!-- Tombol Aksi -->
         <div class="flex justify-center mt-6">
-            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold w-full">
+            <button
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold w-full"
+                onclick="window.location.href='{{ route('kenali-sampah') }}'"
+                >
                 Submit
             </button>
         </div>
@@ -171,7 +158,7 @@
                         <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">Surabaya - Inovasi teknologi hadir untuk membantu masyarakat mengelola sampah dengan efisien melalui aplikasi WasteWise yang memberikan insentif menarik...</p>
                     </div>
                     <div class="text-right">
-                        <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>
@@ -187,7 +174,7 @@
                         <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">Surabaya - Sampah plastik di laut membahayakan kehidupan biota laut seperti penyu, ikan, dan mamalia laut. Upaya pengurangan sampah laut perlu segera ditingkatkan...</p>
                     </div>
                     <div class="text-right">
-                        <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>
@@ -203,7 +190,7 @@
                         <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">Surabaya - Relawan dan warga berkumpul untuk membersihkan sampah plastik di Pantai Kenjeran, meningkatkan kesadaran lingkungan di kalangan masyarakat...</p>
                     </div>
                     <div class="text-right">
-                        <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <a href="{{ route('detail-artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                     </div>
                 </div>
             </div>
@@ -211,39 +198,7 @@
     </section>
 
     <!-- Kontak -->
-    <section class="bg-[#3D8D7A] text-white relative">
-        <div class="absolute top-0 left-0 right-0 transform rotate-180">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full">
-                <path fill="#ffffff" d="M0,96L80,80C160,64,320,32,480,32C640,32,800,64,960,69.3C1120,75,1280,53,1360,42.7L1440,32L1440,120L0,120Z"></path>
-            </svg>
-        </div>
-        <div class="container mx-auto px-4 py-16 pt-32">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <img src="{{ asset('Assets/logo-wastewise.svg') }}" alt="WasteWise Logo" class="h-24 mb-2">
-                    <h2 class="text-2xl font-bold">WasteWise</h2>
-                    <p class="text-[16px]">"Ubah Sampah Jadi Berkah"</p>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold mb-4">Fitur</h2>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-emerald-200">Halaman Beranda</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Setor Sampah</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Artikel Edukasi</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Tukar Poin</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold mb-4">Kontak Kami</h2>
-                    <ul class="space-y-2 text-sm">
-                        <li>Email: info@wastewise.id</li>
-                        <li>Telepon: +62 812-3456-7890</li>
-                        <li>Alamat: Jl. Lingkungan No. 123, Surabaya</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+    <x-footer.pengguna id="kontak"/>
 
 </body>
 </html>

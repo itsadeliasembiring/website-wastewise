@@ -20,26 +20,10 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
-                <div class="ml-3">
-                    <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
-                    <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
-                </div>
-            </div>
-            <div class="flex gap-6 text-gray-700 font-medium">
-                <a href="#">Beranda</a>
-                <a href="#" class="text-green-600 font-semibold">Setor Sampah</a>
-                <a href="#">Edukasi</a>
-                <a href="#">Tukar Poin</a>
-                <a href="#">Riwayat</a>
-            </div>
-            <img src="{{ asset('Assets/adudu.jpeg') }}" class="h-11 w-11 bg-green-200 rounded-full" alt="User">
-        </div>
-    </nav>
+          <!-- Header -->
+          <header class="bg-white shadow-sm sticky top-0 z-50">
+        <x-header.pengguna/>
+    </header>
 
     <!-- Main Content -->
     <main class="p-6 bg-gray-50 min-h-screen">
@@ -48,8 +32,21 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-teal-700">Setor Langsung</h2>
                 <div class="flex space-x-2">
-                    <button class="text-white px-4 py-2 rounded-lg" style="background-color: #3D8D7A;">Setor Langsung</button>
-                    <button class="border border-gray-400 text-gray-700 px-4 py-2 rounded-lg">Jemput Sampah</button>
+                    <button 
+                        class="px-4 py-2 rounded-lg font-medium transition duration-200 
+                            @if (Route::is('setor-langsung')) text-white @else text-gray-700 border border-gray-400 @endif" 
+                        style="@if (Route::is('setor-langsung')) background-color: #3D8D7A; @endif"
+                        onclick="window.location.href='{{ route('setor-langsung') }}'">
+                        Setor Langsung
+                    </button>
+
+                    <button 
+                        class="px-4 py-2 rounded-lg font-medium transition duration-200 
+                            @if (Route::is('jemput-sampah')) text-white @else text-gray-700 border border-gray-400 @endif" 
+                        style="@if (Route::is('jemput-sampah')) background-color: #3D8D7A; @endif"
+                        onclick="window.location.href='{{ route('jemput-sampah') }}'">
+                        Jemput Sampah
+                    </button>
                 </div>
             </div>
 

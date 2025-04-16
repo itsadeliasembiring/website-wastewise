@@ -4,32 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WasteWise - Detail Artikel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-50 font-sans">
-
-        <!-- Header -->
+    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <x-header.pengguna/>
+        <x-header.guest/>
     </header>
-
 
     <!-- Konten Artikel -->
     <main class="bg-gray-45 py-6">
         <div class="container mx-auto px-4">
-
             <!-- Gambar Utama -->
             <div class="mt-3">
                 <div class="flex flex-col items-center justify-center py-18 mb-8">
@@ -95,7 +80,7 @@
                             </p>
                         </div>
                         <div class="text-right pt-2 mt-auto">
-                            <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                            <a href="{{ route('artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                         </div>
                     </div>
                 </div>
@@ -112,16 +97,16 @@
                             </p>
                         </div>
                         <div class="text-right pt-2 mt-auto">
-                            <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                            <a href="{{ route('artikel') }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <!-- Kontak -->
-    <x-footer.pengguna id="kontak"/>
 
+        <!-- Contact Section -->
+        <x-footer.guest id="kontak"/>
 
 </body>
 </html>

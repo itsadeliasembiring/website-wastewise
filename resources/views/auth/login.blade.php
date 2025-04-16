@@ -28,14 +28,14 @@
                     <h2 class="text-3xl font-bold text-gray-800">Halo, WasteWarriors!</h2>
                 </div>
                 
-                <form  class="space-y-6">
+                <form  class="space-y-6" id="loginForm">
                     @csrf
                     
                     <!-- Email Field -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <label for="email" class="block text-sm  font-medium text-gray-700 mb-1">Email</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#3D8D7A] focus:border-[#3D8D7A] transition"
+                            class="w-full px-4 py-3 rounded-lg border text-black border-gray-300 focus:ring-2 focus:ring-[#3D8D7A] focus:border-[#3D8D7A] transition"
                             placeholder="Email">
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -46,7 +46,7 @@
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                         <input id="password" type="password" name="password" required
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#3D8D7A] focus:border-[#3D8D7A] transition"
+                            class="w-full px-4 py-3 rounded-lg border text-black border-gray-300 focus:ring-2 focus:ring-[#3D8D7A] focus:border-[#3D8D7A] transition"
                             placeholder="Password">
                         @error('password')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -68,11 +68,15 @@
                     
                     <!-- Submit Button -->
                     <div>
-                        <button type="submit" 
+                        <!-- <button type="submit" 
                             class="w-full bg-[#3D8D7A] hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
                             <a href="{{ route('login') }}">
                                 Masuk
                             </a>
+                        </button> -->
+                        <button type="submit" 
+                            class="w-full bg-[#3D8D7A] hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                            Masuk
                         </button>
                     </div>
                 </form>
@@ -81,7 +85,7 @@
                 <div class="mt-6 text-center">
                     <p class="text-gray-600">
                         Belum memiliki akun? 
-                        <a class="text-[#3D8D7A] hover:text-[#3D8D7A] font-medium">
+                        <a  href="{{ route('register') }}" class="text-[#3D8D7A] hover:text-[#3D8D7A] font-medium">
                             Daftar Sekarang
                         </a>
                     </p>
@@ -89,5 +93,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Example user credentials
+        const users = [
+            { email: "user@wastewise.com", password: "user123", role: "user" },
+            { email: "admin@wastewise.com", password: "admin123", role: "admin" }
+        ];
+
+        // Add this script to your login.blade.php file
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.querySelector('form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Find user
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    // Successful login
+                    if (user.role === 'admin') {
+                        window.location.href = '/admin/dashboard';
+                    } else {
+                        window.location.href = 'user/setor-sampah';
+                    }
+                } else {
+                    // Failed login
+                    alert('Email atau password tidak valid. Silakan coba lagi.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

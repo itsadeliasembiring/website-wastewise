@@ -20,26 +20,11 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
-                <div class="ml-3">
-                    <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
-                    <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
-                </div>
-            </div>
-            <div class="flex gap-6 text-gray-700 font-medium">
-                <a href="#">Beranda</a>
-                <a href="#" class="text-green-600 font-semibold">Setor Sampah</a>
-                <a href="#">Edukasi</a>
-                <a href="#">Tukar Poin</a>
-                <a href="#">Riwayat</a>
-            </div>
-            <img src="{{ asset('Assets/adudu.jpeg') }}" class="h-11 w-11 bg-green-200 rounded-full" alt="User">
-        </div>
-    </nav>
+            <!-- Header -->
+            <header class="bg-white shadow-sm sticky top-0 z-50">
+        <x-header.pengguna/>
+    </header>
+
 
     <!-- Hero Section -->
     <section class="text-white py-14 px-7 mb-5" style="background-color: #3D8D7A;">
@@ -50,7 +35,7 @@
                 <p class="mt-5 text-base text-justify">
                     Yuk setor sampah kamu, ke Bank Sampah terdekat! sampah yang disetorkan akan diubah menjadi poin yang bisa ditukarkan dengan barang ramah lingkungan atau disalurkan sebagai donasi untuk yang membutuhkan.
                 </p>
-                <button class="bg-white text-teal-600 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 mt-6">
+                <button class="bg-white text-teal-600 px-6 py-2 rounded text-sm font-medium hover:bg-gray-100 mt-6"  onclick="window.location.href='{{ route('setor-langsung') }}'">
                     Setor Sampah
                 </button>
             </div>
