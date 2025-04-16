@@ -25,6 +25,7 @@
                     <!-- Navigasi -->
                     <nav class="hidden md:flex space-x-8">
                         <a href="#beranda" class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">Beranda</a>
+                        <a href="#tentangkami" class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">Tentang Kami</a>
                         <a href="#layanan" class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">Layanan</a>
                         <a href="#artikel" class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">Artikel</a>
                         <a href="#kontak" class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">Kontak</a>
@@ -76,7 +77,7 @@
                         <h2 class="text-2xl font-medium mb-2">Halo, WasteWarriors!</h2>
                         <h1 class="text-4xl md:text-5xl font-bold mb-6 text-emerald-200">WasteWise</h1>
                         <p class="mb-8">
-                        WasteWise merupakan platform berbasis bank sampah sekaligus media edukasi interaktif yang dirancang sebagai solusi dalam mengatasi permasalahan pengelolaan sampah di Surabaya. WasteWise memiliki misi untuk mendorong pemanfaatan kembali sampah dengan cara yang lebih baik
+                        WasteWise merupakan platform berbasis bank sampah sekaligus media edukasi interaktif yang dirancang sebagai solusi dalam mengatasi permasalahan pengelolaan sampah di Surabaya. WasteWise memiliki misi untuk mendorong pemanfaatan kembali sampah dengan cara yang lebih baik.
                         </p>
                         <a href="#" class="bg-[#3D8D7A] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition duration-300 inline-block">Baca Selengkapnya</a>
                     </div>
@@ -240,6 +241,7 @@
                         <h2 class="text-2xl font-bold mb-4">Fitur</h2>
                         <ul class="space-y-2">
                             <li><a href="#" class="hover:text-emerald-200">Halaman Beranda</a></li>
+                            <li><a href="#" class="hover:text-emerald-200">Tentang Kami</a></li>
                             <li><a href="#" class="hover:text-emerald-200">Layanan</a></li>
                             <li><a href="#" class="hover:text-emerald-200">Artikel</a></li>
                             <li><a href="#" class="hover:text-emerald-200">Kontak Kami</a></li>

@@ -5,6 +5,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing-page/landing-page');
 });
+Route::get('/artikel', function () {
+    return view('landing-page/artikel');
+});
+Route::get('/tentang-kami', function () {
+    return view('landing-page/tentang-kami');
+});
+Route::get('/detail-layanan', function () {
+    return view('landing-page/detail-layanan');
+});
 
 Route::get('/login', function () {
     return view('auth/login');
@@ -42,6 +51,9 @@ Route::get('/setor-sampah', function () {
 Route::get('/setor-langsung', function () {
     return view('setor-sampah/setor-langsung');
 })->name('setor-langsung');
+Route::get('/jemput-sampah', function () {
+    return view('setor-sampah/jemput-sampah');
+})->name('jemput-sampah');
 
 Route::get('/riwayat-setor-sampah', function () {
     return view('riwayat/riwayat-setor-sampah');
