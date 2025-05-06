@@ -20,8 +20,8 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-           <!-- Header -->
-           <header class="bg-white shadow-sm sticky top-0 z-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
         <x-header.pengguna/>
     </header>
 
@@ -123,6 +123,74 @@
                                 <div class="mb-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap</label>
                                     <input type="text" value="Jalan Jojoran I Blok Z No. 100, Mojo, Gubeng, Surabaya, Jawa Timur" class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm" placeholder="Alamat Rumah atau Domisili">
+                                </div>
+
+                                <!-- Kecamatan Field -->
+                                <div class="mb-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan</label>
+                                    <div class="relative">
+                                        <select class="appearance-none w-full border border-grey-300 rounded-md py-2 px-3 text-sm pr-10">
+                                            <option value="" disabled>Pilih Kecamatan</option>
+                                            <option value="Asemrowo">Asemrowo</option>
+                                            <option value="Benowo">Benowo</option>
+                                            <option value="Bubutan">Bubutan</option>
+                                            <option value="Bulak">Bulak</option>
+                                            <option value="Dukuhpakis">Dukuhpakis</option>
+                                            <option value="Gayungan">Gayungan</option>
+                                            <option value="Genteng">Genteng</option>
+                                            <option selected value="Gubeng">Gubeng</option>
+                                            <option value="Gunung Anyar">Gunung Anyar</option>
+                                            <option value="Jambangan">Jambangan</option>
+                                            <option value="Karang Pilang">Karang Pilang</option>
+                                            <option value="Kenjeran">Kenjeran</option>
+                                            <option value="Krembangan">Krembangan</option>
+                                            <option value="Lakarsantri">Lakarsantri</option>
+                                            <option value="Mulyorejo">Mulyorejo</option>
+                                            <option value="Pabean Cantian">Pabean Cantian</option>
+                                            <option value="Pakal">Pakal</option>
+                                            <option value="Rungkut">Rungkut</option>
+                                            <option value="Sambikerep">Sambikerep</option>
+                                            <option value="Sawahan">Sawahan</option>
+                                            <option value="Semampir">Semampir</option>
+                                            <option value="Simokerto">Simokerto</option>
+                                            <option value="Sukolilo">Sukolilo</option>
+                                            <option value="Sukomanunggal">Sukomanunggal</option>
+                                            <option value="Tambaksari">Tambaksari</option>
+                                            <option value="Tandes">Tandes</option>
+                                            <option value="Tegalsari">Tegalsari</option>
+                                            <option value="Tenggilis Mejoyo">Tenggilis Mejoyo</option>
+                                            <option value="Wiyung">Wiyung</option>
+                                            <option value="Wonocolo">Wonocolo</option>
+                                            <option value="Wonokromo">Wonokromo</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kelurahan Field -->
+                                <div class="mb-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kelurahan</label>
+                                    <div class="relative">
+                                        <select class="appearance-none w-full border border-grey-300 rounded-md py-2 px-3 text-sm pr-10">
+                                            <option value="" disabled>Pilih Kelurahan</option>
+                                            <option value="Airlangga">Airlangga</option>
+                                            <option value="Baratajaya">Baratajaya</option>
+                                            <option value="Gubeng">Gubeng</option>
+                                            <option value="Kertajaya">Kertajaya</option>
+                                            <option selected value="Mojo">Mojo</option>
+                                            <option value="Pucang Sewu">Pucang Sewu</option>
+                                            <!-- Additional kelurahan options would be dynamically loaded based on kecamatan -->
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

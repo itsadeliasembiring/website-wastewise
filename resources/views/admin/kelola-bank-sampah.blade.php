@@ -102,29 +102,6 @@
 
                     <!-- Alamat fields -->
                     <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Provinsi <span class="text-red-500">*</span></label>
-                        <select name="provinsi" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
-                            <option value="">Pilih Provinsi</option>
-                            <option value="Jawa Timur">Jawa Timur</option>
-                            <option value="Jawa Barat">Jawa Barat</option>
-                            <option value="Jawa Tengah">Jawa Tengah</option>
-                            <option value="DKI Jakarta">DKI Jakarta</option>
-                            <option value="Bali">Bali</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Kota/Kabupaten <span class="text-red-500">*</span></label>
-                        <select name="kota" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
-                            <option value="">Pilih Kota/Kabupaten</option>
-                            <option value="Surabaya">Surabaya</option>
-                            <option value="Malang">Malang</option>
-                            <option value="Sidoarjo">Sidoarjo</option>
-                            <option value="Gresik">Gresik</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-4">
                         <label class="block text-gray-700 mb-2">Kecamatan <span class="text-red-500">*</span></label>
                         <select name="kecamatan" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
                             <option value="">Pilih Kecamatan</option>
@@ -195,29 +172,6 @@
                     </div>
 
                     <!-- Alamat fields -->
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Provinsi <span class="text-red-500">*</span></label>
-                        <select id="editProvinsi" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
-                            <option value="">Pilih Provinsi</option>
-                            <option value="Jawa Timur">Jawa Timur</option>
-                            <option value="Jawa Barat">Jawa Barat</option>
-                            <option value="Jawa Tengah">Jawa Tengah</option>
-                            <option value="DKI Jakarta">DKI Jakarta</option>
-                            <option value="Bali">Bali</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Kota/Kabupaten <span class="text-red-500">*</span></label>
-                        <select id="editKota" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
-                            <option value="">Pilih Kota/Kabupaten</option>
-                            <option value="Surabaya">Surabaya</option>
-                            <option value="Malang">Malang</option>
-                            <option value="Sidoarjo">Sidoarjo</option>
-                            <option value="Gresik">Gresik</option>
-                        </select>
-                    </div>
-
                     <div class="mb-4">
                         <label class="block text-gray-700 mb-2">Kecamatan <span class="text-red-500">*</span></label>
                         <select id="editKecamatan" class="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D8D7A]" required>
@@ -404,104 +358,6 @@
                 fotoUrl: "/api/placeholder/400/320",
                 suratUrl: "surat-legalitas-2.pdf"
             },
-            { 
-                id: 3, 
-                nama: "Bank Sampah Peduli Lingkungan", 
-                tanggal: "04-06-2022", 
-                kontak: "085678901234", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Gubeng",
-                kelurahan: "Gubeng - 60222",
-                detailAlamat: "Jl. Ahmad Yani No. 78",
-                alamat: "Jl. Ahmad Yani No. 78, Gubeng, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-3.pdf"
-            },
-            { 
-                id: 4, 
-                nama: "Bank Sampah Mandiri Sejahtera", 
-                tanggal: "17-08-2022", 
-                kontak: "082345678901", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Gubeng",
-                kelurahan: "Gubeng - 60222",
-                detailAlamat: "Jl. Diponegoro No. 210",
-                alamat: "Jl. Diponegoro No. 210, Gubeng, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-4.pdf"
-            },
-            { 
-                id: 5, 
-                nama: "Bank Sampah Bumi Sehat", 
-                tanggal: "29-09-2022", 
-                kontak: "087654321098", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Sukolilo",
-                kelurahan: "Sukolilo - 60111",
-                detailAlamat: "Jl. Darmo Permai No. 56",
-                alamat: "Jl. Darmo Permai No. 56, Sukolilo, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-5.pdf"
-            },
-            { 
-                id: 6, 
-                nama: "Bank Sampah Recycle ID", 
-                tanggal: "10-11-2022", 
-                kontak: "089012345678", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Wonokromo",
-                kelurahan: "Wonokromo - 60244",
-                detailAlamat: "Jl. Ngagel Jaya No. 32",
-                alamat: "Jl. Ngagel Jaya No. 32, Wonokromo, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-6.pdf"
-            },
-            { 
-                id: 7, 
-                nama: "Bank Sampah Ciputra Peduli", 
-                tanggal: "24-12-2022", 
-                kontak: "081234987650", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Rungkut",
-                kelurahan: "Kalirungkut - 60293",
-                detailAlamat: "Jl. Citraland No. 15",
-                alamat: "Jl. Citraland No. 15, Kalirungkut, Rungkut, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-7.pdf"
-            },
-            { 
-                id: 8, 
-                nama: "Bank Sampah Guyub Rukun", 
-                tanggal: "05-01-2023", 
-                kontak: "082156789012", 
-                provinsi: "Jawa Timur",
-                kota: "Surabaya",
-                kecamatan: "Rungkut",
-                kelurahan: "Rungkut Kidul - 60293",
-                detailAlamat: "Jl. Rungkut Asri No. 89",
-                alamat: "Jl. Rungkut Asri No. 89, Rungkut Kidul, Rungkut, Surabaya, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-8.pdf"
-            },
-            { 
-                id: 9, 
-                nama: "Bank Sampah Griya Bersih", 
-                tanggal: "19-02-2023", 
-                kontak: "083456789012", 
-                provinsi: "Jawa Timur",
-                kota: "Gresik",
-                kecamatan: "Kebomas",
-                kelurahan: "Kebomas - 61121",
-                detailAlamat: "Jl. Kenjeran No. 121",
-                alamat: "Jl. Kenjeran No. 121, Kebomas, Gresik, Jawa Timur",
-                fotoUrl: "/api/placeholder/400/320",
-                suratUrl: "surat-legalitas-9.pdf"
-            }
         ];
 
         let currentPage = 1;
@@ -528,8 +384,6 @@
                 item.tanggal.toLowerCase().includes(query) || 
                 item.kontak.toLowerCase().includes(query) || 
                 item.alamat.toLowerCase().includes(query) ||
-                item.provinsi.toLowerCase().includes(query) ||
-                item.kota.toLowerCase().includes(query) ||
                 item.kecamatan.toLowerCase().includes(query) ||
                 item.kelurahan.toLowerCase().includes(query)
             );
@@ -633,10 +487,10 @@
         }
 
         // Function to build complete address
-        function buildCompleteAddress(detailAlamat, kelurahan, kecamatan, kota, provinsi) {
+        function buildCompleteAddress(detailAlamat, kelurahan, kecamatan) {
             const kelurahananParts = kelurahan.split(' - ');
             const kelurahanName = kelurahananParts[0];
-            return `${detailAlamat}, ${kelurahanName}, ${kecamatan}, ${kota}, ${provinsi}`;
+            return `${detailAlamat}, ${kelurahanName}, ${kecamatan};
         }
 
         // Function to open detail modal
@@ -688,8 +542,6 @@
             const nama = formElements.nama.value;
             const tanggal = formatDate(formElements.tanggal.value);
             const kontak = formElements.kontak.value;
-            const provinsi = formElements.provinsi.value;
-            const kota = formElements.kota.value;
             const kecamatan = formElements.kecamatan.value;
             const kelurahan = formElements.kelurahan.value;
             const detailAlamat = formElements.detailAlamat.value;
@@ -741,8 +593,6 @@
                 document.getElementById('editTanggal').value = formattedDate;
                 
                 document.getElementById('editKontak').value = data.kontak;
-                document.getElementById('editProvinsi').value = data.provinsi;
-                document.getElementById('editKota').value = data.kota;
                 document.getElementById('editKecamatan').value = data.kecamatan;
                 document.getElementById('editKelurahan').value = data.kelurahan;
                 document.getElementById('editDetailAlamat').value = data.detailAlamat;
@@ -765,14 +615,12 @@
                 const nama = document.getElementById('editNama').value;
                 const tanggal = formatDate(document.getElementById('editTanggal').value);
                 const kontak = document.getElementById('editKontak').value;
-                const provinsi = document.getElementById('editProvinsi').value;
-                const kota = document.getElementById('editKota').value;
                 const kecamatan = document.getElementById('editKecamatan').value;
                 const kelurahan = document.getElementById('editKelurahan').value;
                 const detailAlamat = document.getElementById('editDetailAlamat').value;
                 
                 // Build complete address
-                const alamat = buildCompleteAddress(detailAlamat, kelurahan, kecamatan, kota, provinsi);
+                const alamat = buildCompleteAddress(detailAlamat, kelurahan, kecamatan);
                 
                 // Handle file inputs
                 const suratFile = document.getElementById('editSurat').files[0];
@@ -787,8 +635,6 @@
                     nama: nama,
                     tanggal: tanggal,
                     kontak: kontak,
-                    provinsi: provinsi,
-                    kota: kota,
                     kecamatan: kecamatan,
                     kelurahan: kelurahan,
                     detailAlamat: detailAlamat,
@@ -897,20 +743,6 @@
             // Pre-populate location dropdowns with appropriate options
             // In a real implementation, these would likely be fetched from an API
             
-            // Cascade selections for province -> city -> district -> subdistrict
-            document.querySelectorAll('select[name="provinsi"], #editProvinsi').forEach(select => {
-                select.addEventListener('change', function() {
-                    // In a real app, you would update city options based on selected province
-                    console.log('Province changed:', this.value);
-                });
-            });
-            
-            document.querySelectorAll('select[name="kota"], #editKota').forEach(select => {
-                select.addEventListener('change', function() {
-                    // In a real app, you would update district options based on selected city
-                    console.log('City changed:', this.value);
-                });
-            });
             
             document.querySelectorAll('select[name="kecamatan"], #editKecamatan').forEach(select => {
                 select.addEventListener('change', function() {

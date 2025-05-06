@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
+// Guest (User yang belum login)
 Route::get('/', function () {
     return view('landing-page/landing-page');
 })->name('landing-page');
@@ -18,12 +20,19 @@ Route::get('/landing-page/detail-artikel', function () {
     return view('landing-page/detail-artikel');
 })->name('landingpage-detail-artikel');
 
-Route::get('/login', function () {
-    return view('auth/login');
-})->name('login');
+// Autentikasi
+// Route::get('/login', function () {
+//     return view('auth/login');
+// })->name('login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticating'])->name('authenticating');
+
+
 Route::get('/register', function () {
     return view('auth/register');
 })->name('register');
+
+
 
 Route::get('/tukarpoin', function () {
     return view('tukar-poin/tukar-poin');
@@ -68,7 +77,6 @@ Route::get('user/ubah-password', function () {
     return view('profil/ubah-password');
 })->name('ubah-password');
 
-// {{ route('/') }}
 
 // Admin
 Route::get('/admin/dashboard', function () {

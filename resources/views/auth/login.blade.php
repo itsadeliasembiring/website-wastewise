@@ -27,13 +27,21 @@
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-800">Halo, WasteWarriors!</h2>
                 </div>
-                
-                <form  class="space-y-6" id="loginForm">
+                @if($errors->any())
+                    <div class="alert alert-danger mb-4">
+                        <ul class="list-disc list-inside text-red-500">
+                            @foreach ($errors->all() as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form class="space-y-6" id="login" method="POST" action="{{ route('authenticating') }}">
                     @csrf
                     
                     <!-- Email Field -->
                     <div>
-                        <label for="email" class="block text-sm  font-medium text-gray-700 mb-1">Email</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                             class="w-full px-4 py-3 rounded-lg border text-black border-gray-300 focus:ring-2 focus:ring-[#3D8D7A] focus:border-[#3D8D7A] transition"
                             placeholder="Email">
@@ -68,12 +76,6 @@
                     
                     <!-- Submit Button -->
                     <div>
-                        <!-- <button type="submit" 
-                            class="w-full bg-[#3D8D7A] hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
-                            <a href="{{ route('login') }}">
-                                Masuk
-                            </a>
-                        </button> -->
                         <button type="submit" 
                             class="w-full bg-[#3D8D7A] hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
                             Masuk
@@ -93,40 +95,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Example user credentials
-        const users = [
-            { email: "user@wastewise.com", password: "user123", role: "user" },
-            { email: "admin@wastewise.com", password: "admin123", role: "admin" }
-        ];
-
-        // Add this script to your login.blade.php file
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.querySelector('form');
-            
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                // Find user
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    // Successful login
-                    if (user.role === 'admin') {
-                        window.location.href = '/admin/dashboard';
-                    } else {
-                        window.location.href = 'user/setor-sampah';
-                    }
-                } else {
-                    // Failed login
-                    alert('Email atau password tidak valid. Silakan coba lagi.');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
