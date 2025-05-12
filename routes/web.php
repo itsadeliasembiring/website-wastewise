@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\AdminController;
 // Guest (User yang belum login)
 Route::get('/', function () {
     return view('landing-page/landing-page');
@@ -87,9 +87,12 @@ Route::get('/admin/riwayat-setor-sampah', function () {
     return view('admin/riwayat-setor-sampah');
 })->name('riwayat-setor-sampah');
 
-Route::get('/admin/kelola-akun', function () {
-    return view('admin/kelola-akun');
-})->name('kelola-akun');
+Route::get('/kelola-akun', [AdminController::class, 'kelolaAkun'])->name('kelola-akun');
+Route::get('/kelola-akun/data', [AdminController::class, 'akunData'])->name('kelola-akun.data');
+Route::post('/add-akun', [AdminController::class, 'addAkun']);
+Route::post('/edit-akun', [AdminController::class, 'editAkun']);
+Route::get('/hapus-akun/{id}', [AdminController::class, 'deleteAkun']);
+
 
 Route::get('/admin/kelola-bank-sampah', function () {
     return view('admin/kelola-bank-sampah');
