@@ -93,7 +93,6 @@ Route::post('/add-akun', [AdminController::class, 'addAkun']);
 Route::post('/edit-akun', [AdminController::class, 'editAkun']);
 Route::get('/hapus-akun/{id}', [AdminController::class, 'deleteAkun']);
 
-
 Route::get('/admin/kelola-bank-sampah', function () {
     return view('admin/kelola-bank-sampah');
 })->name('kelola-bank-sampah');

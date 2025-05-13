@@ -33,14 +33,6 @@ class AkunSeeder extends Seeder
         ]);
         
         DB::table("akun")->insert([
-            "id_akun" => "U0003",
-            "id_level" => "3",
-            
-            "email" => "pao@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
             "id_akun" => "U0004",
             "id_level" => "3",
             

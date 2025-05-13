@@ -42,10 +42,10 @@ class AdminController extends Controller
             if(!empty($request->level) && $request->level != 'all') {
                 $akun = $akun->where('akun.id_level', $request->level);
             } else {
-                // Be careful with using orWhere - it needs proper grouping
                 $akun = $akun->where(function($query) {
                     $query->where('akun.id_level', '1')
-                          ->orWhere('akun.id_level', '2');
+                          ->orWhere('akun.id_level', '2')
+                          ->orWhere('akun.id_level', '3');
                 });
             } 
 
@@ -55,13 +55,18 @@ class AdminController extends Controller
                     ->addColumn('action', function($row) {
                         $iconEdit = asset("Assets/edit-icon.svg");
                         $iconDelete = asset("Assets/delete-icon.svg");
+                        // coco lop u
                         return '
                             <div class="flex space-x-2 items-center justify-center">
                                 <a href="#edit-akun/'.$row->id_akun.'" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]">
-                                    <img class="w-[19px] h-[19px]" src="'.$iconEdit.'" alt="edit-icon" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
                                 </a> 
                                 <a href="#delete-akun/'.$row->id_akun.'" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]">
-                                    <img class="w-[19px] h-[19px]" src="'.$iconDelete.'" alt="delete-icon" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
                                 </a>
                             </div>
                             ';

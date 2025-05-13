@@ -22,5 +22,10 @@ class LevelAkunSeeder extends Seeder
             "id_level" => "2",
             "nama_level" => "bank_sampah",
         ]);
+
+        DB::table("level_akun")->insert([
+            "id_level" => "3",
+            "nama_level" => "pengguna",
+        ]);
     }
 }

@@ -14,6 +14,8 @@
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+    <!-- Add SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="h-full w-full">
@@ -27,28 +29,34 @@
         <x-sidebar.admin />
     </aside>
 
-    <!-- Flash Messages -->
+    <!-- Flash Messages - Changed to show with SweetAlert -->
     @if(session('success'))
-    <div class="fixed top-20 right-4 z-50 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" role="alert">
-        <strong class="font-bold">Berhasil!</strong>
-        <span class="block sm:inline">{{ session('success') }}</span>
-    </div>
     <script>
-        setTimeout(function() {
-            $('.alert').fadeOut('fast');
-        }, 3000);
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        });
     </script>
     @endif
 
     @if(session('error'))
-    <div class="fixed top-20 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
-        <strong class="font-bold">Error!</strong>
-        <span class="block sm:inline">{{ session('error') }}</span>
-    </div>
     <script>
-        setTimeout(function() {
-            $('.alert').fadeOut('fast');
-        }, 3000);
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: "{{ session('error') }}",
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        });
     </script>
     @endif
 
@@ -56,11 +64,11 @@
     <main class="justify-center w-full pt-20">
         <!-- Title & Description -->
         <div class="mt-4 sm:px-8">
-            <p class="text-[#38B6FF] text-center font-semibold xs:text-[23px] sm:text-[23px] xl:text-[25px]">
+            <p class="text-[#00D100] text-center font-semibold xs:text-[23px] sm:text-[23px] xl:text-[25px]">
                 Kelola Akun</p>
         </div>
         <!-- Kelola Akun -->
-        <div class="xs:px-4 sm:pl-[70px]">
+        <div class="pl-[70px] pr-[20px]">
             <div
                 class="flex xs:flex-col sm:flex-col xl:flex-row justify-center align-top mt-4 mb-2 xs:space-x-0 xs:space-y-4 sm:space-y-6 sm:space-x-0 xl:space-y-0 xl:space-x-6">
                 <div class="flex flex-col w-full align-top">
@@ -70,7 +78,7 @@
                         <div>
                             <p
                                 class="text-[#464748] font-semibold xs:text-[20px] sm:text-[22px] xs:text-center sm:text-left">
-                                Akun HadirKu
+                                Akun WasteWise
                             </p>
                         </div>
                         {{-- Aksi --}}
@@ -91,8 +99,10 @@
                                     <!-- Tambah -->
                                     <label for="add-akun"
                                         class="btn btn-sm h-9 border-none pl-3 bg-[#00D100] hover:bg-[#00D100] text-white rounded-[10px] inline-flex justify-center items-center">
-                                        <img class="w-[17px] h-[17px] sm:mr-3" src="{{ asset('Assets/add-icon.svg') }}"
-                                            alt="add-icon" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] h-[17px] sm:mr-3" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
                                         <span class="xs:hidden sm:inline-block">Tambah</span>
                                     </label>
                                 </div>
@@ -140,7 +150,7 @@
     <div class="modal modal-bottom sm:modal-middle">
         <div class="modal-box bg-white text-black">
             <h3 class="font-bold text-lg mb-3 text-[#464748]">Form Akun Baru</h3>
-            <form action="{{ url('add-akun') }}" method="POST">
+            <form id="addAkunForm" action="{{ url('add-akun') }}" method="POST">
                 @csrf
                 {{-- Email --}}
                 <label class="label accent-black">
@@ -170,7 +180,7 @@
                 </div>
 
                 <!-- Button -->
-                <div class="grid flex modal-action justify-center pl-5">
+                <div class="flex modal-action justify-center pl-5">
                     {{-- batal --}}
                     <label for="add-akun"
                         class="btn btn-outline btn-[#FF8138] w-[120px] bg-[#fff] text-[#FF8138] hover:bg-[#FFF] hover:border-[#FF8138] hover:text-[#FF8138]">Batal</label>
@@ -187,7 +197,7 @@
         <div class="modal modal-bottom sm:modal-middle" id="edit-akun/{{ $usr->id_akun }}">
             <div class="modal-box bg-white text-black">
                 <h3 class="font-bold text-lg mb-3 text-[#464748]">Edit Akun</h3>
-                <form action="{{ url('edit-akun') }}" method="POST">
+                <form class="editAkunForm" action="{{ url('edit-akun') }}" method="POST">
                     @csrf
                     <input type="text" name="id_akun" class="hidden" value="{{ $usr->id_akun }}">
                     {{-- email --}}
@@ -222,7 +232,7 @@
                         </select>
                     </div>
                     <!-- Button -->
-                    <div class="grid flex modal-action justify-center pl-5">
+                    <div class="flex modal-action justify-center pl-5">
                         <a href="#"
                             class="btn btn-outline btn-[#FF8138] w-[120px] bg-[#fff] text-[#FF8138] hover:bg-[#FFF] hover:border-[#FF8138] hover:text-[#FF8138]">Batal</a>
                         <button type="submit" value="editakunKesiswaan"
@@ -234,19 +244,20 @@
 
         <!-- Pop up hapus -->
         <div class="modal" id="delete-akun/{{ $usr->id_akun }}">
-            <div class="modal-box bg-white text-black items-center justify-center">
-                <img class="w-[70px] h-[70px] items-center justify-center mx-auto"
-                    src="{{ asset('Assets/delete-icon.svg') }}" alt="delete-icon" />
+            <div class="modal-box bg-white text-black items-center justify-center text-center mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-18 w-18 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
 
                 <h3 class="font-semibold text-lg text-center mt-2">Apakah Anda Yakin? </h3>
                 <p class="text-center">Data yang terhapus tidak dapat kembali!</p>
                 </p>
 
                 <!-- Button -->
-                <div class="modal-action grid flex justify-center">
+                <div class="modal-action flex justify-center">
                     <a href="#"
                         class="btn btn-outline btn-[#FF8138] w-[120px] bg-[#fff] text-[#FF8138] hover:bg-[#FFF] hover:border-[#FF8138] hover:text-[#FF8138]">Batalkan</a>
-                    <a href="/hapus-akun/{{ $usr->id_akun }}"
+                      <a href="/hapus-akun/{{ $usr->id_akun }}"
                         class="btn bg-[#ED1C24] border-[#ED1C24] w-[120px] text-[#fff] dark:text-[#fff] hover:bg-[#ED1C24] hover:border-[#ED1C24]">Hapus</a>
                 </div>
             </div>
@@ -270,7 +281,7 @@
 
                 $('#akunTable').DataTable({
                     processing: true,
-                    serverSide: false,
+                    serverSide: true,
                     responsive: true,
                     searchable: true,
                     autoWidth: true,
@@ -285,7 +296,11 @@
                         },
                         error: function(xhr, error, thrown) {
                             console.error('DataTables error:', error, thrown);
-                            alert('Failed to load account data. Please refresh the page and try again.');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to load account data. Please refresh the page and try again.',
+                            });
                         }
                     },
                     columns: [{
@@ -330,10 +345,33 @@
                 initializeDataTable(level);
             });
 
-            // Auto-hide success and error messages after 3 seconds
-            setTimeout(function() {
-                $('.alert').fadeOut('fast');
-            }, 3000);
+            // Handle delete button click
+         
+            // Handle add account form submission with SweetAlert
+            $('#addAkunForm').submit(function(e) {
+                // Don't prevent default so form still submits normally
+                // Just show loading state
+                Swal.fire({
+                    title: 'Menambahkan Akun...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
+
+            // Handle edit account form submission with SweetAlert
+            $('.editAkunForm').submit(function(e) {
+                // Don't prevent default so form still submits normally
+                // Just show loading state
+                Swal.fire({
+                    title: 'Menyimpan Perubahan...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            });
         });
     </script>
 </body>
