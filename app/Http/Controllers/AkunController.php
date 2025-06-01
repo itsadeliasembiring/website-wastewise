@@ -8,7 +8,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\AkunModel;
 use App\Models\LevelAkunModel;
 
-class AdminController extends Controller
+class AkunController extends Controller
 {
     protected $AkunModel;
     protected $LevelAkunModel;

@@ -26,9 +26,12 @@ return new class extends Migration
             $table->dateTime('waktu');
             $table->integer('jumlah_poin');
             $table->string('kode_redeem', 10)->unique(); 
-        
+            $table->boolean('status_redeem')->default(false);
             $table->char('id_barang', 3);  
+            $table->char('id_pengguna', 6);
+            
             $table->foreign('id_barang')->references('id_barang')->on('barang')->cascadeOnDelete();
+            $table->foreign('id_pengguna')->references('id_pengguna')->on('pengguna')->cascadeOnDelete();
         });
     }
 

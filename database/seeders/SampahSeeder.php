@@ -19,7 +19,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang menjadi produk baru seperti tas, kotak, dll.',
             'bobot_poin' => 5,
             'foto' => 'plastik.jpg',
-            'jenis_sampah' => 'S01', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J01', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
 
         DB::table("sampah")->insert([
@@ -29,7 +29,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang menjadi kertas baru atau produk kerajinan.',
             'bobot_poin' => 3,
             'foto' => 'kertas.jpg',
-            'jenis_sampah' => 'S02', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J02', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
 
         DB::table("sampah")->insert([
@@ -39,7 +39,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang untuk digunakan kembali sebagai bahan logam baru.',
             'bobot_poin' => 10,
             'foto' => 'logam.jpg',
-            'jenis_sampah' => 'S03', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J03', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
 
         DB::table("sampah")->insert([
@@ -49,7 +49,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang menjadi botol kaca baru atau produk kaca lainnya.',
             'bobot_poin' => 15,
             'foto' => 'botol_kaca.jpg',
-            'jenis_sampah' => 'S01', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J01', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
 
         DB::table("sampah")->insert([
@@ -59,7 +59,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang untuk digunakan sebagai bahan kardus baru.',
             'bobot_poin' => 7,
             'foto' => 'kardus.jpg',
-            'jenis_sampah' => 'S02', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J02', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
 
         DB::table("sampah")->insert([
@@ -69,7 +69,7 @@ class SampahSeeder extends Seeder
             'detail_manfaat' => 'Dapat didaur ulang untuk mengambil bahan berharga seperti logam dan plastik.',
             'bobot_poin' => 20,
             'foto' => 'elektronik.jpg',
-            'jenis_sampah' => 'S03', // Matches with 'id_jenis_sampah' in jenis_sampah
+            'jenis_sampah' => 'J03', // Matches with 'id_jenis_sampah' in jenis_sampah
         ]);
     }
 }

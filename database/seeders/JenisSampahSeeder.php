@@ -14,17 +14,17 @@ class JenisSampahSeeder extends Seeder
     {
         DB::table('jenis_sampah')->insert([
             [
-                'id_jenis_sampah' => 'S01',
+                'id_jenis_sampah' => 'J01',
                 'nama_jenis_sampah' => 'Organik',
                 'warna_tempat_sampah' => 'Hijau',
             ],
             [
-                'id_jenis_sampah' => 'S02',
+                'id_jenis_sampah' => 'J02',
                 'nama_jenis_sampah' => 'Anorganik',
                 'warna_tempat_sampah' => 'Kuning',
             ],
             [
-                'id_jenis_sampah' => 'S03',
+                'id_jenis_sampah' => 'J03',
                 'nama_jenis_sampah' => 'B3',
                 'warna_tempat_sampah' => 'Merah',
             ],

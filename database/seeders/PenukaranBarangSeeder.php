@@ -21,6 +21,7 @@ class PenukaranBarangSeeder extends Seeder
                 'jumlah_poin' => 100,
                 'kode_redeem' => 'KODE12345',
                 'id_barang' => 'B01',
+                'id_pengguna' => 'PG0001',
             ],
             [
                 'id_penukaran_barang' => 'P002',
@@ -28,6 +29,7 @@ class PenukaranBarangSeeder extends Seeder
                 'jumlah_poin' => 80,
                 'kode_redeem' => 'KODE23456',
                 'id_barang' => 'B02',
+                'id_pengguna' => 'PG0002',
             ],
             [
                 'id_penukaran_barang' => 'P003',
@@ -35,6 +37,7 @@ class PenukaranBarangSeeder extends Seeder
                 'jumlah_poin' => 50,
                 'kode_redeem' => 'KODE34567',
                 'id_barang' => 'B03',
+                'id_pengguna' => 'PG0003',
             ],
         ]);
     }

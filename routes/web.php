@@ -2,7 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AkunController;
+use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\SetorSampahController;
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\SampahController;
+use App\Http\Controllers\TransaksiBarangController;
+use App\Http\Controllers\TransaksiDonasiController;
+
+
 // Guest (User yang belum login)
 Route::get('/', function () {
     return view('landing-page/landing-page');
@@ -87,32 +95,72 @@ Route::get('/admin/riwayat-setor-sampah', function () {
     return view('admin/riwayat-setor-sampah');
 })->name('riwayat-setor-sampah');
 
-Route::get('/kelola-akun', [AdminController::class, 'kelolaAkun'])->name('kelola-akun');
-Route::get('/kelola-akun/data', [AdminController::class, 'akunData'])->name('kelola-akun.data');
-Route::post('/add-akun', [AdminController::class, 'addAkun']);
-Route::post('/edit-akun', [AdminController::class, 'editAkun']);
-Route::get('/hapus-akun/{id}', [AdminController::class, 'deleteAkun']);
+Route::get('/kelola-akun', [AkunController::class, 'kelolaAkun'])->name('kelola-akun');
+Route::get('/kelola-akun/data', [AkunController::class, 'akunData'])->name('kelola-akun.data');
+Route::post('/add-akun', [AkunController::class, 'addAkun']);
+Route::post('/edit-akun', [AkunController::class, 'editAkun']);
+Route::get('/hapus-akun/{id}', [AkunController::class, 'deleteAkun']);
+
+Route::get('/kelola-pengguna', [PenggunaController::class, 'kelolaPengguna'])->name('kelola-pengguna');
+Route::get('/kelola-pengguna/data', [PenggunaController::class, 'penggunaData'])->name('kelola-pengguna.data');
+Route::post('/add-pengguna', [PenggunaController::class, 'addPengguna'])->name('add-pengguna');
+Route::get('/get-pengguna/{id}', [PenggunaController::class, 'getPengguna'])->name('get-pengguna');
+Route::post('/edit-pengguna', [PenggunaController::class, 'editPengguna'])->name('edit-pengguna');
+Route::get('/hapus-pengguna/{id}', [PenggunaController::class, 'deletePengguna'])->name('delete-pengguna');
+
+Route::get('/kelola-artikel', [ArtikelController::class, 'kelolaArtikel'])->name('kelola-artikel');
+Route::get('/kelola-artikel/data', [ArtikelController::class, 'artikelData'])->name('kelola-artikel.data');
+Route::post('/add-artikel', [ArtikelController::class, 'addArtikel'])->name('add-artikel');
+Route::get('/get-artikel/{id}', [ArtikelController::class, 'getArtikel'])->name('get-artikel');
+Route::get('/hapus-artikel/{id}', [ArtikelController::class, 'deleteArtikel'])->name('delete-artikel');
+// Tambahkan route untuk menampilkan form edit
+Route::get('/detail-artikel/{id}', [ArtikelController::class, 'detailArtikel'])->name('detail-artikel.show');
+Route::get('/edit-artikel/{id}', [ArtikelController::class, 'showEditArtikel'])->name('edit-artikel.show');
+Route::post('/edit-artikel', [ArtikelController::class, 'editArtikel'])->name('edit-artikel');
 
 Route::get('/admin/kelola-bank-sampah', function () {
     return view('admin/kelola-bank-sampah');
 })->name('kelola-bank-sampah');
 
-Route::get('/admin/kelola-pengguna', function () {
-    return view('admin/kelola-pengguna');
-})->name('kelola-pengguna');
-
-Route::get('/admin/kelola-artikel', function () {
-    return view('admin/kelola-artikel');
-})->name('kelola-artikel');
-
 Route::get('/admin/penukaran-donasi', function () {
     return view('admin/penukaran-donasi');
 })->name('penukaran-donasi');
 
-Route::get('/admin/penukaran-barang', function () {
-    return view('admin/penukaran-barang');
-})->name('penukaran-barang');
+// Route::get('/admin/penukaran-barang', function () {
+//     return view('admin/penukaran-barang');
+// })->name('penukaran-barang');
 
-Route::get('/admin/kelola-sampah', function () {
-    return view('admin/kelola-sampah');
-})->name('kelola-sampah');
+Route::get('/kelola-sampah', [SampahController::class, 'kelolaSampah'])->name('kelola-sampah');
+Route::get('/sampah-data', [SampahController::class, 'sampahData'])->name('sampah.data');
+
+// Sampah CRUD
+Route::post('/add-sampah', [SampahController::class, 'addSampah']);
+Route::post('/edit-sampah', [SampahController::class, 'editSampah']);
+Route::get('/hapus-sampah/{id}', [SampahController::class, 'deleteSampah']);
+
+// Jenis Sampah CRUD
+Route::post('/add-jenis-sampah', [SampahController::class, 'addJenisSampah']);
+Route::post('/edit-jenis-sampah', [SampahController::class, 'editJenisSampah']);
+Route::get('/hapus-jenis-sampah/{id}', [SampahController::class, 'deleteJenisSampah']);
+    
+Route::get('/penukaran-barang', [TransaksiBarangController::class, 'kelolaBarang'])->name('penukaran-barang');
+Route::get('/barang/data', [TransaksiBarangController::class, 'barangData'])->name('barang.data');
+Route::get('/riwayat-penukaran/data', [TransaksiBarangController::class, 'riwayatPenukaranData'])->name('riwayat.penukaran.data');
+Route::post('/barang/add', [TransaksiBarangController::class, 'addBarang'])->name('barang.add');
+Route::post('/barang/edit', [TransaksiBarangController::class, 'editBarang'])->name('barang.edit');
+Route::get('/barang/delete/{id}', [TransaksiBarangController::class, 'deleteBarang'])->name('barang.delete');
+
+
+// Route untuk halaman kelola donasi
+Route::get('/penukaran-donasi', [TransaksiDonasiController::class, 'kelolaDonasi'])->name('penukaran-donasi');
+
+Route::get('/donasi/data', [TransaksiDonasiController::class, 'donasiData'])->name('donasi.data');
+Route::get('/riwayat-penukaran-donasi/data', [TransaksiDonasiController::class, 'riwayatPenukaranData'])->name('riwayat-penukaran-donasi.data');
+
+// Routes untuk CRUD Donasi
+Route::post('/donasi/add', [TransaksiDonasiController::class, 'addDonasi'])->name('donasi.add');
+Route::post('/donasi/edit', [TransaksiDonasiController::class, 'editDonasi'])->name('donasi.edit');
+Route::delete('/donasi/delete/{id}', [TransaksiDonasiController::class, 'deleteDonasi'])->name('donasi.delete');
+
+// Route untuk get single donasi data (untuk edit modal)
+Route::get('/donasi/get/{id}', [TransaksiDonasiController::class, 'getDonasi'])->name('riwayat.penukaran.donasi.data');

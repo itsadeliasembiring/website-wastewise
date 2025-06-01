@@ -16,16 +16,16 @@ class LevelAkunSeeder extends Seeder
         //input database
         DB::table("level_akun")->insert([
             "id_level" => "1",
-            "nama_level" => "admin",
+            "nama_level" => "Admin",
         ]);
         DB::table("level_akun")->insert([
             "id_level" => "2",
-            "nama_level" => "bank_sampah",
+            "nama_level" => "Bank Sampah",
         ]);
 
         DB::table("level_akun")->insert([
             "id_level" => "3",
-            "nama_level" => "pengguna",
+            "nama_level" => "Pengguna",
         ]);
     }
 }

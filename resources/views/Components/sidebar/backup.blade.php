@@ -33,6 +33,14 @@
                             </a>
                         </li>
 
+                        <!-- Kelola Bank Sampah -->
+                        <li class="min-w-max {{ Route::is('kelola-bank-sampah') ? 'bg-[#D6EFD8]' : '' }}">
+                            <a href="{{ route('kelola-bank-sampah') }}" aria-label="kelolabanksampah"
+                                class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30 active:bg-opacity-30">
+                                <x-fas-home class="w-[21px] h-[21px] mr-5 {{ Route::is('kelola-bank-sampah') ? 'text-[#3D8D7A]' : 'text-[#464748]' }}" />
+                                <span class="text-[15px] {{ Route::is('kelola-bank-sampah') ? 'text-[#3D8D7A] font-semibold' : 'text-[#464748]' }}">Kelola Bank Sampah</span>
+                            </a>
+                        </li>
 
                         <!-- Kelola Pengguna -->
                         <li class="min-w-max {{ Route::is('kelola-pengguna') ? 'bg-[#D6EFD8]' : '' }}">

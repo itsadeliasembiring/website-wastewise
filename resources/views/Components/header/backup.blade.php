@@ -6,7 +6,7 @@
             <div class="flex items-center">
                     <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
                     <div class="ml-3">
-                        <h1 class="text-[#3D8D7A] font-bold text-lg">WasteWise</h1>
+                        <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
                         <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
                     </div>
             </div>

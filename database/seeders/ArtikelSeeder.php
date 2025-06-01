@@ -15,19 +15,21 @@ class ArtikelSeeder extends Seeder
         DB::table('artikel')->insert([
             'id_artikel' => 'A0001',
             'judul_artikel' => 'Pentingnya Pengelolaan Sampah di Kota',
-            'waktu_publikasi' => now(),
             'detail_artikel' => 'Artikel ini membahas tentang bagaimana pentingnya pengelolaan sampah di kota besar...',
             'foto' => 'artikel1.jpg',
-            'penulis_artikel' => 'B01', // diubah dari u0001 ke B01
+            'created_at' => now(),
+            'updated_at' => now(),
+            // 'penulis_artikel' => 'B01', // diubah dari u0001 ke B01
         ]);
         
         DB::table('artikel')->insert([
             'id_artikel' => 'A0002',
             'judul_artikel' => 'Inovasi Teknologi dalam Daur Ulang Sampah',
-            'waktu_publikasi' => now(),
             'detail_artikel' => 'Teknologi terbaru dalam mengolah sampah plastik menjadi bahan yang berguna...',
             'foto' => 'artikel2.jpg',
-            'penulis_artikel' => 'B02', // diubah dari u0002 ke B02
+            'created_at' => now(),
+            'updated_at' => now(),
+            // 'penulis_artikel' => 'B02', // diubah dari u0002 ke B02
         ]);
         // Tambah artikel lainnya sesuai kebutuhan
     }

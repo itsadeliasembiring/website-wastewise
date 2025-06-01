@@ -11,6 +11,8 @@ class AkunModel extends Authenticatable
     protected $primaryKey = 'id_akun'; 
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = false;
+
 
     // Kolom-kolom yang bisa diisi (fillable)
     protected $fillable = [
@@ -33,5 +35,10 @@ class AkunModel extends Authenticatable
     public function level_akun()
     {
         return $this->belongsTo(LevelAkunModel::class, 'id_level', 'id_level');
+    }
+
+    public function kelurahan()
+    {
+        return $this->hasMany(PenggunaModel::class, 'id_akun', 'id_akun');
     }
 }

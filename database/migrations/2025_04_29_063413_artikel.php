@@ -23,12 +23,12 @@ return new class extends Migration
             $table->engine = 'innodb';
             $table->char('id_artikel', 6)->primary();
             $table->string('judul_artikel', 120)->nullable(false);
-            $table->dateTime('waktu_publikasi')->nullable(false);
             $table->text('detail_artikel')->nullable(false);
             $table->string('foto')->nullable(false);
-            $table->char('penulis_artikel', 3)->nullable(false);
+            $table->timestamps();
+            // $table->char('penulis_artikel', 3)->nullable(false);
 
-            $table->foreign('penulis_artikel')->references('id_bank_sampah')->on('bank_sampah')->cascadeOnDelete();
+            // $table->foreign('penulis_artikel')->references('id_bank_sampah')->on('bank_sampah')->cascadeOnDelete();
             
         });
     }
