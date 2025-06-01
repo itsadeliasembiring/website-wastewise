@@ -39,4 +39,9 @@ class KelurahanModel extends Model
     {
         return $this->hasMany(PenggunaModel::class, 'id_kelurahan', 'id_kelurahan');
     }
+
+    public function bankSampah()
+    {
+        return $this->hasMany(BankSampahModel::class, 'id_kelurahan', 'id_kelurahan');
+    }
 }

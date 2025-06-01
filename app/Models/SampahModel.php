@@ -38,8 +38,8 @@ class SampahModel extends Model
         return $this->belongsTo(JenisSampahModel::class, 'jenis_sampah', 'id_jenis_sampah');
     }
 
-    public function sampah()
+    public function detailSetorSampah()
     {
-        return $this->hasMany(SampahModel::class, 'jenis_sampah', 'id_jenis_sampah');
+        return $this->hasMany(DetailSetorSampahModel::class, 'id_sampah', 'id_sampah');
     }
 }

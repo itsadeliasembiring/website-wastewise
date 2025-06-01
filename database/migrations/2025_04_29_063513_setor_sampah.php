@@ -29,7 +29,9 @@ return new class extends Migration
             $table->string('lokasi_penjemputan', 120)->nullable();
             $table->time('waktu_penjemputan')->nullable();
             $table->string('kode_verifikasi', 10);
-            $table->boolean('status');
+            $table->boolean('status_verifikasi')->default(false);
+            $table->string('status_setor', 20);
+            $table->string('metode_setor', 20);
             $table->text('catatan')->nullable();
 
             $table->char('id_bank_sampah', 3);

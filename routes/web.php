@@ -91,9 +91,9 @@ Route::get('/admin/dashboard', function () {
     return view('admin/dashboard');
 })->name('dashboard-admin');
 
-Route::get('/admin/riwayat-setor-sampah', function () {
-    return view('admin/riwayat-setor-sampah');
-})->name('riwayat-setor-sampah');
+// Route::get('/admin/riwayat-setor-sampah', function () {
+//     return view('admin/riwayat-setor-sampah');
+// })->name('riwayat-setor-sampah');
 
 Route::get('/kelola-akun', [AkunController::class, 'kelolaAkun'])->name('kelola-akun');
 Route::get('/kelola-akun/data', [AkunController::class, 'akunData'])->name('kelola-akun.data');
@@ -122,9 +122,9 @@ Route::get('/admin/kelola-bank-sampah', function () {
     return view('admin/kelola-bank-sampah');
 })->name('kelola-bank-sampah');
 
-Route::get('/admin/penukaran-donasi', function () {
-    return view('admin/penukaran-donasi');
-})->name('penukaran-donasi');
+// Route::get('/admin/penukaran-donasi', function () {
+//     return view('admin/penukaran-donasi');
+// })->name('penukaran-donasi');
 
 // Route::get('/admin/penukaran-barang', function () {
 //     return view('admin/penukaran-barang');
@@ -151,16 +151,19 @@ Route::post('/barang/edit', [TransaksiBarangController::class, 'editBarang'])->n
 Route::get('/barang/delete/{id}', [TransaksiBarangController::class, 'deleteBarang'])->name('barang.delete');
 
 
-// Route untuk halaman kelola donasi
+// Main page
 Route::get('/penukaran-donasi', [TransaksiDonasiController::class, 'kelolaDonasi'])->name('penukaran-donasi');
-
 Route::get('/donasi/data', [TransaksiDonasiController::class, 'donasiData'])->name('donasi.data');
-Route::get('/riwayat-penukaran-donasi/data', [TransaksiDonasiController::class, 'riwayatPenukaranData'])->name('riwayat-penukaran-donasi.data');
-
-// Routes untuk CRUD Donasi
+Route::get('/riwayat-penukaran-donasi/data', [TransaksiDonasiController::class, 'riwayatPenukaranData'])->name('riwayat.penukaran.donasi.data');
 Route::post('/donasi/add', [TransaksiDonasiController::class, 'addDonasi'])->name('donasi.add');
 Route::post('/donasi/edit', [TransaksiDonasiController::class, 'editDonasi'])->name('donasi.edit');
-Route::delete('/donasi/delete/{id}', [TransaksiDonasiController::class, 'deleteDonasi'])->name('donasi.delete');
+Route::get('/donasi/delete/{id}', [TransaksiDonasiController::class, 'deleteDonasi'])->name('donasi.delete');
+Route::get('/donasi/get/{id}', [TransaksiDonasiController::class, 'getDonasi'])->name('donasi.get');
 
-// Route untuk get single donasi data (untuk edit modal)
-Route::get('/donasi/get/{id}', [TransaksiDonasiController::class, 'getDonasi'])->name('riwayat.penukaran.donasi.data');
+
+Route::get('/admin/setor-sampah', [SetorSampahController::class, 'kelolaSetorSampah'])->name('riwayat-setor-sampah');
+Route::get('/admin/setor-sampah/data', [SetorSampahController::class, 'setorSampahData'])->name('admin.setor-sampah.data');
+Route::put('/admin/setor-sampah/update/{id}', [SetorSampahController::class, 'editSetorSampah'])->name('admin.setor-sampah.update');
+Route::post('/admin/setor-sampah/add', [SetorSampahController::class, 'addSetorSampah'])->name('admin.setor-sampah.add');
+Route::get('/admin/setor-sampah/delete/{id}', [SetorSampahController::class, 'deleteSetorSampah'])->name('admin.setor-sampah.delete');
+Route::get('/admin/setor-sampah/detail/{id}', [SetorSampahController::class, 'getDetailSetorSampah'])->name('admin.setor-sampah.get-detail');

@@ -22,7 +22,7 @@ return new class extends Migration
         Schema::create($this->table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->char('id_detail', 4)->primary();
+            $table->char('id_detail', 7)->primary();
             $table->float('berat_kg');
             
             $table->char('id_setor', 6);

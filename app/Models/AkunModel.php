@@ -41,4 +41,14 @@ class AkunModel extends Authenticatable
     {
         return $this->hasMany(PenggunaModel::class, 'id_akun', 'id_akun');
     }
+
+    public function bankSampah()
+    {
+        return $this->hasOne(BankSampahModel::class, 'id_akun', 'id_akun');
+    }
+
+    public function pengguna()
+    {
+        return $this->hasOne(PenggunaModel::class, 'id_akun', 'id_akun');
+    }
 }

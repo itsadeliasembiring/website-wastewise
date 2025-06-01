@@ -112,11 +112,7 @@
                                                 </th>
                                                 <th scope="col"
                                                     class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
-                                                    Total Donasi (Rp)
-                                                </th>
-                                                <th scope="col"
-                                                    class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
-                                                    Status
+                                                    Total Poin Donasi
                                                 </th>
                                                 <th scope="col"
                                                     class="xl:text-sm xs:text-xs font-semibold text-[#35405B] sm:text-xs">
@@ -147,14 +143,7 @@
                                     </p>
                                 </div>
                                 <div class="grid flex-grow justify-end">
-                                    <div class="flex xl:flex-row space-x-2 items-center">
-                                        <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
-                                            name="status_redeem_filter" id="status-redeem-filter">
-                                            <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
-                                            <option class="text-[#000] bg-[#fff]" value="true">Sudah Ditukar</option>
-                                            <option class="text-[#000] bg-[#fff]" value="false">Belum Ditukar</option>
-                                        </select>
-                                    </div>
+                                    {{-- Filter select removed from here --}}
                                 </div>
                             </div>
                             <div
@@ -170,6 +159,10 @@
                                                 </th>
                                                 <th scope="col"
                                                     class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
+                                                    ID Penukaran
+                                                </th>
+                                                <th scope="col"
+                                                    class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
                                                     Nama Donasi
                                                 </th>
                                                 <th scope="col"
@@ -182,12 +175,9 @@
                                                 </th>
                                                 <th scope="col"
                                                     class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
-                                                    Jumlah Donasi
+                                                    Jumlah Poin Donasi
                                                 </th>
-                                                <th scope="col"
-                                                    class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">
-                                                    Status
-                                                </th>
+                                                {{-- Status column header removed --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -221,9 +211,9 @@
                     </div>
                     <div>
                         <label class="label">
-                            <span class="label-text text-black">Total Donasi (Rp)</span>
+                            <span class="label-text text-black">Total Poin Donasi</span>
                         </label>
-                        <input type="number" placeholder="Masukkan Target/Total Donasi" name="total_donasi" min="0"
+                        <input type="number" placeholder="0" name="total_donasi" min="0" disabled value="0"
                             class="input w-full border-3 !outline-none shadow-inner shadow-slate-300 bg-white" />
                     </div>
                 </div>
@@ -255,7 +245,6 @@
 
 
     {{-- Iterasi untuk modal edit dan delete donasi --}}
-    {{-- Pastikan variabel $donasi dikirim dari controller TransaksiDonasiController@kelolaDonasi --}}
     @if(isset($donasi))
         @foreach ($donasi as $item)
             <input type="checkbox" id="edit-donasi-modal-{{ $item->id_donasi }}" class="modal-toggle" />
@@ -278,9 +267,10 @@
                             </div>
                             <div>
                                 <label class="label">
-                                    <span class="label-text text-black">Total Donasi (Rp)</span>
+                                    <span class="label-text text-black">Total Poin Donasi</span>
                                 </label>
-                                <input type="number" name="total_donasi" value="{{ $item->total_donasi }}" min="0"
+                                <input type="number" name="total_donasi" value="{{ $item->total_donasi }}" min="0" disabled
+                                    placeholder="{{ $item->total_donasi }}"
                                     class="input w-full border-3 !outline-none shadow-inner shadow-slate-300 bg-white" />
                             </div>
                         </div>
@@ -363,18 +353,18 @@
                 }, {
                     data: 'nama_donasi',
                     name: 'nama_donasi'
-                }, {
-                    data: 'total_donasi', // Make sure controller sends this raw or formatted
+                }, 
+                {
+                    data: 'total_donasi',
                     name: 'total_donasi',
                     className: 'text-center dt-body-center',
                     render: function(data, type, row) {
-                        return data ? 'Rp ' + parseInt(data).toLocaleString('id-ID') : 'Rp 0';
+                        // Display points without "Rp"
+                        const value = parseInt(data);
+                        return !isNaN(value) ? value.toString() : '0';
                     }
-                }, {
-                    data: 'status_donasi', // Custom column from controller
-                    name: 'status_donasi', // Assuming it's filterable by a base column if needed
-                    className: 'text-center dt-body-center'
-                }, {
+                },  
+                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -404,9 +394,9 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('riwayat.penukaran.donasi.data') }}", // Updated route
+                    url: "{{ route('riwayat.penukaran.donasi.data') }}",
                     data: function(d) {
-                        d.status = $('#status-redeem-filter').val();
+                        // d.status = $('#status-redeem-filter').val(); // Removed status filter
                     }
                 },
                 columns: [{
@@ -415,7 +405,13 @@
                     orderable: false,
                     searchable: false,
                     className: 'text-center dt-body-center'
-                }, {
+                }, 
+                {
+                    data: 'id_penukaran_donasi', // ADDED: ID Penukaran
+                    name: 'id_penukaran_donasi', // Ensure backend provides this
+                    className: 'text-center dt-body-center'
+                },
+                {
                     data: 'nama_donasi', // from controller: $row->donasi->nama_donasi
                     name: 'donasi.nama_donasi' // for server-side searching/sorting on related table
                 }, {
@@ -425,15 +421,21 @@
                     data: 'waktu_formatted',
                     name: 'waktu' // base column for sorting
                 }, {
-                    data: 'jumlah_donasi_formatted',
-                    name: 'jumlah_donasi', // base column for sorting
-                    className: 'text-center dt-body-center'
-                }, {
-                    data: 'status_badge',
-                    name: 'status_redeem', // base column for sorting
-                    className: 'text-center dt-body-center'
-                }],
-                 language: { // Indonesian language settings
+                    data: 'jumlah_poin', // MODIFIED: Use raw jumlah_poin for points
+                    name: 'jumlah_poin', // base column for sorting
+                    className: 'text-center dt-body-center',
+                    render: function(data, type, row) { // ADDED: Render for points
+                        const value = parseInt(data);
+                        return !isNaN(value) ? value.toString() : '0';
+                    }
+                }
+                // { // REMOVED: Status column
+                //     data: 'status_badge',
+                //     name: 'status_redeem',
+                //     className: 'text-center dt-body-center'
+                // }
+                ],
+                language: { // Indonesian language settings
                     processing: "Memproses...",
                     search: "Cari:",
                     lengthMenu: "Tampilkan _MENU_ data per halaman",
@@ -450,14 +452,14 @@
                 }
             });
 
-            // Filter for Riwayat Penukaran status
-            $('#status-redeem-filter').on('change', function() {
-                riwayatPenukaranDonasiTable.draw();
-            });
+            // REMOVED: Filter for Riwayat Penukaran status
+            // $('#status-redeem-filter').on('change', function() {
+            //     riwayatPenukaranDonasiTable.draw();
+            // });
 
             // Global functions for modal handling
             window.openEditModal = function(id) {
-                const checkboxId = `edit-donasi-modal-${id}`; // Updated prefix
+                const checkboxId = `edit-donasi-modal-${id}`;
                 const checkbox = document.getElementById(checkboxId);
                 if (checkbox) {
                     checkbox.checked = true;
@@ -465,7 +467,7 @@
             };
 
             window.openDeleteModal = function(id) {
-                const checkboxId = `delete-donasi-modal-${id}`; // Updated prefix
+                const checkboxId = `delete-donasi-modal-${id}`;
                 const checkbox = document.getElementById(checkboxId);
                 if (checkbox) {
                     checkbox.checked = true;
@@ -477,10 +479,9 @@
                 var modalId = $(this).attr('id');
                 var modal;
                 
-                if (modalId === 'add-donasi-modal') { // Check for add modal
+                if (modalId === 'add-donasi-modal') {
                     modal = $(this).next('.modal')[0];
                 } else {
-                    // For edit and delete modals, construct target modal ID
                     var targetModalId = modalId.replace('-modal', ''); 
                     modal = document.getElementById(targetModalId);
                 }
@@ -491,7 +492,7 @@
                     } else {
                         modal.classList.remove('modal-open');
                         var form = modal.querySelector('form');
-                        if (form && modalId === 'add-donasi-modal') { // Reset only add form
+                        if (form && modalId === 'add-donasi-modal') {
                             form.reset();
                         }
                     }
@@ -500,20 +501,18 @@
 
             // Close modal when clicking on the backdrop
             $(document).on('click', '.modal', function(e) {
-                if (e.target === this) { // Clicked on backdrop
+                if (e.target === this) { 
                     this.classList.remove('modal-open');
-                    const modalId = $(this).attr('id'); // Get the ID of the modal div itself
+                    const modalId = $(this).attr('id'); 
                     let checkboxId;
                     
-                    if (modalId) { // If the modal div has an ID (edit/delete modals)
+                    if (modalId) { 
                         if (modalId.startsWith('edit-donasi-')) {
                             checkboxId = modalId.replace('edit-donasi-', 'edit-donasi-modal-');
                         } else if (modalId.startsWith('delete-donasi-')) {
                             checkboxId = modalId.replace('delete-donasi-', 'delete-donasi-modal-');
                         }
-                        // If it's the add modal, its div might not have a specific ID pattern like this,
-                        // it's more reliably found by its preceding checkbox.
-                    } else { // Fallback for add modal (or any modal without a specific id pattern)
+                    } else { 
                          const modalToggle = $(this).prev('input.modal-toggle');
                          if (modalToggle.length > 0) {
                             checkboxId = modalToggle.attr('id');
@@ -523,7 +522,6 @@
                     if (checkboxId) {
                         $('#' + checkboxId).prop('checked', false);
                     } else if ($(this).prev('input.modal-toggle').length > 0) {
-                        // Fallback specifically for add modal if the logic above didn't catch it
                         $(this).prev('input.modal-toggle').prop('checked', false);
                     }
                 }
@@ -588,16 +586,16 @@
 
 
             // Form validation and submission
-            $('#addDonasiForm').on('submit', function(e) { // Updated form ID
-                if (!validateDonasiForm(this)) { // Updated validation function
+            $('#addDonasiForm').on('submit', function(e) {
+                if (!validateDonasiForm(this)) {
                     e.preventDefault();
                     return false;
                 }
                 showLoadingAlert('Menyimpan Data Donasi...');
             });
 
-            $(document).on('submit', '.editDonasiForm', function(e) { // Updated form class
-                if (!validateDonasiForm(this)) { // Updated validation function
+            $(document).on('submit', '.editDonasiForm', function(e) {
+                if (!validateDonasiForm(this)) {
                     e.preventDefault();
                     return false;
                 }
@@ -607,7 +605,7 @@
             function validateDonasiForm(form) {
                 var $form = $(form);
                 var nama = $form.find('input[name="nama_donasi"]').val().trim();
-                var totalDonasi = $form.find('input[name="total_donasi"]').val(); // Can be empty/null if not required
+                var totalDonasi = $form.find('input[name="total_donasi"]').val(); 
                 var deskripsi = $form.find('textarea[name="deskripsi_donasi"]').val().trim();
                 var fotoInput = $form.find('input[name="foto"]')[0];
 
@@ -619,9 +617,8 @@
                     showErrorAlert('Nama donasi maksimal 255 karakter!');
                     return false;
                 }
-                // total_donasi is nullable, but if provided, must be numeric and non-negative
                 if (totalDonasi !== '' && (isNaN(parseFloat(totalDonasi)) || parseFloat(totalDonasi) < 0)) {
-                    showErrorAlert('Total donasi harus berupa angka positif atau kosong!');
+                    showErrorAlert('Total poin donasi harus berupa angka positif atau kosong!');
                     return false;
                 }
                 if (!deskripsi) {
@@ -642,8 +639,6 @@
                         return false;
                     }
                 }
-                // For edit form, if no new photo is selected, it's fine. Only validate if a new file is chosen.
-                // The controller validation handles 'foto' => 'nullable|image|...'
                 return true;
             }
 

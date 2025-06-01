@@ -20,12 +20,14 @@ class SetorSampahSeeder extends Seeder
             'lokasi_penjemputan' => 'Jl. Merdeka No. 10',
             'waktu_penjemputan' => '14:00:00',
             'kode_verifikasi' => 'VER1234',
-            'status' => true,
+            'status_verifikasi' => true,
+            'status_setor' => 'Selesai',
+            'metode_setor' => 'Dijemput',
             'catatan' => 'Penjemputan berhasil dilakukan',
             'id_bank_sampah' => 'B01',
-            'id_pengguna' => 'PG0001', // diperbaiki dari U0001
+            'id_pengguna' => 'PG0001',
         ]);
-        
+
         DB::table('setor_sampah')->insert([
             'id_setor' => 'S00002',
             'waktu_setor' => now(),
@@ -34,10 +36,12 @@ class SetorSampahSeeder extends Seeder
             'lokasi_penjemputan' => 'Jl. Raya No. 5',
             'waktu_penjemputan' => '09:00:00',
             'kode_verifikasi' => 'VER5678',
-            'status' => false,
+            'status_verifikasi' => false,
+            'status_setor' => 'Pending',
+            'metode_setor' => 'Setor Langsung',
             'catatan' => 'Sedang dalam proses verifikasi',
             'id_bank_sampah' => 'B02',
-            'id_pengguna' => 'PG0002', // diperbaiki dari U0002
+            'id_pengguna' => 'PG0002',
         ]);
     }
 }

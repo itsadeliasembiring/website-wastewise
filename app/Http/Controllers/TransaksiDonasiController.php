@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use Yajra\DataTables\DataTables;
 use App\Models\DonasiModel;
@@ -23,10 +24,54 @@ class TransaksiDonasiController extends Controller
         $this->PenukaranDonasiModel = new PenukaranDonasiModel;
     }
     
+    // Method to update total donasi based on penukaran donasi
+    private function updateTotalDonasi($id_donasi)
+    {
+        try {
+            // Calculate total from all penukaran for this donasi
+            $totalPenukaran = $this->PenukaranDonasiModel
+                ->where('id_donasi', $id_donasi)
+                ->sum('jumlah_poin'); // Assuming column name is 'jumlah_poin' in penukaran_donasi table
+            
+            // Update the donasi record
+            $this->DonasiModel
+                ->where('id_donasi', $id_donasi)
+                ->update(['total_donasi' => $totalPenukaran]);
+                
+            return $totalPenukaran;
+        } catch (Exception $e) {
+            Log::error('Update total donasi error: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+    
+    // Method to recalculate all donasi totals
+    public function recalculateAllTotals()
+    {
+        try {
+            $allDonasi = $this->DonasiModel->get();
+            
+            foreach ($allDonasi as $donasi) {
+                $this->updateTotalDonasi($donasi->id_donasi);
+            }
+            
+            return redirect()->back()->with("success", "Semua total donasi berhasil diperbarui!");
+        } catch (Exception $e) {
+            Log::error('Recalculate all totals error: ' . $e->getMessage());
+            return redirect()->back()->with("error", "Gagal memperbarui total donasi: " . $e->getMessage());
+        }
+    }
+    
     public function kelolaDonasi(Request $request)
     {
         try {
-            $donasi = $this->DonasiModel->get();
+            // Get donasi with calculated totals from penukaran_donasi
+            $donasi = $this->DonasiModel
+                ->leftJoin('penukaran_donasi', 'donasi.id_donasi', '=', 'penukaran_donasi.id_donasi')
+                ->select('donasi.*', DB::raw('COALESCE(SUM(penukaran_donasi.jumlah_poin), 0) as calculated_total'))
+                ->groupBy('donasi.id_donasi', 'donasi.nama_donasi', 'donasi.deskripsi_donasi', 'donasi.total_donasi', 'donasi.foto')
+                ->get();
+                
             $riwayat_penukaran = $this->PenukaranDonasiModel::with(['donasi', 'pengguna'])->get();
 
             return view("admin/penukaran-donasi", [
@@ -46,7 +91,11 @@ class TransaksiDonasiController extends Controller
         }
 
         try {
-            $donasi = $this->DonasiModel::query();
+            // Query with calculated totals from penukaran_donasi
+            $donasi = $this->DonasiModel
+                ->leftJoin('penukaran_donasi', 'donasi.id_donasi', '=', 'penukaran_donasi.id_donasi')
+                ->select('donasi.*', DB::raw('COALESCE(SUM(penukaran_donasi.jumlah_poin), 0) as calculated_total'))
+                ->groupBy('donasi.id_donasi', 'donasi.nama_donasi', 'donasi.deskripsi_donasi', 'donasi.total_donasi', 'donasi.foto');
 
             return Datatables::of($donasi)
                 ->addIndexColumn()
@@ -56,30 +105,31 @@ class TransaksiDonasiController extends Controller
                     }
                     return '<span class="text-gray-400">Tidak ada foto</span>';
                 })
-                ->addColumn('status_donasi', function($row) {
-                    if($row->total_donasi <= 0) {
-                        return '<span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Belum Ada Donasi</span>';
-                    } else {
-                        return '<span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Ada Donasi (Rp '.number_format($row->total_donasi, 0, ',', '.').')</span>';
-                    }
+                ->addColumn('total_formatted', function($row) {
+                    return 'Rp ' . number_format($row->calculated_total, 0, ',', '.');
                 })
                 ->addColumn('action', function($row) {
                     return '
                         <div class="flex space-x-2 items-center justify-center">
-                            <button onclick="openEditModal(\''.$row->id_donasi.'\')" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]">
+                            <button onclick="openEditModal(\''.$row->id_donasi.'\')" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]" title="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </button> 
-                            <button onclick="openDeleteModal(\''.$row->id_donasi.'\')" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]">
+                            <button onclick="openDeleteModal(\''.$row->id_donasi.'\')" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]" title="Hapus">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                            <button onclick="updateTotal(\''.$row->id_donasi.'\')" class="btn !bg-transparent p-0 !border-none !min-h-[19px] !h-[19px]" title="Update Total">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                             </button>
                         </div>
                         ';
                 })
-                ->rawColumns(['foto', 'status_donasi', 'action'])
+                ->rawColumns(['foto', 'total_formatted', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             Log::error('DataTables Donasi error: ' . $e->getMessage());
@@ -115,11 +165,11 @@ class TransaksiDonasiController extends Controller
                 ->addColumn('nama_pengguna', function($row) {
                     return $row->pengguna ? $row->pengguna->nama_lengkap : 'Pengguna Tidak Ditemukan';
                 })
+                ->addColumn('jumlah_formatted', function($row) {
+                    return $row->jumlah_poin;
+                })
                 ->addColumn('waktu_formatted', function($row) {
                     return date('d/m/Y H:i:s', strtotime($row->waktu));
-                })
-                ->addColumn('jumlah_donasi_formatted', function($row) {
-                    return 'Rp ' . number_format($row->jumlah_donasi, 0, ',', '.');
                 })
                 ->addColumn('status_badge', function($row) {
                     if($row->status_redeem) {
@@ -142,14 +192,11 @@ class TransaksiDonasiController extends Controller
             $validator = Validator::make($request->all(), [
                 'nama_donasi' => 'required|string|max:255',
                 'deskripsi_donasi' => 'required|string',
-                'total_donasi' => 'nullable|numeric|min:0',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ], [
                 'nama_donasi.required' => 'Nama donasi tidak boleh kosong!',
                 'nama_donasi.max' => 'Nama donasi maksimal 255 karakter!',
                 'deskripsi_donasi.required' => 'Deskripsi donasi tidak boleh kosong!',
-                'total_donasi.numeric' => 'Total donasi harus berupa angka!',
-                'total_donasi.min' => 'Total donasi tidak boleh negatif!',
                 'foto.image' => 'File harus berupa gambar!',
                 'foto.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif!',
                 'foto.max' => 'Ukuran gambar maksimal 2MB!',
@@ -182,7 +229,7 @@ class TransaksiDonasiController extends Controller
             $donasi->id_donasi = $newId;
             $donasi->nama_donasi = $request->input("nama_donasi");
             $donasi->deskripsi_donasi = $request->input("deskripsi_donasi");
-            $donasi->total_donasi = $request->input("total_donasi") ?? 0;
+            $donasi->total_donasi = 0; // Initialize with 0, will be calculated from penukaran
             $donasi->foto = $fotoName;
             $donasi->save();
             
@@ -200,7 +247,6 @@ class TransaksiDonasiController extends Controller
                 'id_donasi' => 'required|exists:donasi,id_donasi',
                 'nama_donasi' => 'required|string|max:255',
                 'deskripsi_donasi' => 'required|string',
-                'total_donasi' => 'nullable|numeric|min:0',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ], [
                 'id_donasi.required' => 'ID donasi tidak ditemukan!',
@@ -208,8 +254,6 @@ class TransaksiDonasiController extends Controller
                 'nama_donasi.required' => 'Nama donasi tidak boleh kosong!',
                 'nama_donasi.max' => 'Nama donasi maksimal 255 karakter!',
                 'deskripsi_donasi.required' => 'Deskripsi donasi tidak boleh kosong!',
-                'total_donasi.numeric' => 'Total donasi harus berupa angka!',
-                'total_donasi.min' => 'Total donasi tidak boleh negatif!',
                 'foto.image' => 'File harus berupa gambar!',
                 'foto.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif!',
                 'foto.max' => 'Ukuran gambar maksimal 2MB!',
@@ -240,10 +284,10 @@ class TransaksiDonasiController extends Controller
                 $foto->storeAs('donasi', $fotoName, 'public');
             }
             
+            // Don't allow manual editing of total_donasi, it should be calculated
             $dataDonasi = [
                 'nama_donasi' => $request->input('nama_donasi'),
                 'deskripsi_donasi' => $request->input('deskripsi_donasi'),
-                'total_donasi' => $request->input('total_donasi') ?? 0,
                 'foto' => $fotoName
             ];
             
@@ -252,6 +296,8 @@ class TransaksiDonasiController extends Controller
                 ->update($dataDonasi);
                 
             if ($updateDonasi) {
+                // Auto-update total after editing
+                $this->updateTotalDonasi($request->input('id_donasi'));
                 return redirect()->back()->with("success", "Data donasi berhasil diperbarui!");
             }
             
@@ -314,6 +360,25 @@ class TransaksiDonasiController extends Controller
         } catch (Exception $e) {
             Log::error('Get donasi error: ' . $e->getMessage());
             return response()->json(['error' => 'Gagal mengambil data donasi'], 500);
+        }
+    }
+    
+    // Method to manually update total for specific donasi
+    public function updateDonasiTotal($id)
+    {
+        try {
+            $newTotal = $this->updateTotalDonasi($id);
+            return response()->json([
+                'success' => true, 
+                'message' => 'Total donasi berhasil diperbarui!',
+                'new_total' => $newTotal
+            ]);
+        } catch (Exception $e) {
+            Log::error('Update donasi total error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui total donasi: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

@@ -143,10 +143,10 @@
                         </div>
                         <div class="mb-3">
                             <p class="text-sm text-gray-500">Kode Verifikasi</p>
-                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-300 p-1 rounded inline-block">-</p>
+                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-50 p-1 rounded inline-block">-</p>
                         </div>
                         <div class="mb-3">
-                            <p class="text-sm text-gray-500 mb-2">Status Setor</p>
+                            <p class="text-sm text-gray-500">Status</p>
                             <span id="detailStatus" class="px-2 py-1 text-xs font-semibold rounded-full">-</span>
                         </div>
                          <div class="mb-3">
@@ -298,94 +298,6 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <input type="checkbox" id="edit-setor-sampah" class="modal-toggle" />
-    <div class="modal">
-        <div class="modal-box w-11/12 max-w-3xl">
-            <label for="edit-setor-sampah" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-            <h3 class="font-bold text-lg text-[#3D8D7A] mb-4">Edit Setor Sampah</h3>
-            
-            <form id="editSetorForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Pengguna <span class="text-red-500">*</span></span></label>
-                        <select name="id_pengguna" id="edit_id_pengguna" class="select select-bordered" required>
-                            <option disabled value="">Pilih Pengguna</option>
-                            @foreach ($pengguna as $user)
-                                <option value="{{ $user->id_pengguna }}">{{ $user->nama }} ({{ $user->id_pengguna }})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Bank Sampah <span class="text-red-500">*</span></span></label>
-                        <select name="id_bank_sampah" id="edit_id_bank_sampah" class="select select-bordered" required>
-                            <option disabled value="">Pilih Bank Sampah</option>
-                            @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}">{{ $bank->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Metode Setor <span class="text-red-500">*</span></span></label>
-                        <select name="metode_setor" id="edit_metode_setor" class="select select-bordered" required>
-                            <option disabled value="">Pilih Metode</option>
-                            <option value="Dijemput">Dijemput</option>
-                            <option value="Setor Langsung">Setor Langsung</option>
-                        </select>
-                    </div>
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Waktu Penjemputan/Pengantaran <span class="text-red-500">*</span></span></label>
-                        <input type="datetime-local" name="waktu_penjemputan" id="edit_waktu_penjemputan" class="input input-bordered" required>
-                    </div>
-                </div>
-
-                <div class="form-control mb-4">
-                    <label class="label"><span class="label-text">Lokasi Penjemputan <span class="text-red-500">*</span></span></label>
-                    <textarea name="lokasi_penjemputan" id="edit_lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap penjemputan atau '-' jika diantar langsung" required></textarea>
-                </div>
-
-                <div class="form-control mb-4">
-                    <label class="label"><span class="label-text">Catatan</span></label>
-                    <textarea name="catatan" id="edit_catatan" class="textarea textarea-bordered" placeholder="Catatan tambahan (opsional)"></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Status <span class="text-red-500">*</span></span></label>
-                        <select name="status_setor" id="edit_status_setor" class="select select-bordered" required>
-                            <option value="Pending">Pending</option>
-                            <option value="Selesai">Selesai</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                        </select>
-                    </div>
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Kode Verifikasi</span></label>
-                        <input type="text" name="kode_verifikasi" id="edit_kode_verifikasi" class="input input-bordered" placeholder="Kode verifikasi">
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold text-[#3D8D7A] mb-2">Detail Sampah <span class="text-red-500">*</span></h4>
-                    <div id="edit-detail-sampah-container">
-                        <!-- Dynamic content will be loaded here -->
-                    </div>
-                    <button type="button" id="edit-add-sampah-item" class="btn btn-outline btn-sm mt-2">+ Tambah Jenis Sampah</button>
-                </div>
-
-                <div class="modal-action">
-                    <button type="submit" class="btn bg-[#3D8D7A] text-white hover:bg-[#2C6A5C]">Update</button>
-                    <label for="edit-setor-sampah" class="btn">Batal</label>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
         // Global function for showDetailModal
         function showDetailModal(id) {
@@ -498,7 +410,17 @@
                 }
             });
             
-       
+            // Placeholder for edit - you would need an edit modal similar to the add modal
+            $(document).on('click', 'a[href^="#edit-setor/"]', function(e) {
+                e.preventDefault();
+                let id = $(this).attr('href').replace('#edit-setor/', '');
+                // TODO: Implement opening an edit modal, fetching data, and pre-filling form
+                // For now, you can use SweetAlert to indicate it's not implemented or redirect to a page
+                Swal.fire('Info', 'Fungsi edit akan diimplementasikan. ID: ' + id, 'info');
+                // Or redirect to an edit page: window.location.href = `/admin/setor-sampah/${id}/edit`;
+            });
+
+
             $(document).on('click', 'a[href^="#delete-setor/"]', function(e) {
                 e.preventDefault();
                 let id = $(this).attr('href').replace('#delete-setor/', '');
@@ -570,140 +492,6 @@
                 } else {
                     Swal.fire('Error', 'Minimal harus ada 1 jenis sampah.', 'error');
                 }
-            });
-        });
-
-        let editSampahIndex = 0;
-
-        function showEditModal(id) {
-            $.ajax({
-                url: "{{ route('admin.setor-sampah.get-detail', '') }}/" + id,
-                method: 'GET',
-                success: function(response) {
-                    if (response.success) {
-                        let setorData = response.data.setor_sampah;
-                        let sampahDetails = response.data.detail_setor;
-                        
-                        // Set form action
-                        $('#editSetorForm').attr('action', "{{ route('admin.setor-sampah.update', '') }}/" + id);
-                        
-                        // Fill form fields
-                        $('#edit_id_pengguna').val(setorData.id_pengguna);
-                        $('#edit_id_bank_sampah').val(setorData.id_bank_sampah);
-                        $('#edit_metode_setor').val(setorData.metode_setor);
-                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan_raw); // Assuming you send raw datetime
-                        $('#edit_lokasi_penjemputan').val(setorData.lokasi_penjemputan);
-                        $('#edit_catatan').val(setorData.catatan || '');
-                        $('#edit_status_setor').val(setorData.status_setor);
-                        $('#edit_kode_verifikasi').val(setorData.kode_verifikasi || '');
-                        
-                        // Clear and populate sampah details
-                        $('#edit-detail-sampah-container').empty();
-                        editSampahIndex = 0;
-                        
-                        if (sampahDetails && sampahDetails.length > 0) {
-                            sampahDetails.forEach(function(item) {
-                                addEditSampahItem(item.id_sampah, item.berat_kg, item.id_detail_setor);
-                            });
-                        } else {
-                            addEditSampahItem();
-                        }
-                        
-                        // Show modal
-                        $('#edit-setor-sampah').prop('checked', true);
-                    } else {
-                        Swal.fire('Error', response.message || 'Gagal memuat data untuk edit', 'error');
-                    }
-                },
-                error: function() {
-                    Swal.fire('Error', 'Terjadi kesalahan saat memuat data', 'error');
-                }
-            });
-        }
-
-        function addEditSampahItem(selectedSampah = '', beratValue = '', detailId = '') {
-            let html = `
-                <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div class="form-control">
-                            <select name="detail_sampah[${editSampahIndex}][id_sampah]" class="select select-bordered select-sm" required>
-                                <option disabled value="">Pilih Jenis Sampah</option>
-                                @foreach ($sampah as $item)
-                                    <option value="{{ $item->id_sampah }}" ${selectedSampah == '{{ $item->id_sampah }}' ? 'selected' : ''}>{{ $item->nama_sampah }} ({{ $item->bobot_poin }} poin/kg)</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-control">
-                            <input type="number" name="detail_sampah[${editSampahIndex}][berat_kg]" step="0.01" min="0.01" 
-                                class="input input-bordered input-sm" placeholder="Berat (kg)" value="${beratValue}" required>
-                        </div>
-                        <div class="form-control">
-                            <button type="button" class="btn btn-error btn-sm remove-edit-sampah-item">Hapus</button>
-                        </div>
-                    </div>
-                    ${detailId ? `<input type="hidden" name="detail_sampah[${editSampahIndex}][id_detail_setor]" value="${detailId}">` : ''}
-                </div>
-            `;
-            $('#edit-detail-sampah-container').append(html);
-            editSampahIndex++;
-        }
-
-        $(document).ready(function() {
-            // Edit button click handler
-            $(document).on('click', 'a[href^="#edit-setor/"]', function(e) {
-                e.preventDefault();
-                let id = $(this).attr('href').replace('#edit-setor/', '');
-                showEditModal(id);
-            });
-
-            // Add sampah item in edit modal
-            $('#edit-add-sampah-item').click(function() {
-                addEditSampahItem();
-            });
-
-            // Remove sampah item in edit modal
-            $(document).on('click', '.remove-edit-sampah-item', function() {
-                if ($('#edit-detail-sampah-container .detail-sampah-item').length > 1) {
-                    $(this).closest('.detail-sampah-item').remove();
-                } else {
-                    Swal.fire('Error', 'Minimal harus ada 1 jenis sampah.', 'error');
-                }
-            });
-
-            // Handle edit form submission
-            $('#editSetorForm').submit(function(e) {
-                e.preventDefault();
-                
-                let formData = new FormData(this);
-                let actionUrl = $(this).attr('action');
-                
-                $.ajax({
-                    url: actionUrl,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.fire('Berhasil', response.message || 'Data berhasil diupdate', 'success').then(() => {
-                                $('#edit-setor-sampah').prop('checked', false);
-                                $('#setorSampahTable').DataTable().ajax.reload();
-                            });
-                        } else {
-                            Swal.fire('Error', response.message || 'Gagal mengupdate data', 'error');
-                        }
-                    },
-                    error: function(xhr) {
-                        let errorMessage = 'Terjadi kesalahan saat mengupdate data';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            let errors = Object.values(xhr.responseJSON.errors).flat();
-                            errorMessage = errors.join('<br>');
-                        }
-                        Swal.fire('Error', errorMessage, 'error');
-                    }
-                });
             });
         });
     </script>

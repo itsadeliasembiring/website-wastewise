@@ -35,4 +35,9 @@ class DonasiModel extends Model
     {
         return $this->hasMany(PenukaranDonasiModel::class, 'id_donasi', 'id_donasi');
     }
+
+    public function getTotalDonasiCalculatedAttribute()
+    {
+        return $this->penukaranDonasi()->sum('jumlah_poin');
+    }
 }
