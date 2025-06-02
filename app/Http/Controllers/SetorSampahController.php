@@ -47,21 +47,22 @@ class SetorSampahController extends Controller
     public function setorSampahData(Request $request)
     {
         if(request()->ajax()) {
-            $query = $this->setorSampahModel::with(['bankSampah', 'pengguna']);
+            $query = $this->setorSampahModel::with(['bankSampah', 'pengguna'])
+                ->withCalculatedTotals(); // Menggunakan scope yang sudah dibuat
 
             // Filter berdasarkan status_setor
             if(!empty($request->status) && $request->status != 'all') {
-                $query->where('status_setor', $request->status);
+                $query->where('setor_sampah.status_setor', $request->status);
             }
 
             // Filter berdasarkan metode_setor
             if(!empty($request->metode) && $request->metode != 'all') {
-                $query->where('metode_setor', $request->metode);
+                $query->where('setor_sampah.metode_setor', $request->metode);
             }
 
             // Filter berdasarkan bank sampah
             if(!empty($request->bank_sampah) && $request->bank_sampah != 'all') {
-                $query->where('id_bank_sampah', $request->bank_sampah);
+                $query->where('setor_sampah.id_bank_sampah', $request->bank_sampah);
             }
 
             try {
@@ -72,6 +73,12 @@ class SetorSampahController extends Controller
                     })
                     ->addColumn('nama_bank_sampah', function($row) {
                         return $row->bankSampah ? $row->bankSampah->nama_bank_sampah : 'N/A';
+                    })
+                    ->addColumn('calculated_total_berat', function($row) {
+                        return number_format($row->calculated_total_berat, 2) . ' kg';
+                    })
+                    ->addColumn('calculated_total_poin', function($row) {
+                        return number_format($row->calculated_total_poin, 0) . ' poin';
                     })
                     ->addColumn('status_badge', function($row) {
                         $badgeClass = '';
@@ -114,7 +121,7 @@ class SetorSampahController extends Controller
                                     </a>';
                         return '<div class="flex space-x-2 items-center justify-center">'.$detailBtn.$editBtn.$deleteBtn.'</div>';
                     })
-                    ->rawColumns(['status_badge', 'action'])
+                    ->rawColumns(['status_badge', 'action', 'calculated_total_berat', 'calculated_total_poin'])
                     ->make(true);
             } catch (Exception $e) {
                 \Log::error('DataTables error: ' . $e->getMessage());
@@ -132,7 +139,7 @@ class SetorSampahController extends Controller
                 'lokasi_penjemputan' => 'required|string|max:500',
                 'waktu_penjemputan' => 'required|date',
                 'catatan' => 'nullable|string|max:1000',
-                'metode_setor' => 'required|in:jemput,antar',
+                'metode_setor' => 'required|in:Dijemput,Setor Langsung',
                 'id_bank_sampah' => 'required|exists:bank_sampah,id_bank_sampah',
                 'id_pengguna' => 'required|exists:pengguna,id_pengguna',
                 'detail_sampah' => 'required|array|min:1',
@@ -164,38 +171,24 @@ class SetorSampahController extends Controller
                 $newId = 'ST' . Str::padLeft($newIdNum, 3, '0');
             }
 
-            $totalBerat = 0;
-            $totalPoin = 0;
-            foreach ($request->detail_sampah as $detail) {
-                $sampah = $this->sampahModel->find($detail['id_sampah']);
-                if ($sampah) {
-                    $berat = floatval($detail['berat_kg']);
-                    $totalBerat += $berat;
-                    $totalPoin += ($berat * $sampah->bobot_poin);
-                }
-            }
-
             $kodeVerifikasi = strtoupper(substr(md5(uniqid((string)rand(), true)), 0, 8));
 
-            // Format waktu penjemputan - konversi dari format HTML5 datetime-local ke MySQL datetime
+            // Format waktu penjemputan
             $waktuPenjemputan = $request->input('waktu_penjemputan');
-            
-            // Cek apakah formatnya menggunakan 'T' (HTML5 datetime-local format)
             if (strpos($waktuPenjemputan, 'T') !== false) {
-                // Konversi dari format ISO 8601 (2005-12-19T09:09) ke MySQL datetime
                 $waktuPenjemputan = Carbon::createFromFormat('Y-m-d\TH:i', $waktuPenjemputan)->format('Y-m-d H:i:s');
             } else {
-                // Jika sudah dalam format yang benar, pastikan formatnya konsisten
                 $waktuPenjemputan = Carbon::parse($waktuPenjemputan)->format('Y-m-d H:i:s');
             }
 
+            // Buat setor sampah dengan total 0 dulu
             $setorSampah = $this->setorSampahModel->create([
                 'id_setor' => $newId,
                 'waktu_setor' => now(),
-                'total_berat' => $totalBerat,
-                'total_poin' => $totalPoin,
+                'total_berat' => 0,  // Set 0 dulu, akan dihitung otomatis
+                'total_poin' => 0,   // Set 0 dulu, akan dihitung otomatis
                 'lokasi_penjemputan' => $request->input('lokasi_penjemputan'),
-                'waktu_penjemputan' => $waktuPenjemputan, // Gunakan waktu yang sudah diformat
+                'waktu_penjemputan' => $waktuPenjemputan,
                 'kode_verifikasi' => $kodeVerifikasi,
                 'status_verifikasi' => false,
                 'status_setor' => 'Pending',
@@ -205,6 +198,7 @@ class SetorSampahController extends Controller
                 'id_pengguna' => $request->input('id_pengguna'),
             ]);
 
+            // Buat detail sampah
             foreach ($request->detail_sampah as $index => $detail) {
                 $detailId = $newId . Str::padLeft($index + 1, 2, '0');
                 $this->detailSetorSampahModel->create([
@@ -215,12 +209,49 @@ class SetorSampahController extends Controller
                 ]);
             }
 
+            usleep(100000); // 0.1 detik
+
+            // Update total berat dan poin berdasarkan detail yang sudah disimpan
+            $setorSampah->updateTotals();
+
+            // TAMBAHAN: Verifikasi bahwa totals sudah terupdate
+            $setorSampah->refresh(); // Refresh dari database
+            $finalTotalBerat = $setorSampah->total_berat;
+            $finalTotalPoin = $setorSampah->total_poin;
+
+            \Log::info("Final totals after update - ID: {$newId}, Berat: {$finalTotalBerat}, Poin: {$finalTotalPoin}");
+
             DB::commit();
-            return redirect()->route('riwayat-setor-sampah')->with("success", "Data setor sampah berhasil disimpan! Kode verifikasi: " . $kodeVerifikasi);
+            return redirect()->route('riwayat-setor-sampah')->with("success", "Data setor sampah berhasil disimpan! Kode verifikasi: " . $kodeVerifikasi . " (Total: {$finalTotalBerat} kg, {$finalTotalPoin} poin)");
+            
         } catch (Exception $e) {
             DB::rollback();
             \Log::error('Add setor sampah error: ' . $e->getMessage());
             return redirect()->back()->withInput()->with("error", "Gagal menyimpan data: " . $e->getMessage());
+        }
+    }
+
+    public function refreshTotals($id)
+    {
+        try {
+            $setorSampah = $this->setorSampahModel->find($id);
+            if (!$setorSampah) {
+                return response()->json(['success' => false, 'message' => 'Data tidak ditemukan'], 404);
+            }
+
+            $setorSampah->updateTotals();
+            $setorSampah->refresh();
+
+            return response()->json([
+                'success' => true, 
+                'message' => 'Totals berhasil diperbarui',
+                'data' => [
+                    'total_berat' => $setorSampah->total_berat,
+                    'total_poin' => $setorSampah->total_poin
+                ]
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -234,7 +265,7 @@ class SetorSampahController extends Controller
                     'waktu_penjemputan' => 'required|date',
                     'status_setor' => 'required|in:Pending,Dijemput,Selesai,Dibatalkan',
                     'status_verifikasi' => 'nullable|in:belum_verifikasi,terverifikasi',
-                    'metode_setor' => 'required|in:jemput,antar',
+                    'metode_setor' => 'required|in:Dijemput,Setor Langsung',
                     'catatan' => 'nullable|string|max:1000',
                     'id_bank_sampah' => 'required|exists:bank_sampah,id_bank_sampah',
                     'id_pengguna' => 'required|exists:pengguna,id_pengguna',
@@ -248,6 +279,8 @@ class SetorSampahController extends Controller
                 if (!$setorSampah) {
                     return redirect()->route('riwayat-setor-sampah')->with("error", "Data setor sampah tidak ditemukan!");
                 }
+
+                
 
                 $dataUpdate = $request->only([
                     'lokasi_penjemputan', 'status_setor',
@@ -267,6 +300,11 @@ class SetorSampahController extends Controller
                 }
 
                 $setorSampah->update($dataUpdate);
+
+                if ($request->has('recalculate_totals') || 
+                    $request->has('detail_sampah_changed')) {
+                    $setorSampah->updateTotals();
+                }
 
                 DB::commit();
                 return redirect()->route('riwayat-setor-sampah')->with("success", "Data setor sampah berhasil diperbarui!");
@@ -393,4 +431,8 @@ class SetorSampahController extends Controller
             return response()->json(['success' => false, 'message' => 'Gagal: ' . $e->getMessage()], 500);
         }
     }
+
+
 }
+
+

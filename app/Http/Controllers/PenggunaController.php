@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 use Yajra\DataTables\DataTables;
 use App\Models\PenggunaModel;
@@ -375,6 +376,220 @@ class PenggunaController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal menghapus data: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+ public function showProfile()
+    {
+        try {
+            // Debug: Check if user is authenticated
+            if (!Auth::check()) {
+                \Log::warning('User not authenticated, redirecting to login');
+                return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu!');
+            }
+
+            // Get authenticated user
+            $user = Auth::user();
+            
+            // Debug: Log user data
+            \Log::info('Authenticated user:', [
+                'id_akun' => $user->id_akun ?? 'null',
+                'email' => $user->email ?? 'null',
+                'id_level' => $user->id_level ?? 'null'
+            ]);
+            
+            // Pastikan user adalah pengguna (level 3)
+            if (!$user->isPengguna()) {
+                \Log::warning('User is not pengguna level', ['id_level' => $user->id_level]);
+                return redirect()->back()->with('error', 'Akses ditolak! Anda bukan pengguna.');
+            }
+            
+            // Find pengguna by akun ID
+            $pengguna = $this->PenggunaModel->with(['akun', 'kelurahan.kecamatan'])
+                ->where('id_akun', $user->id_akun)
+                ->first();
+
+            // If pengguna not found, try alternative approach
+            if (!$pengguna) {
+                \Log::info('Pengguna not found by id_akun, trying alternative approach');
+                
+                // Maybe the relationship is different, try finding by email
+                $pengguna = $this->PenggunaModel->with(['akun', 'kelurahan.kecamatan'])
+                    ->whereHas('akun', function($query) use ($user) {
+                        $query->where('email', $user->email);
+                    })
+                    ->first();
+            }
+
+            if (!$pengguna) {
+                \Log::error('Pengguna not found for user:', [
+                    'user_id' => $user->id_akun ?? $user->id, 
+                    'email' => $user->email
+                ]);
+                
+                // Debug: Check if pengguna table has data
+                $allPengguna = $this->PenggunaModel->with('akun')->get();
+                \Log::info('All pengguna in database:', $allPengguna->toArray());
+                
+                return redirect()->back()->with('error', 'Profil pengguna tidak ditemukan! Silakan hubungi administrator.');
+            }
+
+            // Get kelurahan and kecamatan data
+            $kelurahan = $this->KelurahanModel->with('kecamatan')->get();
+            $kecamatan = $this->KecamatanModel->get();
+
+            // Debug: Log retrieved data
+            \Log::info('Profile data loaded:', [
+                'pengguna_id' => $pengguna->id_pengguna,
+                'nama' => $pengguna->nama_lengkap,
+                'kelurahan_count' => $kelurahan->count(),
+                'kecamatan_count' => $kecamatan->count()
+            ]);
+
+            return view('pengguna.ubah-profil', [
+                'pengguna' => $pengguna,
+                'kelurahan' => $kelurahan,
+                'kecamatan' => $kecamatan
+            ]);
+
+        } catch (Exception $e) {
+            \Log::error('Show profile error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'user' => Auth::check() ? Auth::user()->toArray() : 'not authenticated'
+            ]);
+            return redirect()->back()->with('error', 'Gagal memuat profil: ' . $e->getMessage());
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            // Ambil ID pengguna yang sedang login
+            $userId = auth()->user()->id_akun;
+            
+            $pengguna = $this->PenggunaModel->where('id_akun', $userId)->first();
+            
+            if (!$pengguna) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pengguna tidak ditemukan!'
+                ], 404);
+            }
+
+            // Set id_pengguna untuk validasi
+            $request->merge(['id_pengguna' => $pengguna->id_pengguna]);
+
+            $request->validate([
+                'nama_lengkap' => 'required|string|max:255',
+                'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+                'tanggal_lahir' => 'required|date',
+                'nomor_telepon' => 'required|string|max:20',
+                'email' => 'required|email',
+                'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // 10MB
+                'detail_alamat' => 'nullable|string',
+                'id_kelurahan' => 'required|exists:kelurahan,id_kelurahan',
+            ], [
+                'nama_lengkap.required' => 'Nama lengkap tidak boleh kosong!',
+                'jenis_kelamin.required' => 'Jenis kelamin tidak boleh kosong!',
+                'tanggal_lahir.required' => 'Tanggal lahir tidak boleh kosong!',
+                'nomor_telepon.required' => 'Nomor telepon tidak boleh kosong!',
+                'email.required' => 'Email tidak boleh kosong!',
+                'email.email' => 'Format email tidak valid!',
+                'foto.image' => 'File harus berupa gambar!',
+                'foto.mimes' => 'Format foto harus jpeg, png, atau jpg!',
+                'foto.max' => 'Ukuran foto maksimal 10MB!',
+                'id_kelurahan.required' => 'Kelurahan tidak boleh kosong!',
+            ]);
+
+            // Check if email is already used by other account
+            $existingAccount = $this->AkunModel
+                ->where('email', $request->input('email'))
+                ->where('id_akun', '!=', $pengguna->id_akun)
+                ->first();
+                
+            if ($existingAccount) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email sudah digunakan oleh akun lain!'
+                ], 400);
+            }
+
+            // Update akun data
+            $akunData = [
+                'email' => $request->input('email')
+            ];
+
+            $this->AkunModel->where('id_akun', $pengguna->id_akun)->update($akunData);
+
+            // Handle file upload
+            $fotoPath = $pengguna->foto; // Keep existing photo by default
+            if ($request->hasFile('foto')) {
+                // Delete old photo if exists
+                if ($pengguna->foto && Storage::disk('public')->exists($pengguna->foto)) {
+                    Storage::disk('public')->delete($pengguna->foto);
+                }
+                $fotoPath = $request->file('foto')->store('pengguna', 'public');
+            }
+
+            // Update pengguna data
+            $penggunaData = [
+                'nama_lengkap' => $request->input('nama_lengkap'),
+                'jenis_kelamin' => $request->input('jenis_kelamin'),
+                'tanggal_lahir' => $request->input('tanggal_lahir'),
+                'nomor_telepon' => $request->input('nomor_telepon'),
+                'foto' => $fotoPath,
+                'detail_alamat' => $request->input('detail_alamat'),
+                'id_kelurahan' => $request->input('id_kelurahan'),
+            ];
+
+            $updatePengguna = $this->PenggunaModel
+                ->where('id_pengguna', $pengguna->id_pengguna)
+                ->update($penggunaData);
+
+            if ($updatePengguna) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Profil berhasil diperbarui!'
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada perubahan data!'
+            ], 400);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal!',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (Exception $e) {
+            \Log::error('Update profile error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui profil: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Method untuk mendapatkan kelurahan berdasarkan kecamatan (untuk AJAX)
+    public function getKelurahanByKecamatan($kecamatanId)
+    {
+        try {
+            $kelurahan = $this->KelurahanModel
+                ->where('id_kecamatan', $kecamatanId)
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $kelurahan
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengambil data kelurahan!'
             ], 500);
         }
     }

@@ -1,5 +1,4 @@
 <?php
-
 return [
     'defaults' => [
         'guard' => 'web',
@@ -9,14 +8,30 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users', // Ensure this matches your provider name
+            'provider' => 'akun', // Ubah dari 'users' ke 'akun'
         ],
     ],
 
     'providers' => [
+        'akun' => [ // Tambahkan provider baru
+            'driver' => 'eloquent',
+            'model' => App\Models\AkunModel::class,
+        ],
+        
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Akun::class, // Make sure this points to your Akun model
+            'model' => App\Models\User::class,
         ],
     ],
+
+    'passwords' => [
+        'users' => [
+            'provider' => 'akun', // Ubah ke provider 'akun'
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+    ],
+
+    'password_timeout' => 10800,
 ];

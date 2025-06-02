@@ -400,8 +400,8 @@
                         $('#detailId').text(setorData.id_setor);
                         $('#detailWaktuSetor').text(setorData.waktu_setor_formatted); // Assuming formatted in controller
                         $('#detailKodeVerifikasi').text(setorData.kode_verifikasi || '-');
-                        $('#detailTotalBerat').text(setorData.total_berat + ' kg');
-                        $('#detailTotalPoin').text(setorData.total_poin + ' poin');
+                        $('#detailTotalBerat').text(setorData.calculated_total_berat + ' kg');
+                        $('#detailTotalPoin').text(setorData.calculated_total_poin + ' poin');
                         $('#detailNamaPengguna').text(setorData.pengguna ? setorData.pengguna.nama_lengkap : 'N/A');
                         $('#detailBankSampah').text(setorData.bank_sampah ? setorData.bank_sampah.nama_bank_sampah : 'N/A');
                         $('#detailLokasiPenjemputan').text(setorData.lokasi_penjemputan);
@@ -467,8 +467,8 @@
                     {data: 'waktu_setor_formatted', name: 'waktu_setor'},
                     {data: 'waktu_penjemputan_formatted', name: 'waktu_penjemputan'},
                     {data: 'metode_setor_formatted', name: 'metode_setor'}, // Added column for metode
-                    {data: 'total_berat', name: 'total_berat', className: 'text-center'},
-                    {data: 'total_poin', name: 'total_poin', className: 'text-center'},
+                    {data: 'calculated_total_berat', name: 'calculated_total_berat', className: 'text-center'},
+                    {data: 'calculated_total_poin', name: 'calculated_total_poin', className: 'text-center'},
                     {data: 'status_badge', name: 'status_setor', orderable: false, searchable: false}, // Name should be status_setor
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'}
                 ],
@@ -591,7 +591,7 @@
                         $('#edit_id_pengguna').val(setorData.id_pengguna);
                         $('#edit_id_bank_sampah').val(setorData.id_bank_sampah);
                         $('#edit_metode_setor').val(setorData.metode_setor);
-                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan_raw); // Assuming you send raw datetime
+                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan); // Assuming you send raw datetime
                         $('#edit_lokasi_penjemputan').val(setorData.lokasi_penjemputan);
                         $('#edit_catatan').val(setorData.catatan || '');
                         $('#edit_status_setor').val(setorData.status_setor);

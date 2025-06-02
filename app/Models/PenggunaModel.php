@@ -49,4 +49,11 @@ class PenggunaModel extends Model
         return $this->hasMany(PenukaranBarangModel::class, 'id_pengguna', 'id_pengguna');
     }
     
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->foto) {
+            return asset('storage/' . $this->foto);
+        }
+        return asset('Assets/default-avatar.png');
+    }
 }

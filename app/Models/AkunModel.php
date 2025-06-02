@@ -1,23 +1,19 @@
 <?php
-
+// app/Models/AkunModel.php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AkunModel extends Authenticatable
 {
     protected $table = 'akun';
-    protected $primaryKey = 'id_akun'; 
+    protected $primaryKey = 'id_akun';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;
 
-
-    // Kolom-kolom yang bisa diisi (fillable)
     protected $fillable = [
         'id_akun',
-        'id_level',
+        'id_level', 
         'email',
         'password',
         'email_verified_at',
@@ -37,18 +33,17 @@ class AkunModel extends Authenticatable
         return $this->belongsTo(LevelAkunModel::class, 'id_level', 'id_level');
     }
 
-    public function kelurahan()
+    // Method helper untuk checking role
+    public function isAdmin()
     {
-        return $this->hasMany(PenggunaModel::class, 'id_akun', 'id_akun');
+        return $this->id_level === '1';
     }
 
-    public function bankSampah()
+    public function isPengguna()
     {
-        return $this->hasOne(BankSampahModel::class, 'id_akun', 'id_akun');
+        return $this->id_level === '3';
     }
 
-    public function pengguna()
-    {
-        return $this->hasOne(PenggunaModel::class, 'id_akun', 'id_akun');
-    }
+
+
 }

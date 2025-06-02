@@ -1,14 +1,14 @@
 <!-- Navbar -->
 <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex-1 align-middle">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex-1 align-middle">
             <!-- Logo-->
             <div class="flex items-center">
-                    <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
-                    <div class="ml-3">
-                        <h1 class="text-[#3D8D7A] font-bold text-lg">WasteWise</h1>
-                        <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
-                    </div>
+                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
+                <div class="ml-3">
+                    <h1 class="text-[#3D8D7A] font-bold text-lg">WasteWise</h1>
+                    <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
+                </div>
             </div>
         </div>
         
@@ -22,17 +22,34 @@
             </label>
             <!-- Menu Account-->
             <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 bg-white text-black">
-                {{-- Dummy user data --}}
-                <p class="disabled !text-black text-[14px] text-center">
-                    Adelia
-                </p>
-                <p class="disabled text-[#808080] text-[14px] text-center">
-                adminwastewise@gmail.com
-                </p>
-                <li class="logout"><a href="{{ route('landing-page') }}">Logout</a></li>
+                @auth
+                    <p class="disabled !text-black text-[14px] text-center font-semibold">
+                        {{ Auth::user()->email }}
+                    </p>
+                    <p class="disabled text-[#808080] text-[14px] text-center">
+                       @if(Auth::user()->id_level == 1)
+                           Admin
+                       @elseif(Auth::user()->id_level == 3)
+                           Pengguna
+                       @else
+                           User
+                       @endif
+                    </p>
+                    <div class="divider my-1"></div>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                            @csrf
+                            <button type="submit" class="w-full text-left text-red-600 hover:bg-red-50">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}">Login</a></li>
+                @endauth
             </ul>
         </div>
-        </div>
+    </div>
 </nav>
 
 <!-- Sidebar Mobile -->
@@ -47,30 +64,67 @@
                     </div>
                 </div>
 
-                <div>
-                    <p class="text-[#000] text-[16px] font-semibold mt-1 px-4 text-center">Adelia</p>
-                </div>
-                <div>
-                    <p class="text-gray text-[16px]">adminwastewise@gmail.com</p>
-                </div>
-                <div>
-                    <button class="btn btn-sm bg-red-500 border-none text-white hover:bg-red-300 mt-2">
-                        <a href="#">Logout</a>
-                    </button>
-                </div>
+                @auth
+                    <div>
+                        <p class="text-[#000] text-[16px] font-semibold mt-1 px-4 text-center">
+                            @if(Auth::user()->id_level == 1)
+                                Admin
+                            @elseif(Auth::user()->id_level == 3)
+                                Pengguna
+                            @else
+                                User
+                            @endif
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-gray text-[16px]">{{ Auth::user()->email }}</p>
+                    </div>
+                    <div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-sm bg-red-500 border-none text-white hover:bg-red-300 mt-2">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div>
+                        <a href="{{ route('login') }}" class="btn btn-sm bg-blue-500 border-none text-white hover:bg-blue-300 mt-2">
+                            Login
+                        </a>
+                    </div>
+                @endauth
                 
                 <hr class="solid">
             </div>
         </nav>
     </div>
 </div>
-
-<script type="text/javascript">
-    // Simulasi logout
-    document.querySelectorAll('.logout a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Logout berhasil!');
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- SweetAlert untuk pesan sukses --}}
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false
         });
-    });
-</script>
+    </script>
+@endif
+
+{{-- SweetAlert untuk pesan error --}}
+@if(session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: "{{ session('error') }}",
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    </script>
+@endif

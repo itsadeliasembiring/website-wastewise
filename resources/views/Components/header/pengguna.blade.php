@@ -38,8 +38,9 @@
             </a>
         </nav>
 
-        <img src="{{ asset('Assets/adudu.jpeg') }}" class="h-11 w-11 bg-green-200 rounded-full" alt="User">
-
+        <img src="{{ Auth::user()->profile_photo_url }}" 
+            class="h-11 w-11 bg-green-200 rounded-full object-cover" 
+            alt="Profile Photo">
         <!-- Mobile -->
         <button class="md:hidden text-slate-800" id="mobile-menu-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

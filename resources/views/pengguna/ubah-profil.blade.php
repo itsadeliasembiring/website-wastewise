@@ -24,19 +24,7 @@
 
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <!-- You can replace this with your header component -->
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <h1 class="text-xl font-bold text-teal-600">WasteWise</h1>
-                <div class="flex items-center space-x-4">
-                    <span class="text-sm text-gray-600">{{ auth()->user()->email ?? 'User' }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-sm text-red-600 hover:text-red-800">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <x-header.pengguna/>
     </header>
 
     <!-- Main Content -->
@@ -47,7 +35,7 @@
             <div class="bg-white rounded-lg p-6 shadow-sm mb-6">
                 <div class="flex flex-col items-center mb-6">
                     <div class="h-20 w-20 rounded-full overflow-hidden mb-3">
-                        <img src="{{ $pengguna->foto ? asset('storage/' . $pengguna->foto) : asset('assets/default-avatar.png') }}" 
+                        <img src="{{ $pengguna->foto ? asset('storage/' . $pengguna->foto) : asset('Assets/default-avatar.png') }}" 
                              class="h-full w-full object-cover" alt="Profile picture">
                     </div>
                     <h2 class="font-bold text-lg">{{ $pengguna->nama_lengkap }}</h2>
@@ -69,16 +57,13 @@
                         </svg>
                         Ubah Password
                     </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="flex items-center text-gray-700 hover:text-teal-600 w-full text-left">
-                            <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            Keluar Akun
-                        </button>
-                    </form>
+                    <a href="{{ route('landing-page') }}" class="flex items-center text-gray-700 hover:text-teal-600">
+                        <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Keluar Akun
+                    </a>
                 </div>
             </div>
         </div>
@@ -89,18 +74,6 @@
                 <h2 class="text-2xl font-semibold text-teal-600 mb-4">Profil Saya</h2>
                 
                 <!-- Alert Messages -->
-                @if(session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                @if(session('error'))
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
                 <div id="alert-success" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                     <span id="success-message"></span>
                 </div>
@@ -117,7 +90,7 @@
                             <div class="w-1/3 flex flex-col items-center">
                                 <div class="mb-4">
                                     <img id="preview-image" 
-                                         src="{{ $pengguna->foto ? asset('storage/' . $pengguna->foto) : asset('assets/default-avatar.png') }}" 
+                                         src="{{ $pengguna->foto ? asset('storage/' . $pengguna->foto) : asset('Assets/default-avatar.png') }}" 
                                          class="w-44 h-44 rounded-full object-cover" alt="Profile Photo">
                                 </div>
                                 <label for="foto-upload" class="cursor-pointer bg-gray-200 text-gray-700 px-6 py-2 rounded-md font-medium mb-2 transition hover:bg-gray-300">
@@ -147,7 +120,7 @@
                                     <div class="mb-2">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
                                         <div class="relative">
-                                            <select name="jenis_kelamin" class="appearance-none w-full border border-gray-300 rounded-md py-2 px-3 text-sm pr-10" required>
+                                            <select name="jenis_kelamin" class="appearance-none w-full border border-grey-300 rounded-md py-2 px-3 text-sm pr-10" required>
                                                 <option value="Laki-laki" {{ $pengguna->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                                 <option value="Perempuan" {{ $pengguna->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                             </select>
@@ -176,7 +149,7 @@
                                     <div class="mb-2">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan</label>
                                         <div class="relative">
-                                            <select id="kecamatan-select" class="appearance-none w-full border border-gray-300 rounded-md py-2 px-3 text-sm pr-10">
+                                            <select id="kecamatan-select" class="appearance-none w-full border border-grey-300 rounded-md py-2 px-3 text-sm pr-10">
                                                 <option value="" disabled>Pilih Kecamatan</option>
                                                 @foreach($kecamatan as $kec)
                                                     <option value="{{ $kec->id_kecamatan }}" 
@@ -197,7 +170,7 @@
                                     <div class="mb-2">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Kelurahan</label>
                                         <div class="relative">
-                                            <select name="id_kelurahan" id="kelurahan-select" class="appearance-none w-full border border-gray-300 rounded-md py-2 px-3 text-sm pr-10" required>
+                                            <select name="id_kelurahan" id="kelurahan-select" class="appearance-none w-full border border-grey-300 rounded-md py-2 px-3 text-sm pr-10" required>
                                                 <option value="" disabled>Pilih Kelurahan</option>
                                                 @if($pengguna->kelurahan)
                                                     @foreach($kelurahan->where('id_kecamatan', $pengguna->kelurahan->kecamatan->id_kecamatan) as $kel)
