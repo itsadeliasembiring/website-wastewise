@@ -14,10 +14,11 @@
                 <div>
                     <h2 class="text-2xl font-bold mb-4">Fitur</h2>
                     <ul class="space-y-2">
-                        <li><a href="#" class="hover:text-emerald-200">Halaman Beranda</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Setor Sampah</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Artikel Edukasi</a></li>
-                        <li><a href="#" class="hover:text-emerald-200">Tukar Poin</a></li>
+                        <li><a href="{{ route('setor-sampah') }}" class="hover:text-emerald-200">Setor Sampah</a></li>
+                        <li><a href="{{ route('beranda-edukasi') }}" class="hover:text-emerald-200">Edukasi</a></li>
+                        <li><a href="{{ route('tukar-poin') }}" class="hover:text-emerald-200">Tukar Poin</a></li>
+                        <li><a href="{{ route('pengguna-riwayat-setor-sampah') }}" class="hover:text-emerald-200">Riwayat Setor Sampah</a></li>
+                        <li><a href="{{ route('ubah-profil') }}" class="hover:text-emerald-200">Ubah Profil</a></li>
                     </ul>
                 </div>
                 <div>

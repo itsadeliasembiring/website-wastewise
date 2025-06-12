@@ -12,6 +12,8 @@ use App\Models\DetailSetorSampahModel;
 use App\Models\SampahModel;
 use App\Models\PenggunaModel;
 use App\Models\BankSampahModel;
+use App\Models\PenukaranBarangModel;
+use App\Models\PenukaranDonasiModel;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -22,6 +24,9 @@ class TransaksiSetorSampahController extends Controller
     protected $sampahModel;
     protected $bankSampahModel;
     protected $penggunaModel;
+    protected $penukaranBarangModel;
+    protected $penukaranDonasiModel;
+
     
     public function __construct()
     {
@@ -30,8 +35,186 @@ class TransaksiSetorSampahController extends Controller
         $this->sampahModel = new SampahModel;
         $this->bankSampahModel = new BankSampahModel;
         $this->penggunaModel = new PenggunaModel;
+        $this->penukaranBarangModel = new PenukaranBarangModel;
+        $this->penukaranDonasiModel = new PenukaranDonasiModel;
     }
 
+    public function index()
+    {
+        try {
+            // Ambil data jenis sampah untuk ditampilkan di form
+            $jenisSampah = SampahModel::all();
+            
+            // DEBUG: Panggil debugging dulu
+            $this->debugUserData();
+            
+            // Ambil statistik pengguna yang sedang login
+            $userStats = $this->getUserStats();
+            return view('setor-sampah.setor-sampah', compact('jenisSampah', 'userStats'));
+            
+        } catch (\Exception $e) {
+            \Log::error('Error in index: ' . $e->getMessage());
+            // Jika terjadi error saat mengambil stats, tetap tampilkan halaman dengan stats kosong
+            $jenisSampah = SampahModel::all();
+            $userStats = [
+                'total_berat' => 0,
+                'total_poin' => 0,
+                'total_transaksi' => 0
+            ];
+           
+            return view('setor-sampah.setor-sampah', compact('jenisSampah', 'userStats'))
+                ->with('warning', 'Tidak dapat memuat statistik pengguna. Silakan coba lagi nanti.');
+        }
+    }
+
+    private function getUserStats()
+    {
+        try {
+            // Dapatkan ID pengguna yang valid
+            $idPenggunaValid = $this->getValidIdPengguna();
+            
+            // Debug: Log ID pengguna
+            \Log::info('Getting stats for user ID: ' . $idPenggunaValid);
+            
+            // Cek total record untuk user ini (tanpa filter status dulu)
+            $totalRecords = SetorSampahModel::where('id_pengguna', $idPenggunaValid)->count();
+            \Log::info('Total records for user: ' . $totalRecords);
+            
+            // Cek data dengan berbagai status
+            $recordsByStatus = SetorSampahModel::where('id_pengguna', $idPenggunaValid)
+                ->selectRaw('status_setor, COUNT(*) as count')
+                ->groupBy('status_setor')
+                ->get();
+            \Log::info('Records by status: ' . $recordsByStatus->toJson());
+            
+            // Hitung total dengan menggunakan query yang lebih eksplisit
+            $stats = DB::table('setor_sampah')
+                ->where('id_pengguna', $idPenggunaValid)
+                ->whereIn('status_setor', ['Selesai', 'terverifikasi', 'selesai', 'Terverifikasi', 'SELESAI', 'TERVERIFIKASI']) // Tambah variasi case
+                ->selectRaw('
+                    SUM(COALESCE(total_berat, 0)) as total_berat,
+                    SUM(COALESCE(total_poin, 0)) as total_poin,
+                    COUNT(*) as total_transaksi
+                ')
+                ->first();
+                
+            // Debug: Log hasil query
+            \Log::info('Stats query result: ' . json_encode($stats));
+            
+            // Jika masih 0, coba tanpa filter status
+            if (($stats->total_berat ?? 0) == 0) {
+                $statsNoFilter = DB::table('setor_sampah')
+                    ->where('id_pengguna', $idPenggunaValid)
+                    ->selectRaw('
+                        SUM(COALESCE(total_berat, 0)) as total_berat,
+                        SUM(COALESCE(total_poin, 0)) as total_poin,
+                        COUNT(*) as total_transaksi
+                    ')
+                    ->first();
+                \Log::info('Stats without status filter: ' . json_encode($statsNoFilter));
+            }
+            
+            return [
+                'total_berat' => round($stats->total_berat ?? 0, 2),
+                'total_poin' => round($stats->total_poin ?? 0, 0),
+                'total_transaksi' => $stats->total_transaksi ?? 0,
+                'berat_bulan_ini' => $this->getBeratBulanIni($idPenggunaValid),
+                'poin_bulan_ini' => $this->getPoinBulanIni($idPenggunaValid)
+            ];
+            
+        } catch (\Exception $e) {
+            \Log::error('Error getting user stats: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            throw $e;
+        }
+    }
+
+    /**
+     * Method untuk mendapatkan total berat sampah bulan ini - FIXED VERSION
+     */
+    private function getBeratBulanIni($idPengguna)
+    {
+        try {
+            $currentMonth = Carbon::now()->month;
+            $currentYear = Carbon::now()->year;
+            
+            \Log::info("Getting berat bulan ini for month: $currentMonth, year: $currentYear");
+            
+            $beratBulanIni = DB::table('setor_sampah')
+                ->where('id_pengguna', $idPengguna)
+                ->whereIn('status_setor', ['Selesai', 'terverifikasi', 'selesai', 'Terverifikasi'])
+                ->whereRaw('MONTH(waktu_setor) = ?', [$currentMonth])
+                ->whereRaw('YEAR(waktu_setor) = ?', [$currentYear])
+                ->sum('total_berat');
+                
+            \Log::info("Berat bulan ini result: " . $beratBulanIni);
+                
+            return round($beratBulanIni ?? 0, 2);
+            
+        } catch (\Exception $e) {
+            \Log::error('Error getting berat bulan ini: ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Method untuk mendapatkan total poin bulan ini - FIXED VERSION
+     */
+    private function getPoinBulanIni($idPengguna)
+    {
+        try {
+            $currentMonth = Carbon::now()->month;
+            $currentYear = Carbon::now()->year;
+            
+            $poinBulanIni = DB::table('setor_sampah')
+                ->where('id_pengguna', $idPengguna)
+                ->whereIn('status_setor', ['Selesai', 'terverifikasi', 'selesai', 'Terverifikasi'])
+                ->whereRaw('MONTH(waktu_setor) = ?', [$currentMonth])
+                ->whereRaw('YEAR(waktu_setor) = ?', [$currentYear])
+                ->sum('total_poin');
+                
+            return round($poinBulanIni ?? 0, 0);
+            
+        } catch (\Exception $e) {
+            \Log::error('Error getting poin bulan ini: ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Method untuk debugging - panggil ini untuk cek data
+     */
+    private function debugUserData()
+    {
+        try {
+            $idPenggunaValid = $this->getValidIdPengguna();
+            
+            // Cek semua data user
+            $allUserData = DB::table('setor_sampah')
+                ->where('id_pengguna', $idPenggunaValid)
+                ->select('id_setor', 'waktu_setor', 'total_berat', 'total_poin', 'status_setor')
+                ->get();
+                
+            \Log::info('All user data: ' . $allUserData->toJson());
+            
+            // Cek apakah kolom total_berat dan total_poin ada isi
+            $nonZeroData = DB::table('setor_sampah')
+                ->where('id_pengguna', $idPenggunaValid)
+                ->where(function($query) {
+                    $query->where('total_berat', '>', 0)
+                        ->orWhere('total_poin', '>', 0);
+                })
+                ->count();
+                
+            \Log::info('Records with non-zero totals: ' . $nonZeroData);
+            
+            return $allUserData;
+            
+        } catch (\Exception $e) {
+            \Log::error('Debug error: ' . $e->getMessage());
+            return collect();
+        }
+    }
     /**
      * Menampilkan halaman setor langsung
      */
@@ -178,20 +361,61 @@ class TransaksiSetorSampahController extends Controller
         return $pengguna;
     }
 
-    /**
-     * Menampilkan riwayat setoran pengguna
-     */
-    public function riwayatSetor()
+    public function riwayatSetorSampah()
     {
         try {
             $idPenggunaValid = $this->getValidIdPengguna();
             
+            // Get user's total points
+            $totalPoin = PenggunaModel::where('id_pengguna', $idPenggunaValid)->value('total_poin');
+    
+            // Get transaction history with related data
             $riwayatSetor = SetorSampahModel::with(['detailSetorSampah.sampah', 'bankSampah'])
                 ->where('id_pengguna', $idPenggunaValid)
                 ->orderBy('waktu_setor', 'desc')
-                ->paginate(10);
+                ->get();
 
-            return view('user.riwayat-setor', compact('riwayatSetor'));
+            // Format data for the view
+            $riwayatSetor = $riwayatSetor->map(function ($setor) {
+                // Format status display
+                $statusDisplay = $this->getStatusDisplay($setor->status_setor);
+                // dd($statusDisplay);
+                // Format service type
+                $layananDisplay = $setor->metode_setor === 'jemput' ? 'Jemput' : 'Langsung';
+                
+                // Format date and time
+                $waktuSetor = \Carbon\Carbon::parse($setor->waktu_setor);
+                
+                // Get waste types details
+                $wasteTypes = $setor->detailSetorSampah->map(function ($detail) {
+                    return [
+                        'name' => $detail->sampah->nama_sampah ?? 'Unknown',
+                        'weight' => $detail->berat_kg,
+                        'unit' => 'Kg'
+                    ];
+                });
+
+                return [
+                    'id_setor' => $setor->id_setor,
+                    'bank_sampah_nama' => $setor->bankSampah->nama_bank_sampah ?? 'Bank Sampah',
+                    'tanggal' => $waktuSetor->format('d F Y'),
+                    'jam' => $waktuSetor->format('H:i') . ' WIB',
+                    'total_berat' => $setor->total_berat ?? $setor->calculated_total_berat,
+                    'layanan' => $layananDisplay,
+                    'status' => $setor->status_setor,
+                    'status_display' => $statusDisplay,
+                    'total_poin' => $setor->total_poin ?? $setor->calculated_total_poin,
+                    'alamat' => $setor->lokasi_penjemputan ?? $setor->bankSampah->alamat ?? '',
+                    'catatan' => $setor->catatan ?? 'Tidak ada catatan',
+                    'kode_verifikasi' => $setor->kode_verifikasi,
+                    'waste_types' => $wasteTypes,
+                    'alasan_pembatalan' => $setor->alasan_pembatalan ?? null,
+                    'waktu_penjemputan' => $setor->waktu_penjemputan ? \Carbon\Carbon::parse($setor->waktu_penjemputan)->format('d F Y H:i') . ' WIB' : null
+                ];
+            });
+
+            return view('riwayat.riwayat-setor-sampah', compact('riwayatSetor', 'totalPoin'));
+            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal memuat riwayat setoran: ' . $e->getMessage());
         }
@@ -200,7 +424,7 @@ class TransaksiSetorSampahController extends Controller
     /**
      * Menampilkan detail setoran
      */
-    public function detailSetor($idSetor)
+    public function detailSetorSampah($idSetor)
     {
         try {
             $idPenggunaValid = $this->getValidIdPengguna();
@@ -210,12 +434,91 @@ class TransaksiSetorSampahController extends Controller
                 ->where('id_pengguna', $idPenggunaValid)
                 ->firstOrFail();
 
-            return view('user.detail-setor', compact('setorSampah'));
+            // Format data for JSON response
+            $waktuSetor = \Carbon\Carbon::parse($setorSampah->waktu_setor);
+            
+            $detailData = [
+                'id' => $setorSampah->id_setor,
+                'title' => $setorSampah->bankSampah->nama_bank_sampah ?? 'Bank Sampah',
+                'date' => $waktuSetor->format('d F Y'),
+                'time' => $waktuSetor->format('H:i') . ' WIB',
+                'service' => $setorSampah->metode_setor === 'jemput' ? 'Jemput' : 'Langsung',
+                'status' => $this->getStatusDisplay($setorSampah->status_setor),
+                'points' => $setorSampah->total_poin ?? $setorSampah->calculated_total_poin,
+                'waste_types' => $setorSampah->detailSetorSampah->map(function ($detail) {
+                    return [
+                        'name' => $detail->sampah->nama_sampah ?? 'Unknown',
+                        'weight' => $detail->berat_kg,
+                        'unit' => 'Kg'
+                    ];
+                }),
+                'total_weight' => $setorSampah->total_berat ?? $setorSampah->calculated_total_berat,
+                'address' => $setorSampah->lokasi_penjemputan ?? $setorSampah->bankSampah->alamat ?? '',
+                'notes' => $setorSampah->catatan ?? 'Tidak ada catatan',
+                'cancellation_reason' => $setorSampah->alasan_pembatalan ?? null
+            ];
+
+            return response()->json($detailData);
+
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Detail setoran tidak ditemukan');
+            return response()->json(['error' => 'Detail setoran tidak ditemukan'], 404);
         }
     }
 
+    /**
+     * Show verification code for pickup service
+     */
+    public function showKodeVerifikasi($idSetor)
+    {
+        try {
+            $idPenggunaValid = $this->getValidIdPengguna();
+            
+            $setorSampah = SetorSampahModel::where('id_setor', $idSetor)
+                ->where('id_pengguna', $idPenggunaValid)
+                ->where('metode_setor', 'jemput')
+                ->whereIn('status_setor', ['diproses', 'selesai'])
+                ->firstOrFail();
+
+            return response()->json([
+                'kode_verifikasi' => $setorSampah->kode_verifikasi,
+                'status' => $setorSampah->status_setor,
+                'bank_sampah' => $setorSampah->bankSampah->nama_bank_sampah ?? 'Bank Sampah'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Kode verifikasi tidak ditemukan'], 404);
+        }
+    }
+
+    /**
+     * Get status display text and color
+     */
+    private function getStatusDisplay($status)
+    {
+        $statusMap = [
+            'menunggu konfirmasi' => [
+                'text' => 'Menunggu Konfirmasi',
+                'color_class' => 'text-grey-600',
+            ],
+            'diproses' => [
+                'text' => 'Di Proses',
+                'color_class' => 'text-yellow-500'
+            ],
+            'selesai' => [
+                'text' => 'Selesai',
+                'color_class' => 'text-green-600'
+            ],
+            'dibatalkan' => [
+                'text' => 'Dibatalkan',
+                'color_class' => 'text-red-500'
+            ],
+        ];
+
+        return $statusMap[$status] ?? [
+            'text' => ucfirst($status),
+            'color_class' => 'text-gray-600',
+        ];
+    }
     /**
      * Batalkan setoran (hanya jika status masih pending)
      */
@@ -228,7 +531,7 @@ class TransaksiSetorSampahController extends Controller
             
             $setorSampah = SetorSampahModel::where('id_setor', $idSetor)
                 ->where('id_pengguna', $idPenggunaValid)
-                ->where('status_setor', 'pending')
+                ->where('status_setor', 'menunggu konfirmasi')
                 ->firstOrFail();
 
             // Update status menjadi dibatalkan

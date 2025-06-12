@@ -197,6 +197,9 @@
             </form>
         </div>
     </main>
+    
+    <!-- Kontak -->
+    <x-footer.pengguna id="kontak"/>
 
     <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
         <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
@@ -216,9 +219,14 @@
                     </div>
                 </div>
                 <div class="items-center px-4 py-3">
-                    <button id="closeModal" class="px-4 py-2 bg-teal-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300">
-                        Lihat Riwayat
-                    </button>
+                    <div class="flex flex-col sm:flex-row-reverse gap-3">
+                        <button id="closeModal" class="w-full px-4 py-2 bg-teal-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                            Lihat Riwayat
+                        </button>
+                        <a id="whatsappLink" href="#" target="_blank" class="w-full px-4 py-2 bg-green-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-300 text-center inline-block">
+                            Chat Petugas (WhatsApp)
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -459,6 +467,22 @@
                         document.getElementById('totalBeratResult').textContent = result.data.total_berat;
                         document.getElementById('totalPoinResult').textContent = result.data.total_poin;
                         document.getElementById('waktuPenjemputanResult').textContent = result.data.waktu_penjemputan_formatted;
+                        
+                        // === BARIS BARU: Generate WhatsApp Link ===
+                        const whatsappLink = document.getElementById('whatsappLink');
+                        const nomorWhatsapp = '6281999743472'; // Ganti dengan nomor WA bank sampah
+                        let pesanWhatsapp = `
+                                Halo, Saya baru saja mengajukan permintaan jemput sampah dengan detail:
+                                \n*- ID Penjemputan:* ${result.data.id_penjemputan}
+                                \n*- Kode Verifikasi:* ${result.data.kode_verifikasi}
+                                \n*- Total Berat:* ${result.data.total_berat} Kg
+                                \n*- Estimasi Poin:* ${result.data.total_poin} Poin
+                                \n*- Waktu Penjemputan:* ${result.data.waktu_penjemputan_formatted}
+                                \nMohon konfirmasi untuk penjemputan sampah saya. Terima kasih!
+                        `;
+                        whatsappLink.href = `https://wa.me/${nomorWhatsapp}?text=${encodeURIComponent(pesanWhatsapp)}`;
+                        // === AKHIR BARIS BARU ===
+
                         document.getElementById('successModal').classList.remove('hidden');
                     } else {
                         showAlert('error', result.message || 'Terjadi kesalahan saat memproses data.');
@@ -476,7 +500,7 @@
             // Listener untuk tombol tutup modal
             document.getElementById('closeModal').addEventListener('click', function() {
                 document.getElementById('successModal').classList.add('hidden');
-                window.location.href = '{{ route("riwayat-setor") }}';
+                window.location.href = '{{ route("pengguna-riwayat-setor-sampah") }}';
             });
     
             // Initialize form state

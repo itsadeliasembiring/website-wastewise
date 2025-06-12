@@ -72,23 +72,15 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     Route::get('user/kenali-sampah', function () {
         return view('edukasi/kenali-sampah');
     })->name('kenali-sampah');
-
-    // Setor Sampah
-    Route::get('user/setor-sampah', function () {
-        return view('setor-sampah/setor-sampah');
-    })->name('setor-sampah');
+;
 
     // Route::get('user/setor-langsung', function () {
     //     return view('setor-sampah/setor-langsung');
     // })->name('setor-langsung');
     // Riwayat
-    Route::get('user/riwayat-setor-sampah', function () {
-        return view('riwayat/riwayat-setor-sampah');
-    })->name('pengguna-riwayat-setor-sampah');
-
-    Route::get('user/riwayat-tukar-poin', function () {
-        return view('riwayat/riwayat-tukar-poin');
-    })->name('pengguna-riwayat-tukar-poin');
+    // Route::get('user/riwayat-setor-sampah', function () {
+    //     return view('riwayat/riwayat-setor-sampah');
+    // })->name('pengguna-riwayat-setor-sampah');
 
     Route::get('user/ubah-profil', [PenggunaController::class, 'showProfile'])->name('ubah-profil');
     Route::post('/profil/update', [PenggunaController::class, 'updateProfile'])->name('profil.update');
@@ -106,7 +98,7 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     // Route::get('/riwayat-poin', [TukarPoinController::class, 'riwayatPoin'])->name('riwayat.poin');
 
     // Route untuk menampilkan halaman tukar poin
-    Route::get('/tukar-poin', [TukarPoinController::class, 'index'])->name('tukarpoin');
+    Route::get('/tukar-poin', [TukarPoinController::class, 'index'])->name('tukar-poin');
     
     // Route untuk menukar poin dengan barang (AJAX)
     Route::post('/tukar-poin/barang', [TukarPoinController::class, 'tukarBarang'])->name('tukar.barang');
@@ -115,22 +107,22 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     Route::post('/tukar-poin/donasi', [TukarPoinController::class, 'tukarDonasi'])->name('tukar.donasi');
     
     // Route untuk melihat riwayat penukaran poin
-    Route::get('/riwayat-poin', [TukarPoinController::class, 'riwayatPoin'])->name('riwayat.poin');
+    Route::get('user/riwayat-tukar-poin', [TukarPoinController::class, 'riwayatTukarPoin'])->name('pengguna-riwayat-tukar-poin');
     
     // Route untuk mengecek status redeem barang (AJAX)
     Route::post('/cek-status-redeem', [TukarPoinController::class, 'cekStatusRedeem'])->name('cek.status.redeem');
 
-
+    Route::get('/user/setor-sampah', [TransaksiSetorSampahController::class, 'index'])->name('setor-sampah');
     Route::get('/setor-langsung', [TransaksiSetorSampahController::class, 'setorLangsung'])
         ->name('setor-langsung');
     // Proses Setor Langsung (AJAX)
     Route::post('/setor-langsung/proses', [TransaksiSetorSampahController::class, 'prosesSetorLangsung'])
         ->name('proses-setor-langsung');
     // Riwayat Setoran
-    Route::get('/riwayat-setor', [TransaksiSetorSampahController::class, 'riwayatSetor'])
-        ->name('riwayat-setor');
+    Route::get('/user/riwayat-setor-sampah', [TransaksiSetorSampahController::class, 'riwayatSetorSampah'])
+        ->name('pengguna-riwayat-setor-sampah');
     // Detail Setoran
-    Route::get('/setor/{idSetor}/detail', [TransaksiSetorSampahController::class, 'detailSetor'])
+    Route::get('/user/riwayat-setor-sampah/{idSetor}/detail', [TransaksiSetorSampahController::class, 'detailSetorSampah'])
         ->name('detail-setor');
     // Batalkan Setoran (AJAX)
     Route::patch('/setor/{idSetor}/batalkan', [TransaksiSetorSampahController::class, 'batalkanSetor'])

@@ -8,13 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: { '50': '#eefbf4', '100': '#d6f5e3', '200': '#b0eac8', '300': '#7fdaa7', '400': '#4cc283', '500': '#26a866', '600': '#1a8a53', '700': '#166e44', '800': '#155738', '900': '#134830', '950': '#092819' },
+                        yellow: { '500': '#f59e0b' },
+                        green: { '600': '#16a34a' },
+                        red: { '500': '#ef4444' },
+                        gray: { '500': '#6b7280' }
                     }
                 }
             }
@@ -22,39 +28,23 @@
     </script>
 </head>
 <body class="bg-gray-50 font-sans">
-    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <!-- Include your header component here -->
-        <div class="px-6 py-4">
-            <h1 class="text-xl font-bold text-teal-700">WasteWise</h1>
-        </div>
+        <x-header.pengguna/>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        <!-- Header Donasi -->
+    <main class="max-w-7xl mx-auto px-6 py-7">
         <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold text-teal-700 mb-8">Donasi</h2>
+            <h2 class="text-2xl font-bold text-primary-700">Donasi</h2>
             <div class="flex items-center gap-4">
                 <!-- Kolom Total Poin + Riwayat -->
                 <div class="flex flex-col items-end gap-1 mt-[0.25px]">
-                    <!-- Box Total Poin -->
-                    <div class="px-3 py-2 rounded-2xl flex items-center gap-2 max-w-[250px]" style="background-color: #A3D1C6;">
-                        <!-- Coin Icon -->
-                        <div class="bg-yellow-400 p-1 rounded-full">
-                            <svg class="h-11 w-11" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="10" fill="#FFD700"/>
-                                <text x="12" y="16" text-anchor="middle" fill="#FFA500" font-size="12" font-weight="bold">$</text>
-                            </svg>
+                        <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
+                            <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
+                            <span class="font-bold text-primary-900">{{ $pengguna->total_poin ?? 0 }} Poin</span>
                         </div>
-                        <!-- Text Total Poin -->
-                        <div class="ml-2">
-                            <p class="text-base font-bold text-black-700">Total Poin</p>
-                            <p class="text-3xl font-extrabold text-teal-700" id="total-poin">{{ $pengguna->total_poin ?? 0 }}</p>
-                        </div>
-                    </div>
                     <!-- Link Riwayat -->
-                    <a href="{{ route('riwayat.poin') }}" class="text-gray-500 text-sm font-medium underline hover:text-gray-700 mb-5">Riwayat Poin</a>
+                    <a href="{{ route('pengguna-riwayat-tukar-poin') }}" class="text-gray-500 text-sm font-medium underline hover:text-gray-700 mb-5">Lihat Riwayat Tukar Poin</a>
                 </div>
             </div>
         </div>
@@ -143,6 +133,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Kontak -->
+    <x-footer.pengguna id="kontak"/>
 
     <script>
         // Set up CSRF token for AJAX requests

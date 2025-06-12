@@ -512,50 +512,58 @@ class TukarPoinController extends Controller
         }
     }
 
-    /**
-     * Ambil riwayat penukaran poin pengguna
-     */
-    public function riwayatPoin()
+    private function getValidIdPengguna()
     {
-        try {
-            // Get authenticated user
-            $user = Auth::user();
-            
-            if (!$user) {
-                return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu');
-            }
+        $currentUserId = Auth::id(); // ID dari tabel akun (users)
 
-            // Find pengguna by akun ID
-            $pengguna = $this->PenggunaModel->where('id_akun', $user->id_akun)->first();
-
-            if (!$pengguna) {
-                return redirect()->back()->with('error', 'Data pengguna tidak ditemukan');
-            }
-            
-            // Ambil riwayat penukaran barang
-            $riwayatBarang = PenukaranBarangModel::with('barang')
-                ->where('id_pengguna', $pengguna->id_pengguna)
-                ->orderBy('waktu', 'desc')
-                ->get();
-            
-            // Ambil riwayat penukaran donasi
-            $riwayatDonasi = PenukaranDonasiModel::with('donasi')
-                ->where('id_pengguna', $pengguna->id_pengguna)
-                ->orderBy('waktu', 'desc')
-                ->get();
-            
-            return view('riwayat-poin', compact('riwayatBarang', 'riwayatDonasi', 'pengguna'));
-            
-        } catch (Exception $e) {
-            Log::error('Error in TukarPoinController@riwayatPoin: ' . $e->getMessage(), [
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return back()->with('error', 'Terjadi kesalahan saat memuat riwayat');
+        if (!$currentUserId) {
+            throw new \Exception('Anda belum login. Silakan login terlebih dahulu.');
         }
+
+        // Cari pengguna berdasarkan foreign key id_akun yang berelasi dengan id dari tabel akun
+        $pengguna = PenggunaModel::where('id_akun', $currentUserId)->first();
+
+        if (!$pengguna) {
+            // Debug information untuk membantu troubleshooting
+            \Log::error('Pengguna tidak ditemukan', [
+                'current_user_id' => $currentUserId,
+                'auth_user' => Auth::user()
+            ]);
+            
+            throw new \Exception('Data pengguna tidak ditemukan. Silakan hubungi administrator untuk melengkapi profil Anda.');
+        }
+
+        return $pengguna->id_pengguna; // Return primary key dari tabel pengguna
     }
 
+    /**
+     * Menampilkan riwayat tukar poin pengguna
+     */
+    public function riwayatTukarPoin()
+    {
+        try {
+            $idPenggunaValid = $this->getValidIdPengguna();
+
+            // Bisa ditambahkan select() untuk optimasi jika tidak semua kolom diperlukan
+            $riwayatTukarDonasi = PenukaranDonasiModel::with(['donasi', 'pengguna'])
+                ->where('id_pengguna', $idPenggunaValid)
+                ->orderBy('waktu', 'desc')
+                ->get();
+
+            $riwayatTukarBarang = PenukaranBarangModel::with(['barang', 'pengguna'])
+                ->where('id_pengguna', $idPenggunaValid)
+                ->orderBy('waktu', 'desc')
+                ->get();
+
+            // Bisa menggunakan find() jika lebih efisien
+            $totalPoin = PenggunaModel::where('id_pengguna', $idPenggunaValid)->value('total_poin');
+
+            return view('riwayat.riwayat-tukar-poin', compact('riwayatTukarBarang','riwayatTukarDonasi', 'totalPoin'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memuat riwayat tukar poin: ' . $e->getMessage());
+        }
+    }
     /**
      * Cek status redeem barang
      */

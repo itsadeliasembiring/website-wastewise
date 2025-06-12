@@ -127,6 +127,9 @@
             </form>
         </div>
     </main>
+    <!-- Kontak -->
+    <x-footer.pengguna id="kontak"/>
+
 
     <!-- Modal Sukses -->
     <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
