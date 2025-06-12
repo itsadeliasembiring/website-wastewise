@@ -17,6 +17,8 @@ class ArtikelController extends Controller
         $this->ArtikelModel = new ArtikelModel;
     }
     
+    // ========== ADMIN METHODS ==========
+    
     public function kelolaArtikel(Request $request)
     {
         $artikel = $this->ArtikelModel::all();
@@ -283,6 +285,93 @@ class ArtikelController extends Controller
         } catch (Exception $e) {
             \Log::error('Show edit artikel error: ' . $e->getMessage());
             return redirect()->route('kelola-artikel')->with('error', 'Gagal menampilkan form edit artikel!');
+        }
+    }
+
+    // ========== USER/PUBLIC METHODS ==========
+    
+    /**
+     * Halaman beranda edukasi dengan daftar artikel
+     */
+    public function berandaEdukasi()
+    {
+        try {
+            // Ambil 3 artikel terbaru untuk ditampilkan di beranda
+            $artikel = $this->ArtikelModel->orderBy('created_at', 'desc')->limit(3)->get();
+            // dd($artikel);
+            return view('edukasi.beranda-edukasi', [
+                'artikel' => $artikel
+            ]);
+
+        } catch (Exception $e) {
+            \Log::error('Beranda edukasi error: ' . $e->getMessage());
+            return view('edukasi.beranda-edukasi', [
+                'artikel' => collect([]) // Empty collection jika error
+            ]);
+        }
+    }
+
+    /**
+     * Halaman daftar semua artikel
+     */
+    public function daftarArtikel(Request $request)
+    {
+        try {
+            $query = $this->ArtikelModel->orderBy('created_at', 'desc');
+
+            // Search functionality
+            if ($request->has('search') && !empty($request->search)) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('judul_artikel', 'like', '%' . $search . '%')
+                      ->orWhere('detail_artikel', 'like', '%' . $search . '%');
+                });
+            }
+
+            // Pagination
+            $artikel = $query->paginate(6); // 6 artikel per halaman
+
+            return view('edukasi/daftar-artikel', [
+                'artikel' => $artikel,
+                'search' => $request->search
+            ]);
+
+        } catch (Exception $e) {
+            \Log::error('Daftar artikel error: ' . $e->getMessage());
+            return view('edukasi/daftar-artikel', [
+                'artikel' => $this->ArtikelModel->paginate(6),
+                'search' => $request->search
+            ]);
+        }
+    }
+
+    /**
+     * Halaman detail artikel untuk pengguna
+     */
+    public function detailArtikelPengguna($id)
+    {
+        try {
+            $artikel = $this->ArtikelModel->where('id_artikel', $id)->first();
+            
+            if (!$artikel) {
+                return redirect()->route('beranda-edukasi')->with('error', 'Artikel tidak ditemukan!');
+            }
+
+            // Ambil 2 artikel lainnya untuk "Baca Artikel Lainnya" (exclude artikel saat ini)
+            $artikelLainnya = $this->ArtikelModel
+                ->where('id_artikel', '!=', $id)
+                ->orderBy('created_at', 'desc')
+                ->limit(2)
+                ->get();
+
+            return view('edukasi/detail-artikel', [
+                'artikel' => $artikel,
+                'artikelLainnya' => $artikelLainnya
+            ]);
+
+        } catch (Exception $e) {
+            \Log::error('Detail artikel pengguna error: ' . $e->getMessage());
+            return redirect()->route('beranda-edukasi')->with('error', 'Gagal menampilkan detail artikel!');
         }
     }
 }

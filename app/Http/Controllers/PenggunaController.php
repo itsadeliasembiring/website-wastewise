@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Exception;
 use Yajra\DataTables\DataTables;
 use App\Models\PenggunaModel;
@@ -593,4 +594,178 @@ class PenggunaController extends Controller
             ], 500);
         }
     }
+
+    // Method untuk menampilkan halaman ubah password (sudah benar, tidak perlu diubah)
+    public function showChangePassword()
+    {
+        try {
+            // Debug: Check if user is authenticated
+            if (!Auth::check()) {
+                \Log::warning('User not authenticated, redirecting to login');
+                return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu!');
+            }
+
+            // Get authenticated user
+            $user = Auth::user();
+            
+            // Debug: Log user data
+            \Log::info('Authenticated user:', [
+                'id_akun' => $user->id_akun ?? 'null',
+                'email' => $user->email ?? 'null',
+                'id_level' => $user->id_level ?? 'null'
+            ]);
+            
+            // Pastikan user adalah pengguna (level 3)
+            if (!$user->isPengguna()) {
+                \Log::warning('User is not pengguna level', ['id_level' => $user->id_level]);
+                return redirect()->back()->with('error', 'Akses ditolak! Anda bukan pengguna.');
+            }
+            
+            // Find pengguna by akun ID
+            $pengguna = $this->PenggunaModel->with(['akun', 'kelurahan.kecamatan'])
+                ->where('id_akun', $user->id_akun)
+                ->first();
+
+            // If pengguna not found, try alternative approach
+            if (!$pengguna) {
+                \Log::info('Pengguna not found by id_akun, trying alternative approach');
+                
+                // Maybe the relationship is different, try finding by email
+                $pengguna = $this->PenggunaModel->with(['akun', 'kelurahan.kecamatan'])
+                    ->whereHas('akun', function($query) use ($user) {
+                        $query->where('email', $user->email);
+                    })
+                    ->first();
+            }
+
+            if (!$pengguna) {
+                \Log::error('Pengguna not found for user:', [
+                    'user_id' => $user->id_akun ?? $user->id, 
+                    'email' => $user->email
+                ]);
+                
+                return redirect()->back()->with('error', 'Profil pengguna tidak ditemukan! Silakan hubungi administrator.');
+            }
+
+            // Debug: Log retrieved data
+            \Log::info('Change password page data loaded:', [
+                'pengguna_id' => $pengguna->id_pengguna,
+                'nama' => $pengguna->nama_lengkap,
+            ]);
+
+            return view('pengguna.ubah-password', [
+                'pengguna' => $pengguna
+            ]);
+
+        } catch (Exception $e) {
+            \Log::error('Show change password error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'user' => Auth::check() ? Auth::user()->toArray() : 'not authenticated'
+            ]);
+            return redirect()->back()->with('error', 'Gagal memuat halaman ubah password: ' . $e->getMessage());
+        }
+    }
+
+    // Method untuk mengubah password (PERBAIKAN LENGKAP)
+    public function updatePassword(Request $request)
+    {
+        try {
+            // Validasi input
+            $request->validate([
+                'current_password' => 'required',
+                'new_password' => 'required|min:6|confirmed',
+                'new_password_confirmation' => 'required'
+            ], [
+                'current_password.required' => 'Password saat ini tidak boleh kosong!',
+                'new_password.required' => 'Password baru tidak boleh kosong!',
+                'new_password.min' => 'Password baru minimal 6 karakter!',
+                'new_password.confirmed' => 'Konfirmasi password tidak cocok!',
+                'new_password_confirmation.required' => 'Konfirmasi password tidak boleh kosong!'
+            ]);
+
+            // Get authenticated user
+            $user = Auth::user();
+            
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User tidak ditemukan! Silakan login ulang.'
+                ], 401);
+            }
+
+            // Pastikan user adalah pengguna (level 3)
+            if (!$user->isPengguna()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Akses ditolak! Anda bukan pengguna.'
+                ], 403);
+            }
+
+            // Verifikasi password saat ini
+            if (!\Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password saat ini tidak benar!',
+                    'errors' => [
+                        'current_password' => ['Password saat ini tidak benar!']
+                    ]
+                ], 422);
+            }
+
+            // Pastikan password baru berbeda dengan password lama
+            if (\Hash::check($request->new_password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password baru harus berbeda dengan password saat ini!',
+                    'errors' => [
+                        'new_password' => ['Password baru harus berbeda dengan password saat ini!']
+                    ]
+                ], 422);
+            }
+
+            // Update password
+            $updateResult = $this->AkunModel
+                ->where('id_akun', $user->id_akun)
+                ->update([
+                    'password' => \Hash::make($request->new_password),
+                    'updated_at' => now()
+                ]);
+
+            if ($updateResult) {
+                // Log successful password change
+                \Log::info('Password changed successfully', [
+                    'user_id' => $user->id_akun,
+                    'email' => $user->email,
+                    'timestamp' => now()
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Password berhasil diubah!'
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah password. Silakan coba lagi.'
+            ], 500);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal!',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (Exception $e) {
+            \Log::error('Update password error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'user' => Auth::check() ? Auth::user()->toArray() : 'not authenticated'
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah password: ' . $e->getMessage()
+            ], 500);
+        }
+    }    
 }

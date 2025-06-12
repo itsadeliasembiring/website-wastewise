@@ -99,7 +99,7 @@ class RegisterController extends Controller
             $pengguna->save();
 
             // Redirect with success message
-            return redirect()->route('register') // Asumsi nama route untuk form registrasi adalah 'register'
+            return redirect()->route('login') // Asumsi nama route untuk form registrasi adalah 'register'
                 ->with('success', 'Registrasi berhasil! Akun Anda telah dibuat.')
                 ->with('show_popup', true);
 

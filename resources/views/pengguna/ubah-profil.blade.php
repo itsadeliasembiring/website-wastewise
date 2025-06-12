@@ -43,27 +43,30 @@
                     <p class="text-sm text-gray-500">{{ $pengguna->total_poin ?? 0 }} Poin</p>
                 </div>
                 <div class="border-t border-gray-200 pt-3 flex flex-col gap-5 text-sm font-medium">
-                    <a href="#" class="flex items-center text-teal-600">
+                    <a href="{{ route('ubah-profil') }}" class="flex items-center text-teal-600">
                         <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
                         Profil Saya
                     </a>
-                    <a href="{{ route('ubah-password') }}" class="flex items-center text-gray-700 hover:text-teal-600">
+                    <a href="{{ route('pengguna.ubah-password') }}" class="flex items-center text-gray-700 hover:text-teal-600">
                         <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                         </svg>
                         Ubah Password
                     </a>
-                    <a href="{{ route('landing-page') }}" class="flex items-center text-gray-700 hover:text-teal-600">
-                        <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                        </svg>
-                        Keluar Akun
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="flex items-center text-gray-700 hover:text-teal-600 w-full text-left">
+                            <svg class="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            Keluar Akun
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

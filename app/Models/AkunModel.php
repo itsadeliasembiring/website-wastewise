@@ -44,6 +44,14 @@ class AkunModel extends Authenticatable
         return $this->id_level === '3';
     }
 
-
+    public function getProfilePhotoUrlAttribute()
+    {
+        // Cek apakah user memiliki data pengguna dan foto
+        if ($this->pengguna && $this->pengguna->foto) {
+            return asset('storage/' . $this->pengguna->foto);
+        }
+        
+        return asset('Assets/default-avatar.png');
+    }
 
 }

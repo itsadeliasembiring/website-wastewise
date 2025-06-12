@@ -11,6 +11,8 @@ use App\Http\Controllers\TransaksiBarangController;
 use App\Http\Controllers\TransaksiDonasiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TukarPoinController;
+use App\Http\Controllers\TransaksiSetorSampahController;
 
 
 // Guest (User yang belum login)
@@ -36,26 +38,36 @@ Route::post('/login', [AuthController::class, 'authenticating'])->name('authenti
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register-form', [RegisterController::class, 'register'])->name('register-form');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/get-kelurahan/{kecamatan_id}', [RegisterController::class, 'getKelurahanByKecamatan'])->name('kelurahan.by.kecamatan');
 
 // =========================================PENGGUNA====================
 Route::middleware(['auth', 'pengguna'])->group(function () {
     // Tukar Poin
-    Route::get('/tukarpoin', function () {
-        return view('tukar-poin/tukar-poin');
-    })->name('tukarpoin');
+    // Route::get('/tukarpoin', function () {
+    //     return view('tukar-poin/tukar-poin');
+    // })->name('tukarpoin');
 
     // Edukasi
-    Route::get('user/beranda-edukasi', function () {
-        return view('edukasi/beranda-edukasi');
-    })->name('beranda-edukasi');
+    // Route::get('user/beranda-edukasi', function () {
+    //     return view('edukasi/beranda-edukasi');
+    // })->name('beranda-edukasi');
 
     Route::get('user/artikel', function () {
         return view('edukasi/artikel');
-    })->name('pengguna-artikel');
+    })->name('artikel');
 
-    Route::get('user/detail-artikel', function () {
-        return view('edukasi/detail-artikel');
-    })->name('detail-artikel');
+    // Route::get('user/detail-artikel', function () {
+    //     return view('edukasi/detail-artikel');
+    // })->name('detail-artikel');
+    // Beranda Edukasi - halaman utama dengan artikel terbaru
+    Route::get('/beranda-edukasi', [ArtikelController::class, 'berandaEdukasi'])->name('beranda-edukasi');
+
+    // Daftar semua artikel dengan pagination dan search
+    Route::get('/artikel', [ArtikelController::class, 'daftarArtikel'])->name('daftar-artikel');
+
+    // Detail artikel untuk pengguna
+    Route::get('/artikel/{id}/detail', [ArtikelController::class, 'detailArtikelPengguna'])->name('detail-artikel');
+
 
     Route::get('user/kenali-sampah', function () {
         return view('edukasi/kenali-sampah');
@@ -66,14 +78,9 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
         return view('setor-sampah/setor-sampah');
     })->name('setor-sampah');
 
-    Route::get('user/setor-langsung', function () {
-        return view('setor-sampah/setor-langsung');
-    })->name('setor-langsung');
-
-    Route::get('user/jemput-sampah', function () {
-        return view('setor-sampah/jemput-sampah');
-    })->name('jemput-sampah');
-
+    // Route::get('user/setor-langsung', function () {
+    //     return view('setor-sampah/setor-langsung');
+    // })->name('setor-langsung');
     // Riwayat
     Route::get('user/riwayat-setor-sampah', function () {
         return view('riwayat/riwayat-setor-sampah');
@@ -87,9 +94,83 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     Route::post('/profil/update', [PenggunaController::class, 'updateProfile'])->name('profil.update');
     Route::get('/kelurahan/{kecamatan_id}', [PenggunaController::class, 'getKelurahanByKecamatan'])->name('kelurahan.by.kecamatan');
 
-    Route::get('user/ubah-password', function () {
-        return view('profil/ubah-password');
-    })->name('ubah-password');
+    Route::get('/ubah-password', [PenggunaController::class, 'showChangePassword'])->name('pengguna.ubah-password');
+    
+    Route::post('/update-password', [PenggunaController::class, 'updatePassword'])->name('pengguna.update-password');
+
+
+    // Route::get('/tukar-poin', [TukarPoinController::class, 'index'])->name('tukarpoin');
+    // Route::post('/tukar-barang', [TukarPoinController::class, 'tukarBarang'])->name('tukar.barang');
+    // Route::post('/tukar-donasi', [TukarPoinController::class, 'tukarDonasi'])->name('tukar.donasi');
+    // Route::post('/cek-status-redeem', [TukarPoinController::class, 'cekStatusRedeem'])->name('cek.status.redeem');
+    // Route::get('/riwayat-poin', [TukarPoinController::class, 'riwayatPoin'])->name('riwayat.poin');
+
+    // Route untuk menampilkan halaman tukar poin
+    Route::get('/tukar-poin', [TukarPoinController::class, 'index'])->name('tukarpoin');
+    
+    // Route untuk menukar poin dengan barang (AJAX)
+    Route::post('/tukar-poin/barang', [TukarPoinController::class, 'tukarBarang'])->name('tukar.barang');
+    
+    // Route untuk menukar poin dengan donasi (AJAX)
+    Route::post('/tukar-poin/donasi', [TukarPoinController::class, 'tukarDonasi'])->name('tukar.donasi');
+    
+    // Route untuk melihat riwayat penukaran poin
+    Route::get('/riwayat-poin', [TukarPoinController::class, 'riwayatPoin'])->name('riwayat.poin');
+    
+    // Route untuk mengecek status redeem barang (AJAX)
+    Route::post('/cek-status-redeem', [TukarPoinController::class, 'cekStatusRedeem'])->name('cek.status.redeem');
+
+
+    Route::get('/setor-langsung', [TransaksiSetorSampahController::class, 'setorLangsung'])
+        ->name('setor-langsung');
+    // Proses Setor Langsung (AJAX)
+    Route::post('/setor-langsung/proses', [TransaksiSetorSampahController::class, 'prosesSetorLangsung'])
+        ->name('proses-setor-langsung');
+    // Riwayat Setoran
+    Route::get('/riwayat-setor', [TransaksiSetorSampahController::class, 'riwayatSetor'])
+        ->name('riwayat-setor');
+    // Detail Setoran
+    Route::get('/setor/{idSetor}/detail', [TransaksiSetorSampahController::class, 'detailSetor'])
+        ->name('detail-setor');
+    // Batalkan Setoran (AJAX)
+    Route::patch('/setor/{idSetor}/batalkan', [TransaksiSetorSampahController::class, 'batalkanSetor'])
+        ->name('batalkan-setor');
+    // Cek Status Setoran (AJAX)
+    Route::get('/setor/{idSetor}/status', [TransaksiSetorSampahController::class, 'cekStatusSetor'])
+        ->name('cek-status-setor');
+    // Get Data Jenis Sampah (untuk AJAX/API)
+    Route::get('/api/jenis-sampah', [TransaksiSetorSampahController::class, 'getJenisSampah'])
+        ->name('api.jenis-sampah');
+
+    
+  // Halaman Jemput Sampah
+    Route::get('/jemput-sampah', [TransaksiSetorSampahController::class, 'jemputSampah'])
+        ->name('jemput-sampah');
+    
+    // Proses Jemput Sampah (AJAX)
+    Route::post('/jemput-sampah/proses', [TransaksiSetorSampahController::class, 'prosesJemputSampah'])
+        ->name('proses-jemput-sampah');
+    
+    // Get Jadwal Tersedia (AJAX)
+    Route::get('/api/jadwal-tersedia', [TransaksiSetorSampahController::class, 'getJadwalTersedia'])
+        ->name('api.jadwal-tersedia');
+    
+    // Riwayat Penjemputan
+    Route::get('/riwayat-penjemputan', [TransaksiSetorSampahController::class, 'riwayatPenjemputan'])
+        ->name('riwayat-penjemputan');
+    
+    // Detail Penjemputan
+    Route::get('/penjemputan/{idSetor}/detail', [TransaksiSetorSampahController::class, 'detailPenjemputan'])
+        ->name('detail-penjemputan');
+    
+    // Batalkan Penjemputan (AJAX)
+    Route::patch('/penjemputan/{idSetor}/batalkan', [TransaksiSetorSampahController::class, 'batalkanPenjemputan'])
+        ->name('batalkan-penjemputan');
+    
+    // Cek Status Penjemputan (AJAX)
+    Route::get('/penjemputan/{idSetor}/status', [TransaksiSetorSampahController::class, 'cekStatusPenjemputan'])
+        ->name('cek-status-penjemputan');
+
 
 });
 

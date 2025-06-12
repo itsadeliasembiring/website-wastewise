@@ -11,6 +11,8 @@ use App\Models\DetailSetorSampahModel;
 use App\Models\SampahModel;
 use App\Models\PenggunaModel;
 use App\Models\BankSampahModel;
+use App\Models\KelurahanModel;
+use App\Models\KecamatanModel;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -170,6 +172,7 @@ class SetorSampahController extends Controller
                 $newIdNum = $lastIdNum + 1;
                 $newId = 'ST' . Str::padLeft($newIdNum, 3, '0');
             }
+            
 
             $kodeVerifikasi = strtoupper(substr(md5(uniqid((string)rand(), true)), 0, 8));
 
@@ -199,6 +202,7 @@ class SetorSampahController extends Controller
             ]);
 
             // Buat detail sampah
+            
             foreach ($request->detail_sampah as $index => $detail) {
                 $detailId = $newId . Str::padLeft($index + 1, 2, '0');
                 $this->detailSetorSampahModel->create([

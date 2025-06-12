@@ -27,6 +27,7 @@ class PenukaranBarangModel extends Model
         'jumlah_poin',
         'kode_redeem',
         'id_barang',
+        'id_pengguna',
         'status_redeem',
     ];
 
