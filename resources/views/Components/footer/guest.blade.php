@@ -19,7 +19,7 @@
                     <li><a href="{{ route('landing-page') }}" class="hover:text-emerald-200">Halaman Beranda</a></li>
                     <li><a href="{{ route('tentang-kami') }}" class="hover:text-emerald-200">Tentang Kami</a></li>
                     <li><a href="{{ route('detail-layanan') }}" class="hover:text-emerald-200">Layanan</a></li>
-                    <li><a href="{{ route('artikel') }}" class="hover:text-emerald-200">Artikel</a></li>
+                    <!-- <li><a href="{{ route('artikel') }}" class="hover:text-emerald-200">Artikel</a></li> -->
                     <li><a href="{{ route('landing-page') }}#kontak" class="hover:text-emerald-200">Kontak Kami</a></li>
                 </ul>
             </div>
