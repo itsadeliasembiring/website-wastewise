@@ -80,4 +80,29 @@ class DetailSetorSampahModel extends Model
     {
         static::updateParentTotals($this->id_setor);
     }
+
+    public function updateTotals()
+    {
+        // Muat ulang relasi detail untuk memastikan data terbaru
+        $this->load('detailSetorSampah.sampah');
+
+        // Hitung total berat
+        $totalBerat = $this->detailSetorSampah->sum('berat_kg');
+
+        // Hitung total poin
+        $totalPoin = $this->detailSetorSampah->sum(function ($detail) {
+            // Pastikan relasi sampah ada untuk menghindari error
+            if ($detail->sampah) {
+                return $detail->berat_kg * $detail->sampah->bobot_poin;
+            }
+            return 0;
+        });
+
+        // Update field pada model ini
+        $this->total_berat = $totalBerat;
+        $this->total_poin = $totalPoin;
+        
+        // Simpan perubahan ke database
+        $this->save();
+    }
 }

@@ -13,7 +13,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TukarPoinController;
 use App\Http\Controllers\TransaksiSetorSampahController;
-
+use App\Http\Controllers\VerifikasiSetorSampahController;
+use App\Http\Controllers\VerifikasiTukarBarangController;
 
 // Guest (User yang belum login)
 Route::get('/', function () {
@@ -174,6 +175,34 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/api/refresh-stats', [DashboardController::class, 'refreshStats'])->name('admin.api.refresh.stats');
     Route::get('/api/monthly-trends', [DashboardController::class, 'getMonthlyTrends'])->name('admin.api.monthly.trends');
 
+    // verifikasi setor sampah
+    Route::get('verifikasi-setor-sampah', [VerifikasiSetorSampahController::class, 'index'])
+        ->name('admin.verifikasi-setor-sampah');
+    Route::post('verifikasi/cari-kode', [VerifikasiSetorSampahController::class, 'cariKodeVerifikasi'])
+        ->name('admin.verifikasi.cari-kode');
+    Route::post('verifikasi/update-berat', [VerifikasiSetorSampahController::class, 'updateBeratSampah'])
+        ->name('admin.verifikasi.update-berat');
+    Route::post('verifikasi/verifikasi-setor', [VerifikasiSetorSampahController::class, 'verifikasiSetor'])
+        ->name('admin.verifikasi.verifikasi-setor');
+    Route::delete('verifikasi/hapus-detail', [VerifikasiSetorSampahController::class, 'hapusDetailSetor'])
+        ->name('admin.verifikasi.hapus-detail');
+    Route::get('verifikasi/daftar-sampah', [VerifikasiSetorSampahController::class, 'getDaftarSampah'])
+        ->name('admin.verifikasi.daftar-sampah');
+    Route::post('verifikasi/tambah-detail', [VerifikasiSetorSampahController::class, 'tambahDetailSetor'])
+        ->name('admin.verifikasi.tambah-detail');
+
+
+    // Verifikasi Tukar Barang
+    Route::get('/verifikasi-tukar-barang', [VerifikasiTukarBarangController::class, 'index'])->name('admin.beranda-verifikasi-tukar-barang');
+    // Cari kode verifikasi
+    Route::post('/cari-kode-tukar-barang', [VerifikasiTukarBarangController::class, 'cariKode'])->name('admin.cari-kode-tukar-barang');
+    // Verifikasi penukaran
+    Route::post('/verifikasi-tukar-barang', [VerifikasiTukarBarangController::class, 'verifikasi'])->name('admin.submit-verifikasi-tukar-barang');
+    // Get pending exchanges untuk DataTables
+    Route::get('/pending-tukar-barang', [VerifikasiTukarBarangController::class, 'getPendingExchanges'])->name('admin.penukaran-pending');
+    // Get detail penukaran
+    Route::get('tukar-barang/detail/{id}', [VerifikasiTukarBarangController::class, 'getDetail'])->name('admin.tukar-barang-detail');
+    
     // Kelola Setor Sampah
     Route::get('setor-sampah', [SetorSampahController::class, 'kelolaSetorSampah'])->name('riwayat-setor-sampah');
     Route::get('setor-sampah/data', [SetorSampahController::class, 'setorSampahData'])->name('admin.setor-sampah.data');

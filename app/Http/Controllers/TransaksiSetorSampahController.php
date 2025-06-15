@@ -876,10 +876,8 @@ class TransaksiSetorSampahController extends Controller
             $catatanTambahan = "Menggunakan alamat utama pengguna";
             
         } else {
-            // Gunakan alamat custom - FIXED: ambil nama kelurahan dan kecamatan dari database
             $alamatLengkap = trim($request->alamat_custom);
             
-            // Ambil nama kelurahan dan kecamatan berdasarkan ID
             $kelurahanData = DB::table('kelurahan')
                 ->join('kecamatan', 'kelurahan.id_kecamatan', '=', 'kecamatan.id_kecamatan')
                 ->where('kelurahan.id_kelurahan', $request->kelurahan_custom)
@@ -966,7 +964,7 @@ class TransaksiSetorSampahController extends Controller
                     ->whereTime('waktu_penjemputan', '<', sprintf('%02d:00:00', $jam + 1))
                     ->count();
 
-                if ($jumlahPenjemputan < 10) { // Maksimal 10 penjemputan per jam
+                if ($jumlahPenjemputan < 10) { 
                     $jamTersedia[] = [
                         'jam' => $jam,
                         'label' => sprintf('%02d:00', $jam),
