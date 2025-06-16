@@ -40,8 +40,8 @@ class SetorSampahSeeder extends Seeder
             'status_setor' => 'Pending',
             'metode_setor' => 'Setor Langsung',
             'catatan' => 'Sedang dalam proses verifikasi',
-            'id_bank_sampah' => 'B02',
-            'id_pengguna' => 'PG0002',
+            'id_bank_sampah' => 'B01',
+            'id_pengguna' => 'PG0001',
         ]);
     }
 }

@@ -19,7 +19,7 @@ class BarangSeeder extends Seeder
                 'deskripsi_barang' => 'Tumbler ramah lingkungan berkapasitas 500ml',
                 'stok' => 10,
                 'bobot_poin' => 150,
-                'foto' => 'tumbler.jpg',
+                'foto' => '1750059558_botol stainless.jpeg',
             ],
             [
                 'id_barang' => 'B02',
@@ -27,7 +27,7 @@ class BarangSeeder extends Seeder
                 'deskripsi_barang' => 'Totebag berbahan kanvas',
                 'stok' => 25,
                 'bobot_poin' => 80,
-                'foto' => 'totebag.jpg',
+                'foto' => 'totebag kain.jpeg',
             ],
             [
                 'id_barang' => 'B03',
@@ -35,7 +35,7 @@ class BarangSeeder extends Seeder
                 'deskripsi_barang' => 'Pulpen dari bahan daur ulang',
                 'stok' => 50,
                 'bobot_poin' => 20,
-                'foto' => 'pulpen.jpg',
+                'foto' => 'pulpen daur ulang.jpeg',
             ],
         ]);
     }

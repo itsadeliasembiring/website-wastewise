@@ -152,11 +152,11 @@
             
                 <!-- Step 3 -->
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
-                    <img src="{{ asset('assets/scan.png') }}" alt="Scan" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
+                    <img src="{{ asset('assets/scan.png') }}" alt="Verifikasi" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
                 <div>
-                    <div class="inline-block bg-teal-600 text-white text-base font-semibold px-4 py-2 rounded-md mb-3">3. Scan</div>
+                    <div class="inline-block bg-teal-600 text-white text-base font-semibold px-4 py-2 rounded-md mb-3">3. Verifikasi</div>
                     <p class="text-gray-700 text-base md:text-lg">
-                        Scan barcode yang diberikan oleh petugas bank sampah untuk mendapatkan poin.
+                        Verifikasi sampah yang telah disetor untuk mendapatkan poin.
                     </p>
                 </div>
                 </div>

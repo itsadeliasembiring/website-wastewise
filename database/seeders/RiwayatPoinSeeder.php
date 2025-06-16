@@ -25,7 +25,7 @@ class RiwayatPoinSeeder extends Seeder
                 'waktu'            => now()->subDays(3),
                 'jenis_perubahan'  => 'pengurangan',
                 'jumlah_poin'      => 20,
-                'id_pengguna'      => 'PG0002',
+                'id_pengguna'      => 'PG0001',
         ],
             [
                 'id_riwayat'       => 'R0003',
@@ -39,7 +39,7 @@ class RiwayatPoinSeeder extends Seeder
                 'waktu'            => now(),
                 'jenis_perubahan'  => 'penambahan',
                 'jumlah_poin'      => 100,
-                'id_pengguna'      => 'PG0003',
+                'id_pengguna'      => 'PG0001',
             ],
         ]);
     }

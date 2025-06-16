@@ -26,18 +26,10 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-bold text-teal-600">WasteWise</h1>
-                <nav class="flex space-x-4">
-                    <a href="#" class="text-gray-600 hover:text-teal-600">Dashboard</a>
-                    <a href="#" class="text-gray-600 hover:text-teal-600">Profil</a>
-                </nav>
-            </div>
-        </div>
+        <x-header.pengguna/>
     </header>
+
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 py-10 flex">
@@ -214,6 +206,7 @@
             </div>
         </div>
     </main>
+    <x-footer.pengguna id="kontak"/>
 
     <!-- Script for toggling password visibility and form handling -->
     <script>

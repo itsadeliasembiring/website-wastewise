@@ -15,26 +15,34 @@ use App\Http\Controllers\TukarPoinController;
 use App\Http\Controllers\TransaksiSetorSampahController;
 use App\Http\Controllers\VerifikasiSetorSampahController;
 use App\Http\Controllers\VerifikasiTukarBarangController;
+use App\Http\Controllers\LandingPageController;
 
 // Guest (User yang belum login)
-Route::get('/', function () {
-    return view('landing-page/landing-page');
-})->name('landing-page');
+// Route::get('/', function () {
+//     return view('landing-page/landing-page');
+// })->name('landing-page');
 
-Route::get('/tentang-kami', function () {
-    return view('landing-page/tentang-kami');
-})->name('tentang-kami');
+// Route::get('/tentang-kami', function () {
+//     return view('landing-page/tentang-kami');
+// })->name('tentang-kami');
 
-Route::get('/detail-layanan', function () {
-    return view('landing-page/detail-layanan');
-})->name('detail-layanan');
+// Route::get('/detail-layanan', function () {
+//     return view('landing-page/detail-layanan');
+// })->name('detail-layanan');
 
-// Hanya pakai salah satu route untuk /artikel
-Route::get('/artikel', [ArtikelController::class, 'berandaEdukasi'])->name('artikel');
+// // Hanya pakai salah satu route untuk /artikel
+// Route::get('/artikel', [ArtikelController::class, 'berandaEdukasi'])->name('artikel');
 
-Route::get('/landing-page/detail-artikel', function () {
-    return view('landing-page/detail-artikel');
-})->name('landingpage-detail-artikel');
+// Route::get('/landing-page/detail-artikel', function () {
+//     return view('landing-page/detail-artikel');
+// })->name('landingpage-detail-artikel');
+
+Route::get('/', [LandingPageController::class, 'index'])->name('landing-page');
+Route::get('/wastewise-artikel', [LandingPageController::class, 'daftarArtikel'])->name('daftar-artikel-guest');
+Route::get('/wastewise-artikel/{id}', [LandingPageController::class, 'detailArtikelPengguna'])->name('detail-artikel-guest');
+Route::get('/wastewise-tentang-kami', [LandingPageController::class, 'tentangKami'])->name('tentang-kami');
+Route::get('/wastewise-detail-layanan', [LandingPageController::class, 'detailLayanan'])->name('detail-layanan');
+Route::get('/artikel', [ArtikelController::class, 'daftarArtikel'])->name('daftar-artikel');
 
 // Autentikasi
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -50,7 +58,7 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     // Beranda Edukasi - halaman utama dengan artikel terbaru
     Route::get('/beranda-edukasi', [ArtikelController::class, 'berandaEdukasi'])->name('beranda-edukasi');
     // Daftar semua artikel dengan pagination dan search
-    Route::get('/artikel', [ArtikelController::class, 'daftarArtikel'])->name('daftar-artikel');
+    Route::get('/daftar-artikel', [ArtikelController::class, 'daftarArtikel'])->name('daftar-artikel');
     // Detail artikel untuk pengguna
     Route::get('/artikel/{id}/detail', [ArtikelController::class, 'detailArtikelPengguna'])->name('detail-artikel');
     Route::get('user/kenali-sampah', function () {

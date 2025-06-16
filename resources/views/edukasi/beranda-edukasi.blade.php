@@ -161,7 +161,7 @@
                 <div class="bg-white rounded-xl shadow-md flex flex-col md:flex-row overflow-hidden mb-6 h-64">
                     <div class="md:w-1/3 h-full">
                         @if($item->foto)
-                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul_artikel }}" class="object-cover w-full h-full">
+                            <img src="{{ Storage::url('artikel/' . $item->foto) }}"alt="{{ $item->judul_artikel }}" class="object-cover w-full h-full">
                         @else
                             <div class="bg-gray-200 w-full h-full flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

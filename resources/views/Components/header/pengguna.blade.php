@@ -14,7 +14,7 @@
             {{-- Navigasi Desktop --}}
             <nav class="hidden md:flex items-center space-x-6">
                 <a href="{{ route('setor-sampah') }}"
-                   class="{{ request()->routeIs('setor-sampah') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
+                   class="{{ request()->routeIs('setor-sampah', 'setor-langsung', 'jemput-sampah') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
                    Setor Sampah
                 </a>
                 <a href="{{ route('beranda-edukasi') }}"
@@ -30,7 +30,7 @@
                    Riwayat
                 </a>
                 <a href="{{ route('ubah-profil') }}"
-                   class="{{ request()->routeIs('ubah-profil') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
+                   class="{{ request()->routeIs('ubah-profil','pengguna.ubah-password','ubah-profil') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
                    Profil
                 </a>
                 {{-- Tombol Logout untuk Desktop --}}
@@ -55,8 +55,8 @@
     <div class="md:hidden hidden" id="mobile-menu">
         <nav class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
             <a href="{{ route('setor-sampah') }}"
-               class="{{ request()->routeIs('setor-sampah') ? 'bg-[#3D8D7A] text-white' : 'text-gray-700' }} block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200">
-               Setor Sampah
+               class="{{ request()->routeIs('setor-sampah', 'setor-langsung', 'jemput-sampah') ? 'bg-[#3D8D7A] text-white' : 'text-gray-700' }} block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200">
+                Setor Sampah
             </a>
             <a href="{{ route('beranda-edukasi') }}"
                class="{{ request()->routeIs('beranda-edukasi') ? 'bg-[#3D8D7A] text-white' : 'text-gray-700' }} block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200">
@@ -71,7 +71,7 @@
                Riwayat
             </a>
             <a href="{{ route('ubah-profil') }}"
-               class="{{ request()->routeIs('ubah-profil') ? 'bg-[#3D8D7A] text-white' : 'text-gray-700' }} block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200">
+               class="{{ request()->routeIs('ubah-profil','pengguna.ubah-password','ubah-profil') ? 'bg-[#3D8D7A] text-white' : 'text-gray-700' }} block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-200">
                Profil
             </a>
             <hr class="my-2">

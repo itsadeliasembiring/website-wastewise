@@ -19,80 +19,16 @@ class AkunSeeder extends Seeder
             "id_akun" => "U0001",
             "id_level" => "1",
             
-            "email" => "adinda@gmail.com",
+            "email" => "admin@wastewise.com",
             "password" => bcrypt("12345"),
         ]);
 
+      
         DB::table("akun")->insert([
             "id_akun" => "U0002",
-            "id_level" => "2",
-            
-            "email" => "satria@gmail.com",
-            "password" => bcrypt("12345"),
-
-        ]);
-        
-        DB::table("akun")->insert([
-            "id_akun" => "U0004",
             "id_level" => "3",
             
-            "email" => "agus@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0005",
-            "id_level" => "3",
-            
-            "email" => "dela@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0006",
-            "id_level" => "3",
-            
-            "email" => "indah@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0007",
-            "id_level" => "3",
-            
-            "email" => "meilya@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-        
-        DB::table("akun")->insert([
-            "id_akun" => "U0008",
-            "id_level" => "3",
-            
-            "email" => "titi@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0009",
-            "id_level" => "3",
-            
-            "email" => "natalia@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0010",
-            "id_level" => "2",
-            
-            "email" => "dani@gmail.com",
-            "password" => bcrypt("12345"),
-        ]);
-
-        DB::table("akun")->insert([
-            "id_akun" => "U0025",
-            "id_level" => "3",
-            
-            "email" => "adel@gmail.com",
+            "email" => "pengguna@wastewise.com",
             "password" => bcrypt("12345"),
         ]);
     }

@@ -44,8 +44,8 @@
             <div class="mt-3">
                 <div class="flex flex-col items-center justify-center py-18 mb-8">
                     @if($artikel->foto)
-                        <img src="{{ asset('storage/' . $artikel->foto) }}" alt="{{ $artikel->judul_artikel }}" 
-                             class="w-full max-w-5xl mx-auto rounded-xl object-cover">
+                        <img src="{{ Storage::url('artikel/' . $artikel->foto) }}" alt="{{ $artikel->judul_artikel }}" 
+                             class="w-full max-w-5xl mx-auto rounded-xl object-cover h-[300px]">
                     @else
                         <div class="w-full max-w-5xl mx-auto h-96 bg-gray-200 rounded-xl flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +100,7 @@
                     <div class="bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden flex flex-col sm:flex-row h-[200px]">
                         <div class="w-full sm:w-1/3 h-48 sm:h-full">
                             @if($item->foto)
-                                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul_artikel }}" 
+                                <img src="{{ Storage::url('artikel/' . $item->foto) }}" alt="{{ $item->judul_artikel }}" 
                                      class="w-full h-full object-cover">
                             @else
                                 <div class="bg-gray-200 w-full h-full flex items-center justify-center">

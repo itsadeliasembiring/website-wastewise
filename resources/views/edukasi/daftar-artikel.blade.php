@@ -8,18 +8,6 @@
     
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 <body class="font-sans bg-gray-50">
     <!-- Header -->
@@ -30,7 +18,7 @@
     <!-- Main Content -->
     <main class="min-h-screen">
         <!-- Hero Section -->
-        <section class="bg-gradient-to-r from-[#3D8D7A] to-[#2D6B5F] py-10 px-6">
+        <section class="py-10 px-6">
             <div class="max-w-4xl mx-auto text-center text-white">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4 text-[#3D8D7A]">Artikel Edukasi</h1>
                 <p class="text-lg md:text-xl opacity-90 text-black">Pelajari lebih lanjut tentang pengelolaan sampah dan lingkungan hidup</p>
@@ -95,7 +83,7 @@
                                     <div class="md:w-1/3 h-48 md:h-full">
                                         @if($item->foto)
                                             <img 
-                                                src="{{ asset('storage/' . $item->foto) }}" 
+                                                src="{{ Storage::url('artikel/' . $item->foto) }}" 
                                                 alt="{{ $item->judul_artikel }}" 
                                                 class="w-full h-full object-cover"
                                             >

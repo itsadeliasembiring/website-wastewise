@@ -230,6 +230,7 @@
 
     </main>
 
+    <x-footer.pengguna id="kontak"/>
     <script>
         $(document).ready(function() {
             // Setup CSRF token for AJAX requests

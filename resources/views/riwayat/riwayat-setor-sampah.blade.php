@@ -17,7 +17,7 @@
                     colors: {
                         primary: { '50': '#eefbf4', '100': '#d6f5e3', '200': '#b0eac8', '300': '#7fdaa7', '400': '#4cc283', '500': '#26a866', '600': '#1a8a53', '700': '#166e44', '800': '#155738', '900': '#134830', '950': '#092819' },
                         yellow: { '500': '#f59e0b' },
-                        green: { '600': '#16a34a' },
+                        green: { '600': '#3D8D7A' },
                         red: { '500': '#ef4444' },
                         gray: { '500': '#6b7280' }
                     }
@@ -178,7 +178,7 @@
                                     <p class="text-sm text-gray-700"><span class="font-medium">Alasan Pembatalan/Penolakan:</span> <span x-text="selectedTransaction.cancellation_reason"></span></p>
                                 </div>
                                 <div class="mb-4"><p class="text-sm text-gray-500">Alamat</p><p class="font-medium" x-text="selectedTransaction.address"></p></div>
-                                <div class="mb-4" x-show="selectedTransaction.points > 0"><p class="text-sm text-gray-500">Poin yang Didapatkan</p><p class="font-medium text-green-600" x-text="'+ ' + selectedTransaction.points + ' Poin'"></p></div>
+                                <div class="mb-4" x-show="selectedTransaction.points > 0"><p class="text-sm text-gray-500">Poin yang Didapatkan</p><p class="font-medium text-[#3D8D7A]" x-text="'+ ' + selectedTransaction.points + ' Poin'"></p></div>
                                 <div class="mb-6"><p class="text-sm text-gray-500">Catatan</p><p class="font-medium" x-text="selectedTransaction.notes || 'Tidak ada catatan'"></p></div>
                                 
                                 <div>

@@ -50,9 +50,9 @@
             </div>
             
             <div class="flex flex-col justify-center bg-white p-8 shadow-lg rounded-3xl order-1 lg:order-2">
-                <div class="mb-6">
+                <div>
                     <h2 class="text-3xl font-bold text-gray-800">Halo, WasteWarriors!</h2>
-                    <p class="text-gray-600 mt-2">Bergabunglah dengan komunitas peduli lingkungan</p>
+                    <p class="text-gray-600 mt-2">Bergabunglah bersama kami! Selamatkan lingkungan dengan ubah sampah jadi berkah!</p>
                 </div>
 
                 @if(session('success'))

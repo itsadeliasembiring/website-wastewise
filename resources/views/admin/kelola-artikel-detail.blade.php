@@ -74,7 +74,7 @@
                             <label class="text-sm font-medium text-gray-500 mb-3 block">Foto Artikel</label>
                             <div class="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                                 @if($artikel->foto)
-                                    <img src="{{ asset('storage/' . $artikel->foto) }}" 
+                                    <img src="{{ Storage::url('artikel/' . $artikel->foto) }}"
                                          alt="Foto Artikel" 
                                          class="max-h-full max-w-full rounded-lg object-cover shadow-lg">
                                 @else

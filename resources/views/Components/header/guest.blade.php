@@ -27,10 +27,10 @@
             Layanan
             </a>
 
-            <!-- <a href="{{ route('artikel') }}"
-            class="{{ request()->routeIs('artikel') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
+            <a href="{{ route('daftar-artikel-guest') }}"
+            class="{{ request()->routeIs('daftar-artikel-guest') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
             Artikel
-            </a> -->
+            </a>
 
             <a href="{{ route('landing-page') }}#kontak"
             class="{{ request()->routeIs('landing-page') && request()->getRequestUri() === '/landing-page#kontak' ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
@@ -69,10 +69,10 @@
             Layanan
             </a>
 
-            <!-- <a href="{{ route('artikel') }}"
-            class="{{ request()->routeIs('artikel') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
+            <a href="{{ route('daftar-artikel-guest') }}"
+            class="{{ request()->routeIs('daftar-artikel-guest') ? 'text-[#3D8D7A]' : 'text-[#393E46]' }} hover:text-[#3D8D7A] transition duration-300 font-medium">
             Artikel
-            </a> -->
+            </a>
 
             <a href="{{ route('landing-page') }}#kontak"
             class="text-[#393E46] hover:text-[#3D8D7A] transition duration-300 font-medium">

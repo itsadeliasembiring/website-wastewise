@@ -41,7 +41,7 @@
                 <div class="flex flex-col items-end gap-1 mt-[0.25px]">
                         <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
                             <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
-                            <span class="font-bold text-primary-900">{{ $pengguna->total_poin ?? 0 }} Poin</span>
+                            <span id="total-poin" class="font-bold text-primary-900">{{ $pengguna->total_poin ?? 0 }} Poin</span>
                         </div>
                     <!-- Link Riwayat -->
                     <a href="{{ route('pengguna-riwayat-tukar-poin') }}" class="text-gray-500 text-sm font-medium underline hover:text-gray-700 mb-5">Lihat Riwayat Tukar Poin</a>
@@ -78,7 +78,7 @@
             @foreach($barangs as $barang)
             <!-- Produk {{ $loop->iteration }} -->
             <div class="bg-white shadow-sm rounded-xl p-4 text-center">
-                <img src="{{ $barang->gambar ? asset('storage/' . $barang->gambar) : asset('Assets/default-product.jpg') }}" 
+                <img src="{{ $barang->foto ? asset('storage/barang/' . $barang->foto) : asset('Assets/default-product.jpg') }}" 
                      class="mx-auto h-36 w-36 object-cover mb-4 rounded-lg" 
                      alt="{{ $barang->nama_barang }}">
                 <h3 class="font-semibold text-base">{{ $barang->nama_barang }}</h3>
@@ -145,6 +145,29 @@
         let currentDonasiId = null;
         let currentDonasiName = null;
 
+        // Helper function to safely get element text content
+        function getSafeTextContent(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.error(`Element with id '${elementId}' not found`);
+                return 0;
+            }
+            const textContent = element.textContent.trim();
+            // Extract numbers from text like "123 Poin" -> 123
+            const numberMatch = textContent.match(/\d+/);
+            return numberMatch ? parseInt(numberMatch[0]) : 0;
+        }
+
+        // Helper function to safely set element text content
+        function setSafeTextContent(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.error(`Element with id '${elementId}' not found`);
+                return;
+            }
+            element.textContent = value;
+        }
+
         // Function to open donation modal
         function openDonasiModal(idDonasi, namaDonasi) {
             currentDonasiId = idDonasi;
@@ -152,6 +175,11 @@
             
             document.getElementById('namaDonasiText').textContent = namaDonasi;
             document.getElementById('jumlah_poin').value = '';
+            
+            // Update poin tersedia in modal
+            const totalPoin = getSafeTextContent('total-poin');
+            setSafeTextContent('poinTersedia', totalPoin);
+            
             document.getElementById('donasiModal').classList.remove('hidden');
         }
 
@@ -165,7 +193,7 @@
         // Function to confirm donation
         function confirmDonasi() {
             const jumlahPoin = parseInt(document.getElementById('jumlah_poin').value);
-            const poinTersedia = parseInt(document.getElementById('poinTersedia').textContent);
+            const poinTersedia = getSafeTextContent('poinTersedia');
             
             if (!jumlahPoin || jumlahPoin <= 0) {
                 Swal.fire({
@@ -208,12 +236,17 @@
                     jumlah_poin: jumlahPoin
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     // Update total poin di UI
-                    document.getElementById('total-poin').textContent = data.data.sisa_poin;
-                    document.getElementById('poinTersedia').textContent = data.data.sisa_poin;
+                    setSafeTextContent('total-poin', data.data.sisa_poin + ' Poin');
+                    setSafeTextContent('poinTersedia', data.data.sisa_poin);
                     
                     closeDonasiModal();
                     
@@ -239,14 +272,14 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Terjadi kesalahan sistem'
+                    text: 'Terjadi kesalahan sistem. Silakan coba lagi.'
                 });
             });
         }
 
         // Function to exchange items
         function tukarBarang(idBarang, namaBarang, hargaPoin) {
-            const poinTersedia = parseInt(document.getElementById('total-poin').textContent);
+            const poinTersedia = getSafeTextContent('total-poin');
             
             if (hargaPoin > poinTersedia) {
                 Swal.fire({
@@ -294,12 +327,17 @@
                             id_barang: idBarang
                         })
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             // Update total poin di UI
-                            document.getElementById('total-poin').textContent = data.data.sisa_poin;
-                            document.getElementById('poinTersedia').textContent = data.data.sisa_poin;
+                            setSafeTextContent('total-poin', data.data.sisa_poin + ' Poin');
+                            setSafeTextContent('poinTersedia', data.data.sisa_poin);
                             
                             Swal.fire({
                                 icon: 'success',
@@ -329,7 +367,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Terjadi kesalahan sistem'
+                            text: 'Terjadi kesalahan sistem. Silakan coba lagi.'
                         });
                     });
                 }
@@ -348,6 +386,11 @@
             if (e.key === 'Enter') {
                 confirmDonasi();
             }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, total poin:', getSafeTextContent('total-poin'));
         });
     </script>
 </body>

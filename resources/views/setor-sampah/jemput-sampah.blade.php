@@ -53,7 +53,7 @@
                             @forelse($jenisSampah as $index => $sampah)
                             <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
-                                    <img src="{{ asset('assets/icon-sampah/' . strtolower(str_replace(' ', '-', $sampah->nama_sampah)) . '.png') }}" 
+                                    <img src="{{ asset('storage/sampah/'.$sampah->foto) }}"
                                          alt="{{ $sampah->nama_sampah }}" 
                                          class="w-10 h-10">
                                     <div>

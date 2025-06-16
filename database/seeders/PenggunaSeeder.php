@@ -22,33 +22,9 @@ class PenggunaSeeder extends Seeder
                 'total_poin'     => 120,
                 'foto'           => null,
                 'detail_alamat'  => 'Jl. Melati No. 5, Bekasi',
-                'id_akun'        => 'U0001',
+                'id_akun'        => 'U0002',
                 'id_kelurahan'   => 'L001',
             ],
-            [
-                'id_pengguna'    => 'PG0002',
-                'nama_lengkap'   => 'Satria Pratama',
-                'jenis_kelamin'  =>  'Laki-laki',
-                'tanggal_lahir'  => '1999-07-22',
-                'nomor_telepon'  => '081298765431',
-                'total_poin'     => 200,
-                'foto'           => 'satria.jpg',
-                'detail_alamat'  => 'Jl. Kenanga No. 7, Surabaya',
-                'id_akun'        => 'U0002',
-                'id_kelurahan'   => 'L002',
-            ],
-            [
-                'id_pengguna'    => 'PG0003',
-                'nama_lengkap'   => 'Adelina Putri',
-                'jenis_kelamin'  => 'Perempuan', 
-                'tanggal_lahir'  => '2002-10-15',
-                'nomor_telepon'  => '081234000000',
-                'total_poin'     => 180,
-                'foto'           => 'adelina.jpg',
-                'detail_alamat'  => 'Jl. Dahlia No. 9, Surabaya',
-                'id_akun'        => 'U0025',
-                'id_kelurahan'   => 'L003',
-            ]
         ]);
     }
 }
