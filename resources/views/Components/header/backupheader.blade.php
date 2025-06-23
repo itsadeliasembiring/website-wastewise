@@ -3,15 +3,15 @@
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex-1 align-middle">
             <!-- Logo-->
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
                     <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
                     <div class="ml-3">
                         <h1 class="text-green-600 font-bold text-lg">WasteWise</h1>
                         <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
                     </div>
-            </div>
+            </div> -->
         </div>
-        
+        aa
         <!-- Menu profile -->
         <div class="dropdown dropdown-end xs:hidden sm:block">
             <!-- Avatar -->
