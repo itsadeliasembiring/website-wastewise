@@ -1,20 +1,19 @@
 # Nama Project Laravel
-
-Brief description tentang aplikasi Laravel Anda.
+Wastewise merupakan website yang menghubungkan masyarakat surabaya dengan bank sampah
 
 ## Requirements
-
 - PHP >= 8.1
+- Laravel 11
 - Composer
-- MySQL/PostgreSQL
+- MySQL
 - Node.js & NPM (untuk frontend assets)
 
-## Installation
+## Instalasi
 
 1. **Clone repository**
    ```bash
-   git clone https://github.com/username/project-name.git
-   cd project-name
+   git clone https://github.com/itsadeliasembiring/website-wastewise.git
+   cd website-wastewise
    ```
 
 2. **Install dependencies**
