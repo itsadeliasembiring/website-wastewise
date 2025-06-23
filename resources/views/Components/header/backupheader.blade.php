@@ -11,9 +11,9 @@
                     </div>
             </div> -->
         </div>
-        aa
+        
         <!-- Menu profile -->
-        <div class="dropdown dropdown-end xs:hidden sm:block">
+        <div class="dropdown dropdowns-end xs:hidden sm:block">
             <!-- Avatar -->
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                 <div class="w-10 rounded-full">
