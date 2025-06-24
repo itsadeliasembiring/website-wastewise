@@ -32,12 +32,15 @@
             <div>
                 <h2 class="text-xl font-semibold mb-2">Kenali Sampahmu Sekarang!</h2>
                 <h1 class="text-4xl md:text-4xl font-bold leading-tight" style="color: #FFFFDD;">Kenali dan Kelola Jadi Manfaat</h1>
-                <p class="mt-4 text-base text-justify">Yuk manfaatkan fitur ini untuk mengenal lebih jauh tentang sampah yang kamu hasilkan. Cukup pindai sampah yang ingin kamu ketahui dan dapatkan informasi lengkapnya.</p>
-                
+                <p class="mt-4 text-base text-justify">
+                    Bingung ini sampah organik atau anorganik? Yuk, tanya langsung ke <strong>Wastewise Chatbot</strong>! 
+                    Kamu bisa kirim pertanyaan lewat teks, suara, atau unggah gambar. Dapatkan informasi lengkap 
+                    soal jenis dan cara mengelola sampahmu dengan mudah dan cepat.
+                </p>
                 <a 
                     href="{{ route('kenali-sampah') }}"
                     class="mt-6 inline-block font-semibold px-5 py-2 border-2 border-white rounded-md hover:bg-white hover:text-[#3D8D7A] transition">
-                    Kenali Sekarang
+                    Gunakan Wastewise Chatbot
                 </a>
             </div>
             <div class="flex justify-center md:justify-end">
