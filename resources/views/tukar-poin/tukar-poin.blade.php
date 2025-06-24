@@ -35,14 +35,18 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 py-7">
         <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-primary-700">Donasi</h2>
+            <h2 class="text-2xl font-bold text-teal-700">Donasi</h2>
             <div class="flex items-center gap-4">
                 <!-- Kolom Total Poin + Riwayat -->
                 <div class="flex flex-col items-end gap-1 mt-[0.25px]">
-                        <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
+                        <!-- <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
                             <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
                             <span id="total-poin" class="font-bold text-primary-900">{{ $pengguna->total_poin ?? 0 }} Poin</span>
-                        </div>
+                        </div> -->
+                     <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
+                            <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
+                            <span class="font-bold text-white">{{ number_format($totalPoin ?? 0) }} Poin</span>
+                    </div>
                     <!-- Link Riwayat -->
                     <a href="{{ route('pengguna-riwayat-tukar-poin') }}" class="text-gray-500 text-sm font-medium underline hover:text-gray-700 mb-5">Lihat Riwayat Tukar Poin</a>
                 </div>
