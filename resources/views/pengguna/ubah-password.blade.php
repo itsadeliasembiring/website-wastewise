@@ -206,7 +206,7 @@
             </div>
         </div>
     </main>
-    <x-footer.pengguna id="kontak"/>
+    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
 
     <!-- Script for toggling password visibility and form handling -->
     <script>
