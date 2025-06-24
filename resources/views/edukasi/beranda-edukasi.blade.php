@@ -34,12 +34,11 @@
                 <h1 class="text-4xl md:text-4xl font-bold leading-tight" style="color: #FFFFDD;">Kenali dan Kelola Jadi Manfaat</h1>
                 <p class="mt-4 text-base text-justify">Yuk manfaatkan fitur ini untuk mengenal lebih jauh tentang sampah yang kamu hasilkan. Cukup pindai sampah yang ingin kamu ketahui dan dapatkan informasi lengkapnya.</p>
                 
-                <!-- Tombol untuk membuka modal -->
-                <button 
-                    onclick="document.getElementById('kenaliModal').style.display='flex'"
+                <a 
+                    href="{{ route('kenali-sampah') }}"
                     class="mt-6 inline-block font-semibold px-5 py-2 border-2 border-white rounded-md hover:bg-white hover:text-[#3D8D7A] transition">
                     Kenali Sekarang
-                </button>
+                </a>
             </div>
             <div class="flex justify-center md:justify-end">
                 <img src="{{ asset('Assets/make-use-recycle.png') }}" alt="Ilustrasi Edukasi" class="w-62">
@@ -47,99 +46,6 @@
         </div>
     </section>
 
-    <!-- Modal Overlay -->
-    <div id="kenaliModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
-        <!-- Modal Content -->
-        <div class="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-lg relative">
-            <!-- Tombol Close -->
-            <button 
-                onclick="document.getElementById('kenaliModal').style.display='none'"
-                class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            
-            <!-- Judul -->
-            <h2 class="text-center text-xl font-semibold mb-4">Kenali Sampah</h2>
-
-            <!-- Toggle Input Mode -->
-            <div class="flex justify-center mb-6 gap-4">
-                <button 
-                    onclick="setMode('upload')"
-                    id="uploadBtn"
-                    class="px-4 py-2 rounded-lg font-medium transition duration-300 bg-gray-100 text-gray-700">
-                    Upload Foto
-                </button>
-                <button 
-                    onclick="setMode('manual')"
-                    id="manualBtn"
-                    class="px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white">
-                    Input Manual
-                </button>
-            </div>
-
-            <!-- Upload Section -->
-            <div id="uploadSection" class="hidden bg-gray-100 rounded-lg py-10 flex flex-col items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4-4m0 0l4 4m-4-4v12" />
-                </svg>
-                <label class="text-[#3D8D7A] font-medium mt-2 cursor-pointer">
-                    Upload Gambar
-                    <input type="file" class="hidden" />
-                </label>
-            </div>
-
-            <!-- Manual Input Section -->
-            <div id="manualSection" class="block">
-                <!-- Jenis Sampah -->
-                <div class="mb-4">
-                    <label class="block text-sm text-gray-700 font-medium mb-1">Jenis Sampah</label>
-                    <select class="w-full rounded-lg border px-4 py-2 bg-gray-100 text-gray-800">
-                        <option>Plastik</option>
-                        <option>Kaca</option>
-                        <option>Kaleng</option>
-                        <option>Sampah Makanan</option>
-                        <option>Minyak Jelantah</option>
-                        <option>Kertas</option>
-                    </select>
-                </div>
-
-                <!-- Detail Sampah -->
-                <div class="mb-4">
-                    <label class="block text-sm text-gray-700 font-medium mb-1">Detail Sampah</label>
-                    <input type="text" placeholder="Contoh: Botol plastik" class="w-full rounded-lg border px-4 py-2 bg-gray-100 text-gray-800" />
-                </div>
-            </div>
-
-            <!-- Tombol Aksi -->
-            <div class="flex justify-center mt-6">
-                <button
-                    class="bg-[#3D8D7A] hover:bg-[#3D8D7A] text-white px-6 py-2 rounded-lg font-semibold w-full"
-                    onclick="window.location.href='{{ route('kenali-sampah') }}'"
-                    >
-                    Submit
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function setMode(mode) {
-            // Update button styles
-            if (mode === 'upload') {
-                document.getElementById('uploadBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white';
-                document.getElementById('manualBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-gray-100 text-gray-700';
-                document.getElementById('uploadSection').style.display = 'flex';
-                document.getElementById('manualSection').style.display = 'none';
-            } else {
-                document.getElementById('manualBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white';
-                document.getElementById('uploadBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-gray-100 text-gray-700';
-                document.getElementById('uploadSection').style.display = 'none';
-                document.getElementById('manualSection').style.display = 'block';
-            }
-        }
-    </script>
 
     <!-- Artikel Section -->
     <section class="py-16 px-6 bg-gray-100">

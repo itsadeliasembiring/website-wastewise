@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => AdminMiddleware::class,
             'pengguna' => PenggunaMiddleware::class,
         ]);
+
+        $middleware->validateCsrfTokens(except: [
+            'chat', 
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

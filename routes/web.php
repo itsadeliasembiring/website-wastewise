@@ -16,6 +16,7 @@ use App\Http\Controllers\TransaksiSetorSampahController;
 use App\Http\Controllers\VerifikasiSetorSampahController;
 use App\Http\Controllers\VerifikasiTukarBarangController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\ChatbotController;
 
 // Guest (User yang belum login)
 // Route::get('/', function () {
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
     Route::get('user/kenali-sampah', function () {
         return view('edukasi/kenali-sampah');
     })->name('kenali-sampah');
+    Route::post('/chat', [ChatbotController::class, 'handleChat']); 
     Route::get('/artikel', [ArtikelController::class, 'berandaEdukasi'])->name('artikel');
     // Halaman Profil Pengguna
     Route::get('user/ubah-profil', [PenggunaController::class, 'showProfile'])->name('ubah-profil');
