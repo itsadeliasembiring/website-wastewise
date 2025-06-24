@@ -67,7 +67,7 @@
                 <h2 class="text-2xl font-bold text-primary-700">Riwayat Setor Sampah</h2>
                 <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
                     <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
-                    <span class="font-bold text-primary-900">{{ $totalPoin ?? 0 }} Poin</span>
+                    <span class="font-bold text-white">{{ $totalPoin ?? 0 }} Poin</span>
                 </div>
             </div>
             
@@ -89,7 +89,7 @@
                         <div class="flex-grow">
                             <div class="flex items-start">
                                 <div class="bg-primary-100 rounded-lg p-2 mr-4 hidden md:block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-bold text-gray-800">{{ $setor['bank_sampah_nama'] }}</h3>
