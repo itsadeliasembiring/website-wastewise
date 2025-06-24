@@ -103,7 +103,7 @@
                 <h2 class="text-2xl font-bold text-primary-700">Riwayat Tukar Poin</h2>
                 <div class="bg-primary-100 rounded-full px-4 py-2 flex items-center gap-2">
                     <img src="{{ asset('Assets/coin.svg') }}" alt="Koin" class="h-5 w-5 text-yellow-500">
-                    <span class="font-bold text-primary-900">{{ number_format($totalPoin ?? 0) }} Poin</span>
+                    <span class="font-bold text-white">{{ number_format($totalPoin ?? 0) }} Poin</span>
                 </div>
             </div>
         
