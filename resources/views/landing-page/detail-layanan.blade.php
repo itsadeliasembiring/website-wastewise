@@ -25,7 +25,7 @@
                 </p>
             </div>
             <div class="flex justify-center md:justify-end">
-                <img src="{{ asset('assets/make-use-recycle.png') }}" alt="Recycle Illustration" class="w-80 md:w-90 lg:w-[450px]">
+                <img src="{{ asset('Assets/make-use-recycle.png') }}" alt="Recycle Illustration" class="w-80 md:w-90 lg:w-[450px]">
             </div>
         </div>
     </section>
@@ -38,7 +38,7 @@
                 <div class="flex items-center">
                     <div class="ml-4">
                         <h3 class="text-3xl font-bold text-[#016A70]">Setor Mandiri</h3>
-                        <img src="{{ asset('assets/setor-manual.jpg') }}" alt="Setor Mandiri" class="w-46 h-45 mb-4 items-center mx-auto">
+                        <img src="{{ asset('Assets/setor-manual.jpg') }}" alt="Setor Mandiri" class="w-46 h-45 mb-4 items-center mx-auto">
                         <p class="text-gray-600 text-base">"Bawa sampahmu sendiri ke bank sampah terdekat, jadi bagian dari perubahan mulai hari ini!"</p>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="flex items-center">
                     <div class="ml-4">
                         <h3 class="text-3xl font-bold text-[#016A70]">Jemput Sampah</h3>
-                        <img src="{{ asset('assets/jemput-sampah.jpg') }}" alt="Jemput Sampah" class="w-80 h-45 mb-4 items-center mx-auto">
+                        <img src="{{ asset('Assets/jemput-sampah.jpg') }}" alt="Jemput Sampah" class="w-80 h-45 mb-4 items-center mx-auto">
                         <p class="text-gray-600 text-base">"Sampah menumpuk? Duduk santai saja, kami yang datang menjemput ke rumahmu!"</p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
             <!-- Plastic -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/plastik.png') }}" alt="Plastic" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/plastik.png') }}" alt="Plastic" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Plastik</h3>
             </div>
@@ -77,7 +77,7 @@
             <!-- Glass -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/kaca.png') }}" alt="Glass" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/kaca.png') }}" alt="Glass" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kaca</h3>
             </div>
@@ -85,7 +85,7 @@
             <!-- Cooking Oil -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/minyak.png') }}" alt="Cooking Oil" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/minyak.png') }}" alt="Cooking Oil" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Minyak Jelantah</h3>
             </div>
@@ -93,7 +93,7 @@
             <!-- Food Waste -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/organik.png') }}" alt="Food Waste" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/organik.png') }}" alt="Food Waste" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Sampah Makanan</h3>
             </div>
@@ -101,7 +101,7 @@
             <!-- Paper -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/kardus.png') }}" alt="Paper" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/kardus.png') }}" alt="Paper" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kertas</h3>
             </div>
@@ -109,7 +109,7 @@
             <!-- Cans -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('assets/icon-sampah/kaleng.png') }}" alt="Cans" class="w-14 h-14">
+                    <img src="{{ asset('Assets/icon-sampah/kaleng.png') }}" alt="Cans" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kaleng</h3>
             </div>
@@ -130,7 +130,7 @@
             <div class="flex flex-col gap-12">
                 <!-- Step 1 -->
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
-                    <img src="{{ asset('assets/kemas.png') }}" alt="Kemas" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/kemas.png') }}" alt="Kemas" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
                 <div>
                     <div class="inline-block bg-teal-600 text-white text-base font-semibold px-4 py-2 rounded-md mb-3">1. Kemas</div>
                     <p class="text-gray-700 text-base md:text-lg">
@@ -141,7 +141,7 @@
             
                 <!-- Step 2 -->
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
-                    <img src="{{ asset('assets/kirim.png') }}" alt="Send" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/kirim.png') }}" alt="Send" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
                 <div>
                     <div class="inline-block bg-teal-600 text-white text-base font-semibold px-4 py-2 rounded-md mb-3">2. Kirim</div>
                     <p class="text-gray-700 text-base md:text-lg">
@@ -152,7 +152,7 @@
             
                 <!-- Step 3 -->
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
-                    <img src="{{ asset('assets/scan.png') }}" alt="Verifikasi" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/scan.png') }}" alt="Verifikasi" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
                 <div>
                     <div class="inline-block bg-teal-600 text-white text-base font-semibold px-4 py-2 rounded-md mb-3">3. Verifikasi</div>
                     <p class="text-gray-700 text-base md:text-lg">

@@ -6,14 +6,14 @@
     <title>WasteWise - {{ $artikel->judul_artikel ?? 'Detail Artikel' }}</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-gray-100 font-sans">
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <x-header.guest/>
     </header>
 
     <!-- Konten Artikel -->
-    <main class="bg-gray-45 py-6">
+    <main class="bg-gray-100 py-6">
         <div class="container mx-auto px-4">
             <!-- Gambar Utama -->
             @if($artikel->foto)

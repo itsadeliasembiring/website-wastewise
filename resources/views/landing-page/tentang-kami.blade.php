@@ -15,7 +15,7 @@
         </header>
 
         <!-- Tentang Kami Section -->
-        <section id="tentangkami" class="py-16 bg-gradient-to-b from-white to-gray-50">
+        <section id="tentangkami" class="py-16 bg-gradient-to-b bg-gray-100">
             <div class="container mx-auto px-4">
                 <!-- Heading -->
                 <div class="text-center mb-12">

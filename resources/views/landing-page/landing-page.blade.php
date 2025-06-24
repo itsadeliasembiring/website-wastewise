@@ -38,7 +38,7 @@
         </section>
 
         <!-- Services Section -->
-        <section id="layanan" class="py-16 bg-gray-50">
+        <section id="layanan" class="py-16 bg-gray-100">
             <div class="container mx-auto px-13 md:px-20">
                 <h2 class="text-3xl font-bold text-center text-[#1F5E7F] mb-12">Layanan</h2>
                 
