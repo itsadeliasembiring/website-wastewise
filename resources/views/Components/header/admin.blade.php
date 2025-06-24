@@ -4,7 +4,7 @@
         <div class="flex-1 align-middle">
             <!-- Logo-->
             <div class="flex items-center">
-                <img src="{{ asset('assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
+                <img src="{{ asset('Assets/logo-wastewise.svg') }}" class="h-12 w-12 bg-green-100 rounded-full" alt="Logo">
                 <div class="ml-3">
                     <h1 class="text-[#3D8D7A] font-bold text-lg">WasteWise</h1>
                     <p class="text-xs text-gray-500">"Ubah Sampah Jadi Berkah"</p>
@@ -17,7 +17,7 @@
             <!-- Avatar -->
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                 <div class="w-10 rounded-full">
-                    <img src="{{ asset('assets/adudu.jpeg') }}" />
+                    <img src="{{ asset('Assets/adudu.jpeg') }}" />
                 </div>
             </label>
             <!-- Menu Account-->
@@ -60,7 +60,7 @@
                 <!-- Avatar -->
                 <div class="avatar">
                     <div class="w-20 rounded-full">
-                        <img src="{{ asset('assets/adudu.jpeg') }}" />
+                        <img src="{{ asset('Assets/adudu.jpeg') }}" />
                     </div>
                 </div>
 
