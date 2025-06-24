@@ -107,17 +107,24 @@ class ArtikelController extends Controller
             }
 
             // Handle file upload
-            $fotoPath = null;
-            if ($request->hasFile('foto')) {
-                $fotoPath = $request->file('foto')->store('artikel', 'public');
-            }
+            // $fotoPath = null;
+            // if ($request->hasFile('foto')) {
+            //     $fotoPath = $request->file('foto')->store('artikel', 'public');
+            // }
 
+            $namaFile = null; 
+            if ($request->hasFile('foto')) {
+                // Simpan file dan dapatkan path lengkapnya
+                $fotoPath = $request->file('foto')->store('artikel', 'public');
+                // Ambil HANYA nama filenya saja dari path tersebut
+                $namaFile = basename($fotoPath); 
+            }
             // Create artikel
             $artikel = new ArtikelModel;
             $artikel->id_artikel = $newArtikelId;
             $artikel->judul_artikel = $request->input("judul_artikel");
             $artikel->detail_artikel = $request->input("detail_artikel");
-            $artikel->foto = $fotoPath;
+            $artikel->foto = $namaFile;
             $artikel->created_at = now();
             $artikel->updated_at = now();
             $artikel->save();
@@ -184,20 +191,33 @@ class ArtikelController extends Controller
             }
 
             // Handle file upload
-            $fotoPath = $artikel->foto; // Keep existing photo by default
+            // $fotoPath = $artikel->foto; // Keep existing photo by default
+            // if ($request->hasFile('foto')) {
+            //     // Delete old photo if exists
+            //     if ($artikel->foto && Storage::disk('public')->exists($artikel->foto)) {
+            //         Storage::disk('public')->delete($artikel->foto);
+            //     }
+            //     $fotoPath = $request->file('foto')->store('artikel', 'public');
+            // }
+            // Handle file upload
+            $namaFile = $artikel->foto; // Simpan nama file yang lama sebagai default
             if ($request->hasFile('foto')) {
-                // Delete old photo if exists
-                if ($artikel->foto && Storage::disk('public')->exists($artikel->foto)) {
-                    Storage::disk('public')->delete($artikel->foto);
+                // Hapus foto lama jika ada
+                if ($artikel->foto) {
+                    // Karena di database hanya ada nama file, kita harus tambahkan path direktorinya
+                    Storage::disk('public')->delete('artikel/' . $artikel->foto);
                 }
+                // Simpan foto baru dan dapatkan path lengkapnya
                 $fotoPath = $request->file('foto')->store('artikel', 'public');
+                // Ambil HANYA nama filenya saja dari path tersebut
+                $namaFile = basename($fotoPath);
             }
 
             // Update artikel data
             $artikelData = [
                 'judul_artikel' => $request->input('judul_artikel'),
                 'detail_artikel' => $request->input('detail_artikel'),
-                'foto' => $fotoPath,
+                'foto' => $namaFile,
                 'updated_at' => now(),
             ];
 
