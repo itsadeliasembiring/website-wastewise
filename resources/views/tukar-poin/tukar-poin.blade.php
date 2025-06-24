@@ -54,7 +54,7 @@
             @foreach($donasis as $donasi)
             <div class="bg-white shadow-sm rounded-xl overflow-hidden">
                 <div class="h-46">
-                    <img src="{{ $donasi->foto ? asset('storage/donasi/' . $donasi->foto) :  asset('Assets/rumah-donasi.jpeg') }}" class="w-full object-cover h-46" alt="{{ $donasi->nama_donasi }}">
+                    <img src="{{ $donasi->foto ? asset('storage/donasi/' . $donasi->foto) :  asset('Assets/rumah-donasi.jpeg') }}" class="w-full object-cover h-full" alt="{{ $donasi->nama_donasi }}">
                 </div>
                 <div class="p-5">
                     <h3 class="mt-[0.25px] text-xl font-bold mb-1">{{ $donasi->nama_donasi }}</h3>
