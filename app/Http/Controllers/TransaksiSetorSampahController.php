@@ -496,19 +496,19 @@ class TransaksiSetorSampahController extends Controller
     private function getStatusDisplay($status)
     {
         $statusMap = [
-            'menunggu konfirmasi' => [
+            'Menunggu Konfirmasi' => [
                 'text' => 'Menunggu Konfirmasi',
                 'color_class' => 'text-grey-600',
             ],
-            'diproses' => [
+            'Diproses' => [
                 'text' => 'Di Proses',
                 'color_class' => 'text-yellow-500'
             ],
-            'selesai' => [
+            'Selesai' => [
                 'text' => 'Selesai',
                 'color_class' => 'text-green-600'
             ],
-            'dibatalkan' => [
+            'Dibatalkan' => [
                 'text' => 'Dibatalkan',
                 'color_class' => 'text-red-500'
             ],
