@@ -37,12 +37,12 @@
                 <!-- Tombol untuk membuka modal -->
                 <button 
                     onclick="document.getElementById('kenaliModal').style.display='flex'"
-                    class="mt-6 inline-block font-semibold px-5 py-2 border-2 border-white rounded-md hover:bg-white hover:text-green-700 transition">
+                    class="mt-6 inline-block font-semibold px-5 py-2 border-2 border-white rounded-md hover:bg-white hover:text-[#3D8D7A] transition">
                     Kenali Sekarang
                 </button>
             </div>
             <div class="flex justify-center md:justify-end">
-                <img src="{{ asset('assets/make-use-recycle.png') }}" alt="Ilustrasi Edukasi" class="w-62">
+                <img src="{{ asset('Assets/make-use-recycle.png') }}" alt="Ilustrasi Edukasi" class="w-62">
             </div>
         </div>
     </section>
@@ -74,14 +74,14 @@
                 <button 
                     onclick="setMode('manual')"
                     id="manualBtn"
-                    class="px-4 py-2 rounded-lg font-medium transition duration-300 bg-green-600 text-white">
+                    class="px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white">
                     Input Manual
                 </button>
             </div>
 
             <!-- Upload Section -->
             <div id="uploadSection" class="hidden bg-gray-100 rounded-lg py-10 flex flex-col items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4-4m0 0l4 4m-4-4v12" />
                 </svg>
                 <label class="text-green-700 font-medium mt-2 cursor-pointer">
@@ -115,7 +115,7 @@
             <!-- Tombol Aksi -->
             <div class="flex justify-center mt-6">
                 <button
-                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold w-full"
+                    class="bg-[#3D8D7A] hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold w-full"
                     onclick="window.location.href='{{ route('kenali-sampah') }}'"
                     >
                     Submit
@@ -128,12 +128,12 @@
         function setMode(mode) {
             // Update button styles
             if (mode === 'upload') {
-                document.getElementById('uploadBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-green-600 text-white';
+                document.getElementById('uploadBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white';
                 document.getElementById('manualBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-gray-100 text-gray-700';
                 document.getElementById('uploadSection').style.display = 'flex';
                 document.getElementById('manualSection').style.display = 'none';
             } else {
-                document.getElementById('manualBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-green-600 text-white';
+                document.getElementById('manualBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-[#3D8D7A] text-white';
                 document.getElementById('uploadBtn').className = 'px-4 py-2 rounded-lg font-medium transition duration-300 bg-gray-100 text-gray-700';
                 document.getElementById('uploadSection').style.display = 'none';
                 document.getElementById('manualSection').style.display = 'block';
@@ -191,7 +191,7 @@
     </section>
 
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak"/>
+    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
 
 </body>
 </html>

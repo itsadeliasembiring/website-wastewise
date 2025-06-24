@@ -234,7 +234,7 @@
     </main>
 
     <!-- Footer -->
-    <x-footer.guest id="kontak"/>
+    <x-footer.guest id="kontak" fill="#f9fafb"/>
 
     <style>
         .line-clamp-3 {
