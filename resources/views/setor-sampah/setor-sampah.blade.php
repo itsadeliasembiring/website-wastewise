@@ -39,7 +39,7 @@
                 </button>
             </div>
             <div class="flex justify-center md:justify-end">
-                <img src="{{ asset('assets/make-use-recycle.png') }}" alt="Recycle Illustration" class="w-80 md:w-90 lg:w-[450px]">
+                <img src="{{ asset('Assets/make-use-recycle.png') }}" alt="Recycle Illustration" class="w-80 md:w-90 lg:w-[450px]">
             </div>
         </div>
     </section>
@@ -50,7 +50,7 @@
             <!-- Recycled Waste Card -->
             <div class="bg-white rounded-lg shadow-md p-6 w-full md:w-[380px] h-auto flex flex-col items-center justify-between text-center">
                 <div class="flex items-center">
-                    <img src="{{ asset('assets/icon-sampah/recycle.png') }}" alt="Recycle Icon" class="w-20 h-20 mb-3">
+                    <img src="{{ asset('Assets/icon-sampah/recycle.png') }}" alt="Recycle Icon" class="w-20 h-20 mb-3">
                     <div class="ml-4">
                         <h3 class="text-3xl font-extrabold text-[#016A70]">{{ number_format($userStats['total_berat'], 2) }}  Kg</h3>
                         <p class="text-gray-600 text-xl">Sampah Terdaur Ulang</p>
@@ -61,7 +61,7 @@
             <!-- Points Card -->
             <div class="bg-white rounded-lg shadow-md p-6 w-full md:w-[380px] h-auto flex flex-col items-center justify-between text-center">
                 <div class="flex items-center">
-                    <img src="{{ asset('assets/coin.svg') }}" alt="Points Icon" class="w-20 h-20 mb-3">
+                    <img src="{{ asset('Assets/coin.svg') }}" alt="Points Icon" class="w-20 h-20 mb-3">
                     <div class="ml-4">
                         <h3 class="text-3xl font-extrabold text-[#016A70]">{{ number_format($userStats['total_poin']) }} </h3>
                         <p class="text-gray-600 text-xl">Poin Terkumpul</p>
@@ -86,7 +86,7 @@
                         <img src="{{ asset('storage/sampah/'.$sampah->foto) }}" alt="{{ $sampah->nama_sampah }}" class="w-13 h-13">
                     @else
                         <!-- Default icon if no icon is provided -->
-                        <img src="{{ asset('assets/icon-sampah/default.png') }}" alt="{{ $sampah->nama_sampah }}" class="w-13 h-13">
+                        <img src="{{ asset('Assets/icon-sampah/default.png') }}" alt="{{ $sampah->nama_sampah }}" class="w-13 h-13">
                     @endif
                 </div>
                 <h3 class="font-semibold text-xl mb-1">{{ $sampah->nama_sampah }}</h3>
@@ -116,7 +116,7 @@
             <div class="flex flex-col gap-10">
                 <!-- Step 1 -->
                 <div class="flex items-start gap-10">
-                    <img src="{{ asset('assets/kemas.png') }}" alt="Kemas" class="w-24 h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/kemas.png') }}" alt="Kemas" class="w-24 h-24 flex-shrink-0">
                     <div>
                         <div class="inline-block bg-teal-600 text-white text-base font-semibold px-3 py-1 rounded-md mb-2">1. Kemas</div>
                         <p class="text-gray-700 text-base">
@@ -127,7 +127,7 @@
                 
                 <!-- Step 2 -->
                 <div class="flex items-start gap-10">
-                    <img src="{{ asset('assets/kirim.png') }}" alt="Send" class="w-24 h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/kirim.png') }}" alt="Send" class="w-24 h-24 flex-shrink-0">
                     <div>
                         <div class="inline-block bg-teal-600 text-white text-base font-semibold px-3 py-1 rounded-md mb-2">2. Kirim</div>
                         <p class="text-gray-700 text-base">
@@ -138,7 +138,7 @@
                 
                 <!-- Step 3 -->
                 <div class="flex items-start gap-10">
-                    <img src="{{ asset('assets/scan.png') }}" alt="Scan" class="w-24 h-24 flex-shrink-0">
+                    <img src="{{ asset('Assets/scan.png') }}" alt="Scan" class="w-24 h-24 flex-shrink-0">
                     <div>
                         <div class="inline-block bg-teal-600 text-white text-base font-semibold px-3 py-1 rounded-md mb-2">3. Verifikasi</div>
                         <p class="text-gray-700 text-base">
@@ -151,7 +151,8 @@
     </section>
 
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak"/>
+    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
+
 
 </body>
 </html>

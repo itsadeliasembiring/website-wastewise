@@ -128,7 +128,7 @@
         </div>
     </main>
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak"/>
+    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
 
 
     <!-- Modal Sukses -->
