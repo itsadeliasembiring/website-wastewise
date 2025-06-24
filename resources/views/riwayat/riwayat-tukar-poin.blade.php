@@ -217,7 +217,7 @@
                                                 '{{ number_format($item->jumlah_poin) }}', 
                                                 '{{ $item->donasi->deskripsi ?? 'Donasi untuk kebutuhan sosial' }}'
                                             )"
-                                            class="mt-6 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm transition duration-200">
+                                            class="mt-6 bg-[#3D8D7A] hover:bg-[#3D8D7A] text-white px-3 py-1 rounded-md text-sm transition duration-200">
                                             Detail
                                         </button>
                                     </div>
@@ -256,8 +256,8 @@
                                                         Belum Diambil
                                                     </span>
                                                 @elseif($item->status_redeem == 1)
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        <svg class="mr-1.5 h-3 w-3 text-green-500" fill="currentColor" viewBox="0 0 8 8">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-[#3D8D7A]">
+                                                        <svg class="mr-1.5 h-3 w-3 text-[#3D8D7A]" fill="currentColor" viewBox="0 0 8 8">
                                                             <circle cx="4" cy="4" r="3"/>
                                                         </svg>
                                                         Sudah Diambil
@@ -279,7 +279,7 @@
                                                 '{{ $item->kode_redeem }}',
                                                 '{{ $item->status_redeem }}'
                                             )"
-                                            class="mt-6 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm transition duration-200">
+                                            class="mt-6 bg-[#3D8D7A] hover:bg-[#3D8D7A] text-white px-3 py-1 rounded-md text-sm transition duration-200">
                                             Detail
                                         </button>
                                     </div>
@@ -299,12 +299,12 @@
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10" x-show="currentTransaction && currentTransaction.type === 'Donasi'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                         </svg>
                                     </div>
                                     <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10" x-show="currentTransaction && currentTransaction.type === 'Barang Eco-Friendly'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                         </svg>
                                     </div>
@@ -333,10 +333,10 @@
                                             
                                             <div x-show="currentTransaction && currentTransaction.redeemCode" class="bg-green-50 rounded-lg p-4 border border-green-200">
                                                 <div class="flex justify-between items-center">
-                                                    <span class="text-sm font-medium text-green-700">Kode Redeem:</span>
-                                                    <span class="text-base font-bold text-green-700" x-text="currentTransaction ? currentTransaction.redeemCode : ''"></span>
+                                                    <span class="text-sm font-medium text-[#3D8D7A]">Kode Redeem:</span>
+                                                    <span class="text-base font-bold text-[#3D8D7A]" x-text="currentTransaction ? currentTransaction.redeemCode : ''"></span>
                                                 </div>
-                                                <div class="mt-2 text-xs text-green-600">
+                                                <div class="mt-2 text-xs text-[#3D8D7A]">
                                                     Tunjukkan kode ini saat mengambil barang Anda
                                                 </div>
                                                 
@@ -347,7 +347,7 @@
                                                             <span x-show="currentTransaction.status == '0'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                                                 Belum Diambil
                                                             </span>
-                                                            <span x-show="currentTransaction.status == '1'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            <span x-show="currentTransaction.status == '1'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-[#3D8D7A]">
                                                                 Sudah Diambil
                                                             </span>
                                                         </div>
@@ -359,7 +359,7 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button type="button" @click="showModal = false" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                <button type="button" @click="showModal = false" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#3D8D7A] text-base font-medium text-white hover:bg-[#3D8D7A] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#3D8D7A] sm:ml-3 sm:w-auto sm:text-sm">
                                     Tutup
                                 </button>
                             </div>
