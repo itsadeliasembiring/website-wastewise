@@ -3,7 +3,7 @@
     <div class="ml-4 flex justify-between items-center">
         <!-- Logo -->
         <div class="hidden md:flex items-center space-x-2">
-            <img src="{{ asset('Assets/logo-wastewise.svg') }}" alt="WasteWise Logo" class="h-12 w-12">
+            <img src="{{ asset('assets/logo-wastewise.svg') }}" alt="WasteWise Logo" class="h-12 w-12">
             <div>
                 <h1 class="font-bold text-[#3D8D7A] text-xl">WasteWise</h1>
                 <p class="text-xs text-black italic">"Ubah Sampah Jadi Berkah"</p>
