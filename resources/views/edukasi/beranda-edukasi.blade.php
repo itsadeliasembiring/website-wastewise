@@ -84,7 +84,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#3D8D7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4-4m0 0l4 4m-4-4v12" />
                 </svg>
-                <label class="text-green-700 font-medium mt-2 cursor-pointer">
+                <label class="text-[#3D8D7A] font-medium mt-2 cursor-pointer">
                     Upload Gambar
                     <input type="file" class="hidden" />
                 </label>
@@ -115,7 +115,7 @@
             <!-- Tombol Aksi -->
             <div class="flex justify-center mt-6">
                 <button
-                    class="bg-[#3D8D7A] hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold w-full"
+                    class="bg-[#3D8D7A] hover:bg-[#3D8D7A] text-white px-6 py-2 rounded-lg font-semibold w-full"
                     onclick="window.location.href='{{ route('kenali-sampah') }}'"
                     >
                     Submit
@@ -191,7 +191,7 @@
     </section>
 
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
+    <x-footer.pengguna id="kontak" fill="#f3f4f6"/>
 
 </body>
 </html>

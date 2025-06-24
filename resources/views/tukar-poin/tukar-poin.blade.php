@@ -53,7 +53,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-7 mb-12">
             @foreach($donasis as $donasi)
             <div class="bg-white shadow-sm rounded-xl overflow-hidden">
-                <img src="{{ asset('Assets/rumah-donasi.jpeg') }}" class="w-full object-cover h-46" alt="{{ $donasi->nama_donasi }}">
+                <img src="{{ $donasi->foto ? asset('storage/donasi/' . $donasi->foto) :  asset('Assets/rumah-donasi.jpeg') }}"  
+                class="w-full object-cover h-46" alt="{{ $donasi->nama_donasi }}">
                 <div class="p-5">
                     <h3 class="mt-[0.25px] text-xl font-bold mb-1">{{ $donasi->nama_donasi }}</h3>
                     <p class="text-sm text-gray-500 mb-4">{{ $donasi->deskripsi_donasi ?? 'Deskripsi Tidak Tersedia' }}</p>

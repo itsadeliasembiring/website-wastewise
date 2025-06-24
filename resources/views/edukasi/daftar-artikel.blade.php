@@ -234,8 +234,8 @@
     </main>
 
     <!-- Footer -->
-    <x-footer.guest id="kontak" fill="#f9fafb"/>
-
+     <x-footer.guest id="kontak" fill="#f3f4f6"/>
+     
     <style>
         .line-clamp-3 {
             display: -webkit-box;

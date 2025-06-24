@@ -133,7 +133,7 @@
     </main>
     
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
+     <x-footer.pengguna id="kontak" fill="#f3f4f6"/>
 
 </body>
 </html>
