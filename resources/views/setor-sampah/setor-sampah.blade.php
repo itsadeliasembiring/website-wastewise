@@ -50,7 +50,7 @@
             <!-- Recycled Waste Card -->
             <div class="bg-white rounded-lg shadow-md p-6 w-full md:w-[380px] h-auto flex flex-col items-center justify-between text-center">
                 <div class="flex items-center">
-                    <img src="{{ asset('Assets/icon-sampah/recycle.png') }}" alt="Recycle Icon" class="w-20 h-20 mb-3">
+                    <img src="{{ asset('Assets/Icon-sampah/recycle.png') }}" alt="Recycle Icon" class="w-20 h-20 mb-3">
                     <div class="ml-4">
                         <h3 class="text-3xl font-extrabold text-[#016A70]">{{ number_format($userStats['total_berat'], 2) }}  Kg</h3>
                         <p class="text-gray-600 text-xl">Sampah Terdaur Ulang</p>
