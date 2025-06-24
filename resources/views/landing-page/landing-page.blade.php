@@ -46,7 +46,7 @@
                     <!-- Service 1 -->
                     <div class="bg-[#A3D1C6] px-5 py-10 rounded-[20px] flex flex-col items-center text-center h-full justify-center">
                         <div class="mb-4">
-                            <img src="{{ asset('Assets/icon/icon-jemput-sampah.svg') }}" alt="icon-jemput-sampah" class="h-16 w-16">
+                            <img src="{{ asset('Assets/Icon/icon-jemput-sampah.svg') }}" alt="icon-jemput-sampah" class="h-16 w-16">
                         </div>
                         <h3 class="text-xl font-bold mb-2 text-black">Jemput Sampah</h3>
                         <p class="text-black">Setor sampah lebih mudah tanpa perlu ke Bank Sampah</p>
@@ -55,7 +55,7 @@
                     <!-- Service 2 -->
                     <div class="bg-[#A3D1C6] px-5 py-10 rounded-[20px] flex flex-col items-center text-center h-full justify-center">
                         <div class="mb-4">
-                            <img src="{{ asset('Assets/icon/icon-edukasi.svg') }}" alt="icon-edukasi" class="h-16 w-16">
+                            <img src="{{ asset('Assets/Icon/icon-edukasi.svg') }}" alt="icon-edukasi" class="h-16 w-16">
                         </div>
                         <h3 class="text-xl font-bold mb-2 text-black">Edukasi Berbasis</h3>
                         <p class="text-black">Belajar kelola sampah dengan bijaksana</p>
@@ -64,7 +64,7 @@
                     <!-- Service 3 -->
                     <div class="bg-[#A3D1C6] px-5 py-10 rounded-[20px] flex flex-col items-center text-center h-full justify-center">
                         <div class="mb-4">
-                            <img src="{{ asset('Assets/icon/icon-poin.svg') }}" alt="icon-poin" class="h-16 w-16">
+                            <img src="{{ asset('Assets/Icon/icon-poin.svg') }}" alt="icon-poin" class="h-16 w-16">
                         </div>
                         <h3 class="text-xl font-bold mb-2 text-black">Sistem Poin</h3>
                         <p class="text-black">Kumpulkan poin dari setiap setoran dan tukar dengan hadiah menarik.</p>
@@ -73,7 +73,7 @@
                     <!-- Service 4 -->
                     <div class="bg-[#A3D1C6] px-8 py-15 rounded-[20px] flex flex-col items-center text-center h-full justify-center">
                         <div class="mb-4">
-                            <img src="{{ asset('Assets/icon/icon-daur-ulang.svg') }}" alt="icon-daur-ulang" class="h-16 w-16">
+                            <img src="{{ asset('Assets/Icon/icon-daur-ulang.svg') }}" alt="icon-daur-ulang" class="h-16 w-16">
                         </div>
                         <h3 class="text-xl font-bold mb-2 text-black">Riwayat Setor Sampah</h3>
                         <p class="text-black">Pantau jejak penyetoran sampah dengan mudah.</p>

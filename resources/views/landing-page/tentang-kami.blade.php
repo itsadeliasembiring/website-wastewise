@@ -29,7 +29,7 @@
                     <!-- Image -->
                     <div class="lg:w-1/2">
                         <div class="rounded-lg overflow-hidden shadow-xl">
-                            <img src="{{ asset('assets/logo-wastewise.svg') }}" alt="Tim WasteWise" class="w-full h-auto object-cover"/>
+                            <img src="{{ asset('Assets/logo-wastewise.svg') }}" alt="Tim WasteWise" class="w-full h-auto object-cover"/>
                         </div>
                     </div>
                     
