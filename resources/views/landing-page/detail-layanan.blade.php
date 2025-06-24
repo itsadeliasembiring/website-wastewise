@@ -8,7 +8,7 @@
         
         @vite('resources/css/app.css')
     </head>
-    <body class="font-sans">
+    <body class="font-sans bg-gray-100">
         <!-- Header -->
         <header class="bg-white shadow-sm sticky top-0 z-50">
             <x-header.guest/>
@@ -164,7 +164,7 @@
         </div>
     </section>
 
-    <x-footer.guest id="kontak"/>   
+          <x-footer.guest id="kontak" fill="#f3f4f6"/>
 
 </body>
 </html>

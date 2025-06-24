@@ -131,7 +131,7 @@
         </section>
 
         <!-- Contact Section -->
-        <x-footer.guest id="kontak"/>
+                <x-footer.guest id="kontak" fill="#f3f4f6"/>
 
     </body>
 </html>
