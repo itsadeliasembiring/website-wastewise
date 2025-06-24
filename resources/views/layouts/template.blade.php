@@ -8,6 +8,7 @@
     <title>@yield('title')</title>
     @vite('resources/css/app.css')
     <!-- Include jQuery and DataTables -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
