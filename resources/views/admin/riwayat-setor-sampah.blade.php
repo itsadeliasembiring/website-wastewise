@@ -65,7 +65,7 @@
         <div class="modal-box w-11/12 max-w-3xl">
             <label for="add-setor-sampah" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h3 class="font-bold text-lg text-[#3D8D7A] mb-4">Tambah Setor Sampah</h3>
-            <form id="addSetorForm" action="{{ route('admin.setor-sampah.store') }}" method="POST">
+            <form id="addSetorForm" action="{{ route('admin.setor-sampah.add') }}" method="POST">
                 @csrf
                 {{-- Assuming the add form structure is similar to edit --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
