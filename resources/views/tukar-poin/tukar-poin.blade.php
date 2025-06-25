@@ -179,7 +179,7 @@
             document.getElementById('jumlah_poin').value = '';
             
             // Update poin tersedia in modal
-            const totalPoin = getSafeTextContent('total-poin');
+            const totalPoin = getSafeTextContent('total_poin');
             setSafeTextContent('poinTersedia', totalPoin);
             
             document.getElementById('donasiModal').classList.remove('hidden');
