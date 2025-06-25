@@ -325,7 +325,7 @@
                         <select name="id_bank_sampah" id="edit_id_bank_sampah" class="select select-bordered" required>
                             <option disabled value="">Pilih Bank Sampah</option>
                             @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
+                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama_bank_sampah }}</option>
                             @endforeach
                         </select>
                     </div>
