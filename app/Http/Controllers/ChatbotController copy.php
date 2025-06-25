@@ -8,7 +8,6 @@ use Gemini\Data\Content; // WAJIB: Usaremos os factories desta classe
 use Gemini\Data\Blob; // WAJIB: Untuk handle file uploads
 use Gemini\Enums\MimeType; // OPSIONAL: Untuk MIME type constants
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Client as GuzzleClient;
 
 class ChatbotController extends Controller
 {
@@ -27,11 +26,8 @@ class ChatbotController extends Controller
             if (!$apiKey) {
                 return response()->json(['error' => 'API Key Gemini tidak ditemukan.'], 500);
             }
-            $client = new \GuzzleHttp\Client([
-                'proxy' => 'socks5h://104.223.91.227:1080',
-                'timeout' => 20,
-            ]);
-            $client = new Client($apiKey, httpClient: $httpClient);
+
+            $client = Gemini::client($apiKey);
 
             $systemPrompt = "Kamu adalah WasteWise Bot, asisten AI ahli yang berspesialisasi dalam pengelolaan sampah dan isu lingkungan. Tugas utamamu adalah memberikan informasi yang akurat dan edukatif.
             JAWAB HANYA pertanyaan yang berkaitan dengan topik berikut: klasifikasi sampah (organik, anorganik, B3), proses daur ulang, 3R (Reduce, Reuse, Recycle), pembuatan kompos, polusi (tanah, air, udara), ecobrick, bank sampah, dampak perubahan iklim terhadap sampah, dan topik lingkungan terkait.

@@ -66,6 +66,10 @@ Route::middleware(['auth', 'pengguna'])->group(function () {
         return view('edukasi/kenali-sampah');
     })->name('kenali-sampah');
     Route::post('/chat', [ChatbotController::class, 'handleChat']); 
+    Route::get('/cek-ip', function () {
+        return file_get_contents('https://ipinfo.io');
+    });
+    
     Route::get('/artikel', [ArtikelController::class, 'berandaEdukasi'])->name('artikel');
     // Halaman Profil Pengguna
     Route::get('user/ubah-profil', [PenggunaController::class, 'showProfile'])->name('ubah-profil');
