@@ -30,16 +30,13 @@ class ChatbotController extends Controller
             }
 
             // Correctly instantiate Guzzle client with proxy
-            $httpClient = new GuzzleClient([
-                'proxy' => 'socks5h://104.223.91.227:1080',
-                'timeout' => 30, // Increased timeout for potentially slow proxy
-            ]);
+            // $httpClient = new GuzzleClient([
+            //     'proxy' => 'socks5h://104.223.91.227:1080',
+            //     'timeout' => 30, // Increased timeout for potentially slow proxy
+            // ]);
 
             // Pass the configured Guzzle client to the Gemini client
-            $client = Gemini::factory()
-                            ->withApiKey($apiKey)
-                            ->withHttpClient($httpClient)
-                            ->make();
+            $client = Gemini::client($apiKey);
 
             $systemPrompt = "Kamu adalah WasteWise Bot, ..."; // Your system prompt remains the same
 
