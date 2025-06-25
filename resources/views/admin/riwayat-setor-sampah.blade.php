@@ -2,13 +2,19 @@
 @section('title', 'Kelola Setor Sampah')
 
 @section('content')
-    @php
-        if (count($errors) > 0) {
-            // Ensure alert() is available, or use a standard session flash for errors from controller validation
-            // For example, if using a package like sweetalert2-laravel:
-             alert()->error('Gagal', implode('<br>', $errors->all()));
-        }
-    @endphp
+    {{-- Notifikasi Error Validasi dari Controller (jika tidak via AJAX) --}}
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    html: `{!! implode('<br>', $errors->all()) !!}`
+                });
+            });
+        </script>
+    @endif
+
     <x-header.admin/>
 
     <div class="flex min-h-full">
@@ -16,6 +22,7 @@
             <x-sidebar.admin />
         </div>
 
+        {{-- Notifikasi Sukses dari redirect() --}}
         @if(session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -30,7 +37,8 @@
             });
         </script>
         @endif
-
+        
+        {{-- Notifikasi Error dari redirect() --}}
         @if(session('error'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -38,9 +46,7 @@
                     icon: 'error',
                     title: 'Error!',
                     text: "{{ session('error') }}",
-                    // timer: 3000, // Keep error message visible until manually closed or longer
-                    // timerProgressBar: true,
-                    showConfirmButton: true // Allow user to acknowledge error
+                    showConfirmButton: true
                 });
             });
         </script>
@@ -64,20 +70,20 @@
                             <div class="flex sm:flex-row sm:space-x-2 sm:space-y-0 xs:flex-col xs:space-y-2 xs:space-x-0">
                                 <div class="flex xl:flex-row space-x-2 items-center">
                                     <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
-                                        name="status_filter" id="status-filtering"> {{-- ID is okay here --}}
+                                        name="status_filter" id="status-filtering">
                                         <option disabled selected>Filter Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
-                                        <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Diproses">Di Proses</option>
                                         <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
                                         <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
                                     </select>
                                     <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
-                                        name="metode_filter" id="metode-filtering"> {{-- Changed ID --}}
+                                        name="metode_filter" id="metode-filtering">
                                         <option disabled selected>Filter Metode</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Metode</option>
-                                        <option class="text-[#000] bg-[#fff]" value="jemput">Dijemput</option>
-                                        <option class="text-[#000] bg-[#fff]" value="antar">Setor Langsung</option> {{-- Value should match DB --}}
+                                        <option class="text-[#000] bg-[#fff]" value="Dijemput">Dijemput</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Setor Langsung">Setor Langsung</option>
                                     </select>
                                     <label for="add-setor-sampah"
                                         class="btn btn-sm h-9 border-none pl-3 bg-[#00D100] hover:bg-[#00D100] text-white rounded-[10px] inline-flex justify-center items-center">
@@ -95,16 +101,14 @@
                     <div class="card w-[100%] h-[100%] shadow-md bg-white text-primary-content px-4 py-4 mt-2">
                         <div class="overflow-x-auto">
                             <table id="setorSampahTable" class="stripe hover display responsive nowrap" style="width: 100%">
-                                <thead class="bg-white xl:w-fit sm:w-auto">
+                                <thead class="bg-white">
                                     <tr>
-                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">No</th> -->
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">ID Setor</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Pengguna</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Setor</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Penjemputan</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Metode</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Berat (kg)</th>
-                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Poin</th> -->
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Status</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] sm:text-xs">Aksi</th>
                                     </tr>
@@ -119,6 +123,7 @@
         </main>
     </div>
 
+    {{-- Modal Detail --}}
     <div id="modalDetail" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="absolute inset-0 flex items-center justify-center py-10">
@@ -144,7 +149,7 @@
                         </div>
                         <div class="mb-3">
                             <p class="text-sm text-gray-500">Kode Verifikasi</p>
-                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-300 p-1 rounded inline-block">-</p>
+                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-200 p-1 rounded inline-block">-</p>
                         </div>
                         <div class="mb-3">
                             <p class="text-sm text-gray-500 mb-2">Status Setor</p>
@@ -198,10 +203,11 @@
                                     <th class="py-2 px-3 text-left text-xs font-medium text-black uppercase">Jenis Sampah</th>
                                     <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Berat (kg)</th>
                                     <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Poin/kg</th>
-                                    <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Total Poin</th>
+                                    <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Subtotal Poin</th>
                                 </tr>
                             </thead>
                             <tbody id="detailSampahTableBody">
+                                {{-- Content from AJAX --}}
                             </tbody>
                         </table>
                     </div>
@@ -210,6 +216,7 @@
         </div>
     </div>
 
+    {{-- Modal Tambah --}}
     <input type="checkbox" id="add-setor-sampah" class="modal-toggle" />
     <div class="modal">
         <div class="modal-box w-11/12 max-w-3xl">
@@ -234,7 +241,7 @@
                         <select name="id_bank_sampah" class="select select-bordered" required>
                             <option disabled selected value="">Pilih Bank Sampah</option>
                             @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
+                                <option value="{{ $bank->id_bank_sampah }}">{{ $bank->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -256,7 +263,7 @@
                 </div>
                  <div class="form-control mb-4">
                     <label class="label"><span class="label-text">Lokasi Penjemputan <span class="text-red-500">*</span></span></label>
-                    <textarea name="lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap penjemputan atau '-' jika diantar langsung" required></textarea>
+                    <textarea name="lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap atau '-' jika diantar langsung" required></textarea>
                 </div>
 
 
@@ -268,6 +275,7 @@
                 <div class="mb-4">
                     <h4 class="font-semibold text-[#3D8D7A] mb-2">Detail Sampah <span class="text-red-500">*</span></h4>
                     <div id="detail-sampah-container">
+                        {{-- Initial item --}}
                         <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 <div class="form-control">
@@ -299,14 +307,14 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
+    {{-- Modal Edit --}}
     <input type="checkbox" id="edit-setor-sampah" class="modal-toggle" />
     <div class="modal">
         <div class="modal-box w-11/12 max-w-3xl">
             <label for="edit-setor-sampah" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h3 class="font-bold text-lg text-[#3D8D7A] mb-4">Edit Setor Sampah</h3>
             
-            <form id="editSetorForm" method="POST">
+            <form id="editSetorForm" method="POST"> {{-- Action will be set by JS --}}
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -325,7 +333,8 @@
                         <select name="id_bank_sampah" id="edit_id_bank_sampah" class="select select-bordered" required>
                             <option disabled value="">Pilih Bank Sampah</option>
                             @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama_bank_sampah }}</option>
+                                {{-- PERBAIKAN: Menggunakan $bank->nama agar konsisten --}}
+                                <option value="{{ $bank->id_bank_sampah }}">{{ $bank->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -348,7 +357,7 @@
 
                 <div class="form-control mb-4">
                     <label class="label"><span class="label-text">Lokasi Penjemputan <span class="text-red-500">*</span></span></label>
-                    <textarea name="lokasi_penjemputan" id="edit_lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap penjemputan atau '-' jika diantar langsung" required></textarea>
+                    <textarea name="lokasi_penjemputan" id="edit_lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap atau '-' jika diantar langsung" required></textarea>
                 </div>
 
                 <div class="form-control mb-4">
@@ -360,29 +369,29 @@
                     <div class="form-control">
                         <label class="label"><span class="label-text">Status <span class="text-red-500">*</span></span></label>
                         <select name="status_setor" id="edit_status_setor" class="select select-bordered" required>
-                            <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
-                            <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
-                            <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
-                            <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
-                            <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
+                            {{-- Opsi "Semua Status" tidak relevan untuk update, jadi dihapus --}}
+                            <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                            <option value="Diproses">Di Proses</option>
+                            <option value="Selesai">Selesai</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
                         </select>
                     </div>
                     <div class="form-control">
                         <label class="label"><span class="label-text">Kode Verifikasi</span></label>
-                        <input type="text" name="kode_verifikasi" id="edit_kode_verifikasi" class="input input-bordered" placeholder="Kode verifikasi">
+                        <input type="text" name="kode_verifikasi" id="edit_kode_verifikasi" class="input input-bordered" placeholder="Kode verifikasi (jika ada)">
                     </div>
                 </div>
 
                 <div class="mb-4">
                     <h4 class="font-semibold text-[#3D8D7A] mb-2">Detail Sampah <span class="text-red-500">*</span></h4>
                     <div id="edit-detail-sampah-container">
-                        <!-- Dynamic content will be loaded here -->
+                        {{-- Dynamic content will be loaded here via JS --}}
                     </div>
                     <button type="button" id="edit-add-sampah-item" class="btn btn-outline btn-sm mt-2">+ Tambah Jenis Sampah</button>
                 </div>
 
                 <div class="modal-action">
-                    <button type="submit" class="btn bg-[#3D8D7A] text-white hover:bg-[#2C6A5C]">Update</button>
+                    <button type="submit" class="btn bg-[#3D8D7A] text-white hover:bg-[#2C6A5C]">Update Data</button>
                     <label for="edit-setor-sampah" class="btn">Batal</label>
                 </div>
             </form>
@@ -390,64 +399,56 @@
     </div>
 
     <script>
-        // Global function for showDetailModal
+        // Global function for detail modal
         function showDetailModal(id) {
             $.ajax({
-                url: "{{ route('admin.setor-sampah.get-detail', '') }}/" + id,
+                url: `{{ route('admin.setor-sampah.get-detail', '') }}/${id}`,
                 method: 'GET',
                 success: function(response) {
                     if (response.success) {
-                        let setorData = response.data.setor_sampah; // Main deposit info
-                        let sampahDetails = response.data.detail_setor; // Array of waste items
+                        const setorData = response.data.setor_sampah;
+                        const sampahDetails = response.data.detail_setor;
                         
                         $('#detailId').text(setorData.id_setor);
-                        $('#detailWaktuSetor').text(setorData.waktu_setor_formatted); // Assuming formatted in controller
+                        $('#detailWaktuSetor').text(setorData.waktu_setor_formatted);
                         $('#detailKodeVerifikasi').text(setorData.kode_verifikasi || '-');
-                        $('#detailTotalBerat').text(setorData.calculated_total_berat + ' kg');
-                        $('#detailTotalPoin').text(setorData.calculated_total_poin + ' poin');
-                        $('#detailNamaPengguna').text(setorData.pengguna ? setorData.pengguna.nama_lengkap : 'N/A');
-                        $('#detailBankSampah').text(setorData.bank_sampah ? setorData.bank_sampah.nama_bank_sampah : 'N/A');
+                        $('#detailTotalBerat').text(`${setorData.calculated_total_berat || '0'} kg`);
+                        $('#detailTotalPoin').text(`${setorData.calculated_total_poin || '0'} poin`);
+                        $('#detailNamaPengguna').text(setorData.pengguna ? setorData.pengguna.nama : 'N/A');
+                        $('#detailBankSampah').text(setorData.bank_sampah ? setorData.bank_sampah.nama : 'N/A');
                         $('#detailLokasiPenjemputan').text(setorData.lokasi_penjemputan);
-                        $('#detailWaktuPenjemputan').text(setorData.waktu_penjemputan_formatted || '-'); // Assuming formatted
+                        $('#detailWaktuPenjemputan').text(setorData.waktu_penjemputan_formatted || '-');
                         $('#detailCatatan').text(setorData.catatan || '-');
-                        $('#detailMetodeSetor').text(setorData.metode_setor === 'Dijemput' ? 'Dijemput' : 'Setor Langsung');
+                        $('#detailMetodeSetor').text(setorData.metode_setor);
 
-                        let statusClass = '';
-                        let statusText = setorData.status_setor ? setorData.status_setor.charAt(0).toUpperCase() + setorData.status_setor.slice(1) : 'N/A';
-                        switch(setorData.status_setor) {
-                            case 'Menunggu Konfirmasi':
-                                statusClass = 'bg-blue-100 text-blue-800';
-                                break;
-                            case 'Diproses':
-                                statusClass = 'bg-yellow-100 text-yellow-800';
-                                break;
-                            case 'Selesai':
-                                statusClass = 'bg-green-100 text-green-800';
-                                break;
-                            case 'Dibatalkan':
-                                statusClass = 'bg-red-100 text-red-800';
-                                break;
-                            default: statusClass = 'bg-gray-100 text-gray-800';
+                        let statusClass = 'bg-gray-100 text-gray-800';
+                        const statusText = setorData.status_setor || 'N/A';
+                        switch(statusText) {
+                            case 'Menunggu Konfirmasi': statusClass = 'bg-blue-100 text-blue-800'; break;
+                            case 'Diproses': statusClass = 'bg-yellow-100 text-yellow-800'; break;
+                            case 'Selesai': statusClass = 'bg-green-100 text-green-800'; break;
+                            case 'Dibatalkan': statusClass = 'bg-red-100 text-red-800'; break;
                         }
                         $('#detailStatus').removeClass().addClass('px-2 py-1 text-xs font-semibold rounded-full ' + statusClass).text(statusText);
                         
                         let sampahTableHtml = '';
                         if (sampahDetails && sampahDetails.length > 0) {
-                            sampahDetails.forEach(function(item) {
+                            sampahDetails.forEach(item => {
+                                const subtotalPoin = (item.berat_kg * (item.sampah ? item.sampah.bobot_poin : 0));
                                 sampahTableHtml += `
                                     <tr class="border-b">
                                         <td class="py-2 px-3 text-sm text-black">${item.sampah ? item.sampah.nama_sampah : 'N/A'}</td>
-                                        <td class="py-2 px-3 text-sm text-black">${item.sampah ? item.sampah.nama_jenis_sampah : 'N/A'}</td>
+                                        <td class="py-2 px-3 text-sm text-black">${item.sampah && item.sampah.jenis_sampah ? item.sampah.jenis_sampah.nama_jenis : 'N/A'}</td>
                                         <td class="py-2 px-3 text-sm text-black text-right">${item.berat_kg} kg</td>
                                         <td class="py-2 px-3 text-sm text-black text-right">${item.sampah ? item.sampah.bobot_poin : 'N/A'}</td>
-                                        <td class="py-2 px-3 text-sm text-black text-right">${(item.berat_kg * (item.sampah ? item.sampah.bobot_poin : 0)).toFixed(2)}</td>
+                                        <td class="py-2 px-3 text-sm text-black text-right">${subtotalPoin.toFixed(2)}</td>
                                     </tr>
                                 `;
                             });
                         } else {
                             sampahTableHtml = '<tr><td colspan="5" class="py-4 text-center text-gray-500">Tidak ada data detail sampah</td></tr>';
                         }
-                        $('#detailSampahTableBody').html(sampahTableHtml); // Corrected ID
+                        $('#detailSampahTableBody').html(sampahTableHtml);
                         
                         $('#modalDetail').removeClass('hidden');
                     } else {
@@ -459,65 +460,53 @@
                 }
             });
         }
-
+        
+        // --- Document Ready ---
         $(document).ready(function() {
-            let table = $('#setorSampahTable').DataTable({
+            // --- DataTable Initialization ---
+            const table = $('#setorSampahTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: "{{ route('admin.setor-sampah.data') }}",
                     data: function(d) {
                         d.status = $('#status-filtering').val();
-                        d.metode = $('#metode-filtering').val(); // Added metode filter
-                        d.bank_sampah = $('#bank-sampah-filtering').val();
+                        d.metode = $('#metode-filtering').val();
                     }
                 },
                 columns: [
-                    // {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center'},
-                    {data: 'id_setor', name: 'id_setor'},
-                    {data: 'nama_lengkap', name: 'pengguna.nama_lengkap'}, // Adjusted for eager loading sort/search
-                    {data: 'waktu_setor_formatted', name: 'waktu_setor'},
-                    {data: 'waktu_penjemputan_formatted', name: 'waktu_penjemputan'},
-                    {data: 'metode_setor_formatted', name: 'metode_setor'}, // Added column for metode
-                    {data: 'calculated_total_berat', name: 'calculated_total_berat', className: 'text-center'},
-                    // {data: 'calculated_total_poin', name: 'calculated_total_poin', className: 'text-center'},
-                    {data: 'status_badge', name: 'status_setor', orderable: false, searchable: false}, // Name should be status_setor
-                    {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'}
+                    { data: 'id_setor', name: 'id_setor' },
+                    { data: 'nama_pengguna', name: 'pengguna.nama' },
+                    { data: 'waktu_setor_formatted', name: 'waktu_setor' },
+                    { data: 'waktu_penjemputan_formatted', name: 'waktu_penjemputan' },
+                    { data: 'metode_setor', name: 'metode_setor' },
+                    { data: 'calculated_total_berat', name: 'calculated_total_berat', className: 'text-center' },
+                    { data: 'status_badge', name: 'status_setor', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center' }
                 ],
                 responsive: true,
-                language: { /* ... your language settings ... */ }
+                language: { processing: '<div class="spinner spinner-primary"></div>' }
             });
 
-            // Filter functionality
-            $('#status-filtering, #metode-filtering, #bank-sampah-filtering').change(function() {
-                table.draw();
-            });
+            // --- Filter Functionality ---
+            $('#status-filtering, #metode-filtering').change(() => table.draw());
 
-            // Handle detail modal
-            $(document).on('click', 'button[data-action="detail"]', function(e) {
-                e.preventDefault();
-                let id = $(this).data('id');
-                showDetailModal(id);
+            // --- Detail Modal Listeners ---
+            $(document).on('click', 'button[data-action="detail"]', function() {
+                showDetailModal($(this).data('id'));
             });
-
-            $('#btnCloseDetail').click(function() {
-                $('#modalDetail').addClass('hidden');
-            });
-
-            $('#modalDetail').click(function(e) {
-                if (e.target === this) {
-                    $(this).addClass('hidden');
+            $('#btnCloseDetail, #modalDetail').click(function(e) {
+                if (e.target === this || e.currentTarget.id === 'btnCloseDetail') {
+                    $('#modalDetail').addClass('hidden');
                 }
             });
-            
-       
-            $(document).on('click', 'a[href^="#delete-setor/"]', function(e) {
-                e.preventDefault();
-                let id = $(this).attr('href').replace('#delete-setor/', '');
-                
+
+            // --- Delete Functionality ---
+            $(document).on('click', '.delete-button', function() {
+                const id = $(this).data('id');
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
-                    text: "Data setor sampah akan dihapus permanen!",
+                    text: "Data setor sampah ini akan dihapus permanen!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -526,32 +515,17 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Create a form to submit with DELETE method or use AJAX
-                        let deleteForm = document.createElement('form');
-                        deleteForm.action = "{{ route('admin.setor-sampah.delete', '') }}/" + id;
-                        deleteForm.method = 'POST'; // HTML forms only support GET/POST
-
-                        let csrfInput = document.createElement('input');
-                        csrfInput.type = 'hidden';
-                        csrfInput.name = '_token';
-                        csrfInput.value = '{{ csrf_token() }}';
-                        deleteForm.appendChild(csrfInput);
-
-                        let methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'DELETE'; // To simulate DELETE request
-                        deleteForm.appendChild(methodInput);
-                        
-                        document.body.appendChild(deleteForm);
+                        const deleteForm = $(`<form action="{{ route('admin.setor-sampah.delete', '') }}/${id}" method="POST" style="display:none;">@csrf @method('DELETE')</form>`);
+                        $('body').append(deleteForm);
                         deleteForm.submit();
                     }
                 });
             });
 
+            // --- Add Modal: Dynamic Sampah Items ---
             let sampahIndex = 1;
             $('#add-sampah-item').click(function() {
-                let html = `
+                const html = `
                     <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div class="form-control">
@@ -570,109 +544,100 @@
                                 <button type="button" class="btn btn-error btn-sm remove-sampah-item">Hapus</button>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 $('#detail-sampah-container').append(html);
                 sampahIndex++;
             });
-
             $(document).on('click', '.remove-sampah-item', function() {
-                if ($('.detail-sampah-item').length > 1) {
+                if ($('#detail-sampah-container .detail-sampah-item').length > 1) {
                     $(this).closest('.detail-sampah-item').remove();
                 } else {
                     Swal.fire('Error', 'Minimal harus ada 1 jenis sampah.', 'error');
                 }
             });
-        });
+            
+            // --- Edit Modal Logic ---
+            let editSampahIndex = 0;
+            // Function to add a row in edit modal
+            function addEditSampahItem(detail = {}) {
+                const container = $('#edit-detail-sampah-container');
+                const index = editSampahIndex++;
+                
+                // Base HTML for a new row
+                const html = `
+                    <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
+                        <input type="hidden" name="detail_sampah[${index}][id_detail_setor]" value="${detail.id_detail_setor || ''}">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div class="form-control">
+                                <select name="detail_sampah[${index}][id_sampah]" class="select select-bordered select-sm" required>
+                                    <option disabled selected value="">Pilih Jenis Sampah</option>
+                                    @foreach ($sampah as $item)
+                                        <option value="{{ $item->id_sampah }}">{{ $item->nama_sampah }} ({{ $item->bobot_poin }} poin/kg)</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-control">
+                                <input type="number" name="detail_sampah[${index}][berat_kg]" step="0.01" min="0.01"
+                                    class="input input-bordered input-sm" placeholder="Berat (kg)" value="${detail.berat_kg || ''}" required>
+                            </div>
+                            <div class="form-control">
+                                <button type="button" class="btn btn-error btn-sm remove-edit-sampah-item">Hapus</button>
+                            </div>
+                        </div>
+                    </div>`;
 
-        let editSampahIndex = 0;
-
-        function showEditModal(id) {
-            $.ajax({
-                url: "{{ route('admin.setor-sampah.get-detail', '') }}/" + id,
-                method: 'GET',
-                success: function(response) {
-                    if (response.success) {
-                        let setorData = response.data.setor_sampah;
-                        let sampahDetails = response.data.detail_setor;
-                        
-                        // Set form action
-                        $('#editSetorForm').attr('action', "{{ route('admin.setor-sampah.update', '') }}/" + id);
-                        
-                        // Fill form fields
-                        $('#edit_id_pengguna').val(setorData.id_pengguna);
-                        $('#edit_id_bank_sampah').val(setorData.id_bank_sampah);
-                        $('#edit_metode_setor').val(setorData.metode_setor);
-                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan); // Assuming you send raw datetime
-                        $('#edit_lokasi_penjemputan').val(setorData.lokasi_penjemputan);
-                        $('#edit_catatan').val(setorData.catatan || '');
-                        $('#edit_status_setor').val(setorData.status_setor);
-                        $('#edit_kode_verifikasi').val(setorData.kode_verifikasi || '');
-                        
-                        // Clear and populate sampah details
-                        $('#edit-detail-sampah-container').empty();
-                        editSampahIndex = 0;
-                        
-                        if (sampahDetails && sampahDetails.length > 0) {
-                            sampahDetails.forEach(function(item) {
-                                addEditSampahItem(item.id_sampah, item.berat_kg, item.id_detail_setor);
-                            });
-                        } else {
-                            addEditSampahItem();
-                        }
-                        
-                        // Show modal
-                        $('#edit-setor-sampah').prop('checked', true);
-                    } else {
-                        Swal.fire('Error', response.message || 'Gagal memuat data untuk edit', 'error');
-                    }
-                },
-                error: function() {
-                    Swal.fire('Error', 'Terjadi kesalahan saat memuat data', 'error');
+                container.append(html);
+                
+                // PERBAIKAN: Set the selected value using jQuery after appending
+                if (detail.id_sampah) {
+                    container.find(`select[name="detail_sampah[${index}][id_sampah]"]`).val(detail.id_sampah);
                 }
+            }
+            
+            // Show edit modal and populate data
+            $(document).on('click', '.edit-button', function() {
+                const id = $(this).data('id');
+                $.ajax({
+                    url: `{{ route('admin.setor-sampah.get-detail', '') }}/${id}`,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            const { setor_sampah, detail_setor } = response.data;
+                            
+                            $('#editSetorForm').attr('action', `{{ route('admin.setor-sampah.update', '') }}/${id}`);
+                            
+                            $('#edit_id_pengguna').val(setor_sampah.id_pengguna);
+                            $('#edit_id_bank_sampah').val(setor_sampah.id_bank_sampah);
+                            $('#edit_metode_setor').val(setor_sampah.metode_setor);
+                            // Format waktu untuk input datetime-local (YYYY-MM-DDTHH:mm)
+                            const waktu = setor_sampah.waktu_penjemputan.slice(0, 16);
+                            $('#edit_waktu_penjemputan').val(waktu);
+                            $('#edit_lokasi_penjemputan').val(setor_sampah.lokasi_penjemputan);
+                            $('#edit_catatan').val(setor_sampah.catatan || '');
+                            $('#edit_status_setor').val(setor_sampah.status_setor);
+                            $('#edit_kode_verifikasi').val(setor_sampah.kode_verifikasi || '');
+                            
+                            // Clear and populate sampah details
+                            $('#edit-detail-sampah-container').empty();
+                            editSampahIndex = 0;
+                            if (detail_setor && detail_setor.length > 0) {
+                                detail_setor.forEach(item => addEditSampahItem(item));
+                            } else {
+                                addEditSampahItem(); // Add one empty row
+                            }
+                            
+                            $('#edit-setor-sampah').prop('checked', true); // Show modal
+                        } else {
+                            Swal.fire('Error', response.message || 'Gagal memuat data untuk diedit', 'error');
+                        }
+                    },
+                    error: () => Swal.fire('Error', 'Terjadi kesalahan saat memuat data', 'error')
+                });
             });
-        }
 
-        function addEditSampahItem(selectedSampah = '', beratValue = '', detailId = '') {
-            let html = `
-                <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div class="form-control">
-                            <select name="detail_sampah[${editSampahIndex}][id_sampah]" class="select select-bordered select-sm" required>
-                                <option disabled value="">Pilih Jenis Sampah</option>
-                                @foreach ($sampah as $item)
-                                    <option value="{{ $item->id_sampah }}" ${selectedSampah == '{{ $item->id_sampah }}' ? 'selected' : ''}>{{ $item->nama_sampah }} ({{ $item->bobot_poin }} poin/kg)</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-control">
-                            <input type="number" name="detail_sampah[${editSampahIndex}][berat_kg]" step="0.01" min="0.01" 
-                                class="input input-bordered input-sm" placeholder="Berat (kg)" value="${beratValue}" required>
-                        </div>
-                        <div class="form-control">
-                            <button type="button" class="btn btn-error btn-sm remove-edit-sampah-item">Hapus</button>
-                        </div>
-                    </div>
-                    ${detailId ? `<input type="hidden" name="detail_sampah[${editSampahIndex}][id_detail_setor]" value="${detailId}">` : ''}
-                </div>
-            `;
-            $('#edit-detail-sampah-container').append(html);
-            editSampahIndex++;
-        }
-
-        $(document).ready(function() {
-            // Edit button click handler
-            $(document).on('click', 'a[href^="#edit-setor/"]', function(e) {
-                e.preventDefault();
-                let id = $(this).attr('href').replace('#edit-setor/', '');
-                showEditModal(id);
-            });
-
-            // Add sampah item in edit modal
-            $('#edit-add-sampah-item').click(function() {
-                addEditSampahItem();
-            });
-
+            // Add new sampah item in edit modal
+            $('#edit-add-sampah-item').click(() => addEditSampahItem());
+            
             // Remove sampah item in edit modal
             $(document).on('click', '.remove-edit-sampah-item', function() {
                 if ($('#edit-detail-sampah-container .detail-sampah-item').length > 1) {
@@ -682,38 +647,41 @@
                 }
             });
 
-            // Handle edit form submission
+            // Handle edit form submission via AJAX
             $('#editSetorForm').submit(function(e) {
                 e.preventDefault();
                 
-                let formData = new FormData(this);
-                let actionUrl = $(this).attr('action');
+                const formData = new FormData(this);
+                const actionUrl = $(this).attr('action');
                 
                 $.ajax({
                     url: actionUrl,
-                    method: 'POST',
+                    method: 'POST', // Always POST for FormData with _method spoofing
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
                         if (response.success) {
-                            Swal.fire('Berhasil', response.message || 'Data berhasil diupdate', 'success').then(() => {
-                                $('#edit-setor-sampah').prop('checked', false);
-                                $('#setorSampahTable').DataTable().ajax.reload();
+                            Swal.fire('Berhasil!', response.message, 'success').then(() => {
+                                $('#edit-setor-sampah').prop('checked', false); // Close modal
+                                table.ajax.reload(); // Refresh DataTable
                             });
                         } else {
-                            Swal.fire('Error', response.message || 'Gagal mengupdate data', 'error');
+                            Swal.fire('Gagal!', response.message || 'Gagal mengupdate data', 'error');
                         }
                     },
                     error: function(xhr) {
-                        let errorMessage = 'Terjadi kesalahan saat mengupdate data';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            let errors = Object.values(xhr.responseJSON.errors).flat();
-                            errorMessage = errors.join('<br>');
+                        let errorMessage = 'Terjadi kesalahan saat mengupdate data.';
+                        if (xhr.responseJSON) {
+                            if (xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+                            if (xhr.responseJSON.errors) {
+                                const errors = Object.values(xhr.responseJSON.errors).flat();
+                                errorMessage += '<br><br>' + errors.join('<br>');
+                            }
                         }
-                        Swal.fire('Error', errorMessage, 'error');
+                        Swal.fire('Error!', errorMessage, 'error');
                     }
                 });
             });
