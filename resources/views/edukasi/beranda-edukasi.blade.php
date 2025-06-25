@@ -44,7 +44,7 @@
                 </a>
             </div>
             <div class="flex justify-center md:justify-end">
-                <img src="{{ asset('Assets/make-use-recycle.png') }}" alt="Ilustrasi Edukasi" class="w-62">
+                <img src="{{ asset('Assets/maskot.gif')}}" alt="Ilustrasi Edukasi" class="w-80 md:w-90 lg:w-[450px]">
             </div>
         </div>
     </section>
