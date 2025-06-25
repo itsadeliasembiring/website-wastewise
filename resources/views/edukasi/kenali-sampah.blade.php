@@ -288,7 +288,7 @@
     // --- Koneksi ke Backend ---
     async function getGeminiResponse(formData) {
         try {
-            const serverUrl = 'https://kelompok4.waste-wise.cloud./chat';
+            const serverUrl = 'http://127.0.0.1:8000/chat';
 
             const response = await fetch(serverUrl, {
                 method: 'POST',

@@ -67,7 +67,8 @@
                                         name="status_filter" id="status-filtering"> {{-- ID is okay here --}}
                                         <option disabled selected>Filter Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
-                                        <option class="text-[#000] bg-[#fff]" value="Pending">Pending</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
                                         <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
                                         <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
                                     </select>
