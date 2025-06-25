@@ -29,14 +29,34 @@ class ChatbotController extends Controller
                 return response()->json(['error' => 'API Key Gemini tidak ditemukan.'], 500);
             }
 
-            // Correctly instantiate Guzzle client with proxy
+            // // Correctly instantiate Guzzle client with proxy
             // $httpClient = new GuzzleClient([
             //     'proxy' => 'socks5h://104.223.91.227:1080',
             //     'timeout' => 30, // Increased timeout for potentially slow proxy
             // ]);
 
+            // // Pass the configured Guzzle client to the Gemini client
+            // $client = Gemini::factory()
+            //                 ->withApiKey($apiKey)
+            //                 ->withHttpClient($httpClient)
+            //                 ->make();
+
+            $httpClient = new GuzzleClient([
+                'proxy' => [
+                    // Gunakan proxy ini untuk permintaan ke website http://
+                    'http' => 'http://156.228.88.183:3129',
+                    
+                    // Gunakan proxy yang sama untuk permintaan ke website https://
+                    'https' => 'http://156.228.88.183:3129' 
+                ],
+                'timeout' => 30,
+            ]);
+
             // Pass the configured Guzzle client to the Gemini client
-            $client = Gemini::client($apiKey);
+            $client = Gemini::factory()
+                            ->withApiKey($apiKey)
+                            ->withHttpClient($httpClient)
+                            ->make();
 
             $systemPrompt = "Kamu adalah WasteWise Bot, ..."; // Your system prompt remains the same
 
