@@ -86,11 +86,20 @@ class SetorSampahController extends Controller
                         $badgeClass = '';
                         $statusText = ucfirst($row->status_setor);
                         switch($row->status_setor) {
-                            case 'Pending':    $badgeClass = 'bg-yellow-100 text-yellow-800'; break;
-                            case 'Dijemput':   $badgeClass = 'bg-blue-100 text-blue-800'; break;
-                            case 'Selesai':    $badgeClass = 'bg-green-100 text-green-800'; break;
-                            case 'Dibatalkan': $badgeClass = 'bg-red-100 text-red-800'; break;
-                            default:           $badgeClass = 'bg-gray-100 text-gray-800';
+                            case 'Menunggu Konfirmasi':
+                                $badgeClass = 'bg-yellow-100 text-yellow-800';
+                                break;
+                            case 'Di Proses':
+                                $badgeClass = 'bg-blue-100 text-blue-800';
+                                break;
+                            case 'Selesai':
+                                $badgeClass = 'bg-green-100 text-green-800';
+                                break;
+                            case 'Dibatalkan':
+                                $badgeClass = 'bg-red-100 text-red-800';
+                                break;
+                            default:
+                                $badgeClass = 'bg-gray-100 text-gray-800';
                         }
                         return '<span class="px-2 py-1 text-xs font-semibold rounded-full '.$badgeClass.'">'.$statusText.'</span>';
                     })
@@ -194,7 +203,7 @@ class SetorSampahController extends Controller
                 'waktu_penjemputan' => $waktuPenjemputan,
                 'kode_verifikasi' => $kodeVerifikasi,
                 'status_verifikasi' => false,
-                'status_setor' => 'Pending',
+                'status_setor' => 'Menunggu Konfirmasi',
                 'metode_setor' => $request->input('metode_setor'),
                 'catatan' => $request->input('catatan'),
                 'id_bank_sampah' => $request->input('id_bank_sampah'),
@@ -267,7 +276,7 @@ class SetorSampahController extends Controller
                 $validator = Validator::make($request->all(), [
                     'lokasi_penjemputan' => 'required|string|max:500',
                     'waktu_penjemputan' => 'required|date',
-                    'status_setor' => 'required|in:Pending,Dijemput,Selesai,Dibatalkan',
+                    'status_setor' => 'required|in:Menunggu Konfirmasi,Di Proses,Dijemput,Selesai,Dibatalkan',
                     'status_verifikasi' => 'nullable|in:belum_verifikasi,terverifikasi',
                     'metode_setor' => 'required|in:Dijemput,Setor Langsung',
                     'catatan' => 'nullable|string|max:1000',
@@ -397,7 +406,7 @@ class SetorSampahController extends Controller
         try {
             $validated = $request->validate([
                 'id_setor' => 'required|exists:setor_sampah,id_setor',
-                'status_setor' => 'required|in:Pending,Dijemput,Selesai,Dibatalkan',
+                'status_setor' => 'required|in:Menunggu Konfirmasi, Di Proses,Dijemput,Selesai,Dibatalkan',
             ]);
 
             $updateStatus = $this->setorSampahModel

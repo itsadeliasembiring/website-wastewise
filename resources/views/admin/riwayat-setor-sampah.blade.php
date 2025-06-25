@@ -234,7 +234,7 @@
                         <select name="id_bank_sampah" class="select select-bordered" required>
                             <option disabled selected value="">Pilih Bank Sampah</option>
                             @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}">{{ $bank->nama }}</option>
+                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -325,7 +325,7 @@
                         <select name="id_bank_sampah" id="edit_id_bank_sampah" class="select select-bordered" required>
                             <option disabled value="">Pilih Bank Sampah</option>
                             @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}">{{ $bank->nama }}</option>
+                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -360,9 +360,11 @@
                     <div class="form-control">
                         <label class="label"><span class="label-text">Status <span class="text-red-500">*</span></span></label>
                         <select name="status_setor" id="edit_status_setor" class="select select-bordered" required>
-                            <option value="Pending">Pending</option>
-                            <option value="Selesai">Selesai</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
+                            <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
+                            <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                            <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
+                            <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
+                            <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
                         </select>
                     </div>
                     <div class="form-control">
@@ -413,9 +415,18 @@
                         let statusClass = '';
                         let statusText = setorData.status_setor ? setorData.status_setor.charAt(0).toUpperCase() + setorData.status_setor.slice(1) : 'N/A';
                         switch(setorData.status_setor) {
-                            case 'Pending': statusClass = 'bg-yellow-100 text-yellow-800'; break;
-                            case 'Selesai': statusClass = 'bg-green-100 text-green-800'; break;
-                            case 'Dibatalkan': statusClass = 'bg-red-100 text-red-800'; break;
+                            case 'Menunggu Konfirmasi':
+                                statusClass = 'bg-blue-100 text-blue-800';
+                                break;
+                            case 'Diproses':
+                                statusClass = 'bg-yellow-100 text-yellow-800';
+                                break;
+                            case 'Selesai':
+                                statusClass = 'bg-green-100 text-green-800';
+                                break;
+                            case 'Dibatalkan':
+                                statusClass = 'bg-red-100 text-red-800';
+                                break;
                             default: statusClass = 'bg-gray-100 text-gray-800';
                         }
                         $('#detailStatus').removeClass().addClass('px-2 py-1 text-xs font-semibold rounded-full ' + statusClass).text(statusText);

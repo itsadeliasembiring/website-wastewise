@@ -266,7 +266,7 @@ class TransaksiSetorSampahController extends Controller
                 'waktu_penjemputan' => null,
                 'kode_verifikasi' => $kodeVerifikasi,
                 'status_verifikasi' => false,
-                'status_setor' => 'pending',
+                'status_setor' => 'Menunggu Konfirmasi',
                 'metode_setor' => 'Setor Langsung',
                 'catatan' => $request->catatan,
                 'id_bank_sampah' => 'B01',
