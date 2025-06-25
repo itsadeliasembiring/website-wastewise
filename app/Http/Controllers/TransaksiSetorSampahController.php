@@ -531,7 +531,7 @@ class TransaksiSetorSampahController extends Controller
             
             $setorSampah = SetorSampahModel::where('id_setor', $idSetor)
                 ->where('id_pengguna', $idPenggunaValid)
-                ->where('status_setor', 'menunggu konfirmasi')
+                ->where('status_setor', 'Menunggu Konfirmasi')
                 ->firstOrFail();
 
             // Update status menjadi dibatalkan
