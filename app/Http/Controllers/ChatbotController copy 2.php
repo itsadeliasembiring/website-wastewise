@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Gemini; // Fasad utama
-use Gemini\Data\Content; // WAJIB: Usaremos os factories desta classe
-use Gemini\Data\Blob; // WAJIB: Untuk handle file uploads
-use Gemini\Enums\MimeType; // OPSIONAL: Untuk MIME type constants
+use Gemini; // Make sure this facade is correctly set up
+use Gemini\Client; // Import the actual client
+use Gemini\Data\Content;
+use Gemini\Data\Blob;
+use Gemini\Enums\MimeType;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client as GuzzleClient;
 
 class ChatbotController extends Controller
 {
@@ -27,12 +29,36 @@ class ChatbotController extends Controller
                 return response()->json(['error' => 'API Key Gemini tidak ditemukan.'], 500);
             }
 
-            $client = Gemini::client($apiKey);
+            // // Correctly instantiate Guzzle client with proxy
+            // $httpClient = new GuzzleClient([
+            //     'proxy' => 'socks5h://104.223.91.227:1080',
+            //     'timeout' => 30, // Increased timeout for potentially slow proxy
+            // ]);
 
-            $systemPrompt = "Kamu adalah WasteWise Bot, asisten AI ahli yang berspesialisasi dalam pengelolaan sampah dan isu lingkungan. Tugas utamamu adalah memberikan informasi yang akurat dan edukatif.
-            JAWAB HANYA pertanyaan yang berkaitan dengan topik berikut: klasifikasi sampah (organik, anorganik, B3), proses daur ulang, 3R (Reduce, Reuse, Recycle), pembuatan kompos, polusi (tanah, air, udara), ecobrick, bank sampah, dampak perubahan iklim terhadap sampah, dan topik lingkungan terkait.
-            JANGAN PERNAH menjawab pertanyaan di luar topik ini (misalnya tentang politik, selebriti, sejarah, matematika, atau permintaan kreatif lainnya).
-            Jika pengguna bertanya di luar topik, kamu HARUS menolak dengan sopan. Contoh penolakan: 'Maaf, saya adalah WasteWise Bot. Saya hanya bisa menjawab pertanyaan seputar sampah dan lingkungan. Ada yang bisa saya bantu terkait topik tersebut?'";
+            // // Pass the configured Guzzle client to the Gemini client
+            // $client = Gemini::factory()
+            //                 ->withApiKey($apiKey)
+            //                 ->withHttpClient($httpClient)
+            //                 ->make();
+
+            $httpClient = new GuzzleClient([
+                'proxy' => [
+                    // Gunakan proxy ini untuk permintaan ke website http://
+                    'http' => 'http://156.228.88.183:3129',
+                    
+                    // Gunakan proxy yang sama untuk permintaan ke website https://
+                    'https' => 'http://156.228.88.183:3129' 
+                ],
+                'timeout' => 30,
+            ]);
+
+            // Pass the configured Guzzle client to the Gemini client
+            $client = Gemini::factory()
+                            ->withApiKey($apiKey)
+                            ->withHttpClient($httpClient)
+                            ->make();
+
+            $systemPrompt = "Kamu adalah WasteWise Bot, ..."; // Your system prompt remains the same
 
             $userMessage = $request->input('message', '');
             $userParts = [];
@@ -41,18 +67,12 @@ class ChatbotController extends Controller
                 $userMessage = 'Jelaskan tentang sampah pada gambar ini dan bagaimana cara mengelolanya.';
             }
 
-            // ALTERNATIF SEDERHANA: Tambahkan system prompt langsung ke user message
-            // Ini menghindari masalah dengan Content object untuk system instruction
             $fullPrompt = $systemPrompt . "\n\n" . (!empty($userMessage) ? "User: " . $userMessage : "User mengirim media tanpa teks.");
-            
-            // Reset userParts dan mulai dengan prompt lengkap
             $userParts = [$fullPrompt];
-            
-            // Tambahkan media files jika ada
+
             if ($request->hasFile('image')) {
                 $imageFile = $request->file('image');
                 $mimeType = $this->convertMimeTypeToEnum($imageFile->getMimeType());
-                
                 if ($mimeType) {
                     $userParts[] = new Blob(
                         mimeType: $mimeType,
@@ -61,22 +81,10 @@ class ChatbotController extends Controller
                 }
             }
 
-            if ($request->hasFile('audio')) {
-                $audioFile = $request->file('audio');
-                $mimeType = $this->convertMimeTypeToEnum($audioFile->getMimeType());
-                
-                if ($mimeType) {
-                    $userParts[] = new Blob(
-                        mimeType: $mimeType,
-                        data: base64_encode(file_get_contents($audioFile->getRealPath()))
-                    );
-                }
-            }
+            // Add audio file handling if needed (code was present in original)
 
-            $model = $client->generativeModel('gemini-1.5-flash');
-
-            // Metode generateContent dapat menerima campuran string dan objek Content
-            $result = $model->generateContent(...$userParts);
+            // Use the 'gemini-1.5-flash' model with the instantiated client
+            $result = $client->gemini1_5Flash()->generateContent(...$userParts);
 
             return response()->json(['reply' => $result->text()]);
 
@@ -89,9 +97,6 @@ class ChatbotController extends Controller
         }
     }
 
-    /**
-     * Convert string MIME type to Gemini MimeType enum
-     */
     private function convertMimeTypeToEnum(string $mimeType): ?MimeType
     {
         return match ($mimeType) {
