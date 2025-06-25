@@ -247,7 +247,7 @@
             .then(data => {
                 if (data.success) {
                     // Update total poin di UI
-                    setSafeTextContent('total-poin', data.data.sisa_poin + ' Poin');
+                    setSafeTextContent('poinTersedia', data.data.sisa_poin + ' Poin');
                     setSafeTextContent('poinTersedia', data.data.sisa_poin);
                     
                     closeDonasiModal();
@@ -281,7 +281,7 @@
 
         // Function to exchange items
         function tukarBarang(idBarang, namaBarang, hargaPoin) {
-            const poinTersedia = getSafeTextContent('total-poin');
+            const poinTersedia = getSafeTextContent('poinTersedia');
             
             if (hargaPoin > poinTersedia) {
                 Swal.fire({
@@ -338,7 +338,7 @@
                     .then(data => {
                         if (data.success) {
                             // Update total poin di UI
-                            setSafeTextContent('total-poin', data.data.sisa_poin + ' Poin');
+                            setSafeTextContent('poinTersedia', data.data.sisa_poin + ' Poin');
                             setSafeTextContent('poinTersedia', data.data.sisa_poin);
                             
                             Swal.fire({
@@ -392,7 +392,7 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, total poin:', getSafeTextContent('total-poin'));
+            console.log('Page loaded, total poin:', getSafeTextContent('poinTersedia'));
         });
     </script>
 </body>
