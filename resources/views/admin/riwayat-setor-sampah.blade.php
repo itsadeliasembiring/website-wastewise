@@ -4,9 +4,8 @@
 @section('content')
     @php
         if (count($errors) > 0) {
-            // Ensure alert() is available, or use a standard session flash for errors from controller validation
-            // For example, if using a package like sweetalert2-laravel:
-             alert()->error('Gagal', implode('<br>', $errors->all()));
+            // Pastikan alert() tersedia, atau gunakan session flash standar dari controller
+            alert()->error('Gagal', implode('<br>', $errors->all()));
         }
     @endphp
     <x-header.admin/>
@@ -38,9 +37,7 @@
                     icon: 'error',
                     title: 'Error!',
                     text: "{{ session('error') }}",
-                    // timer: 3000, // Keep error message visible until manually closed or longer
-                    // timerProgressBar: true,
-                    showConfirmButton: true // Allow user to acknowledge error
+                    showConfirmButton: true
                 });
             });
         </script>
@@ -64,7 +61,7 @@
                             <div class="flex sm:flex-row sm:space-x-2 sm:space-y-0 xs:flex-col xs:space-y-2 xs:space-x-0">
                                 <div class="flex xl:flex-row space-x-2 items-center">
                                     <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
-                                        name="status_filter" id="status-filtering"> {{-- ID is okay here --}}
+                                            name="status_filter" id="status-filtering">
                                         <option disabled selected>Filter Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
@@ -73,16 +70,16 @@
                                         <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
                                     </select>
                                     <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
-                                        name="metode_filter" id="metode-filtering"> {{-- Changed ID --}}
+                                            name="metode_filter" id="metode-filtering">
                                         <option disabled selected>Filter Metode</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Metode</option>
                                         <option class="text-[#000] bg-[#fff]" value="jemput">Dijemput</option>
-                                        <option class="text-[#000] bg-[#fff]" value="antar">Setor Langsung</option> {{-- Value should match DB --}}
+                                        <option class="text-[#000] bg-[#fff]" value="antar">Setor Langsung</option>
                                     </select>
                                     <label for="add-setor-sampah"
-                                        class="btn btn-sm h-9 border-none pl-3 bg-[#00D100] hover:bg-[#00D100] text-white rounded-[10px] inline-flex justify-center items-center">
+                                           class="btn btn-sm h-9 border-none pl-3 bg-[#00D100] hover:bg-[#00D100] text-white rounded-[10px] inline-flex justify-center items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] h-[17px] sm:mr-3" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
+                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                         </svg>
                                         <span class="xs:hidden sm:inline-block xs:text-[12px] sm:text-[14px]">Tambah</span>
@@ -97,14 +94,12 @@
                             <table id="setorSampahTable" class="stripe hover display responsive nowrap" style="width: 100%">
                                 <thead class="bg-white xl:w-fit sm:w-auto">
                                     <tr>
-                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">No</th> -->
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">ID Setor</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Pengguna</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Setor</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Penjemputan</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Metode</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Berat (kg)</th>
-                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Poin</th> -->
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Status</th>
                                         <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] sm:text-xs">Aksi</th>
                                     </tr>
@@ -134,57 +129,21 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">ID Setoran</p>
-                            <p id="detailId" class="text-black font-semibold">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Waktu Setor</p>
-                            <p id="detailWaktuSetor" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Kode Verifikasi</p>
-                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-300 p-1 rounded inline-block">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500 mb-2">Status Setor</p>
-                            <span id="detailStatus" class="px-2 py-1 text-xs font-semibold rounded-full">-</span>
-                        </div>
-                         <div class="mb-3">
-                            <p class="text-sm text-gray-500">Metode Setor</p>
-                            <p id="detailMetodeSetor" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Total Berat</p>
-                            <p id="detailTotalBerat" class="text-black font-semibold">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Total Poin</p>
-                            <p id="detailTotalPoin" class="text-black font-semibold">-</p>
-                        </div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">ID Setoran</p><p id="detailId" class="text-black font-semibold">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Waktu Setor</p><p id="detailWaktuSetor" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Kode Verifikasi</p><p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-300 p-1 rounded inline-block">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500 mb-2">Status Setor</p><span id="detailStatus" class="px-2 py-1 text-xs font-semibold rounded-full">-</span></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Metode Setor</p><p id="detailMetodeSetor" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Total Berat</p><p id="detailTotalBerat" class="text-black font-semibold">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Total Poin</p><p id="detailTotalPoin" class="text-black font-semibold">-</p></div>
                     </div>
                     
                     <div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Nama Pengguna</p>
-                            <p id="detailNamaPengguna" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Bank Sampah</p>
-                            <p id="detailBankSampah" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Lokasi Penjemputan</p>
-                            <p id="detailLokasiPenjemputan" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Waktu Penjemputan</p>
-                            <p id="detailWaktuPenjemputan" class="text-black">-</p>
-                        </div>
-                        <div class="mb-3">
-                            <p class="text-sm text-gray-500">Catatan</p>
-                            <p id="detailCatatan" class="text-black">-</p>
-                        </div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Nama Pengguna</p><p id="detailNamaPengguna" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Bank Sampah</p><p id="detailBankSampah" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Lokasi Penjemputan</p><p id="detailLokasiPenjemputan" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Waktu Penjemputan</p><p id="detailWaktuPenjemputan" class="text-black">-</p></div>
+                        <div class="mb-3"><p class="text-sm text-gray-500">Catatan</p><p id="detailCatatan" class="text-black">-</p></div>
                     </div>
                 </div>
                 
@@ -280,7 +239,7 @@
                                 </div>
                                 <div class="form-control">
                                     <input type="number" name="detail_sampah[0][berat_kg]" step="0.01" min="0.01" 
-                                        class="input input-bordered input-sm" placeholder="Berat (kg)" required>
+                                           class="input input-bordered input-sm" placeholder="Berat (kg)" required>
                                 </div>
                                 <div class="form-control">
                                     <button type="button" class="btn btn-error btn-sm remove-sampah-item">Hapus</button>
@@ -299,7 +258,6 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
     <input type="checkbox" id="edit-setor-sampah" class="modal-toggle" />
     <div class="modal">
         <div class="modal-box w-11/12 max-w-3xl">
@@ -324,8 +282,8 @@
                         <label class="label"><span class="label-text">Bank Sampah <span class="text-red-500">*</span></span></label>
                         <select name="id_bank_sampah" id="edit_id_bank_sampah" class="select select-bordered" required>
                             <option disabled value="">Pilih Bank Sampah</option>
-                            @foreach ($bank_sampah as $bank)
-                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama_bank_sampah }}</option>
+                             @foreach ($bank_sampah as $bank)
+                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -360,7 +318,6 @@
                     <div class="form-control">
                         <label class="label"><span class="label-text">Status <span class="text-red-500">*</span></span></label>
                         <select name="status_setor" id="edit_status_setor" class="select select-bordered" required>
-                            <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
                             <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
                             <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
                             <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
@@ -376,8 +333,7 @@
                 <div class="mb-4">
                     <h4 class="font-semibold text-[#3D8D7A] mb-2">Detail Sampah <span class="text-red-500">*</span></h4>
                     <div id="edit-detail-sampah-container">
-                        <!-- Dynamic content will be loaded here -->
-                    </div>
+                        </div>
                     <button type="button" id="edit-add-sampah-item" class="btn btn-outline btn-sm mt-2">+ Tambah Jenis Sampah</button>
                 </div>
 
@@ -390,6 +346,17 @@
     </div>
 
     <script>
+        // =================================================================================
+        // PERBAIKAN: Mengubah koleksi Blade menjadi array JavaScript
+        // =================================================================================
+        const allSampahItems = @json($sampah->map(function($item) {
+            return [
+                'id' => $item->id_sampah,
+                'nama' => $item->nama_sampah,
+                'poin' => $item->bobot_poin,
+            ];
+        }));
+
         // Global function for showDetailModal
         function showDetailModal(id) {
             $.ajax({
@@ -397,36 +364,28 @@
                 method: 'GET',
                 success: function(response) {
                     if (response.success) {
-                        let setorData = response.data.setor_sampah; // Main deposit info
-                        let sampahDetails = response.data.detail_setor; // Array of waste items
+                        let setorData = response.data.setor_sampah;
+                        let sampahDetails = response.data.detail_setor;
                         
                         $('#detailId').text(setorData.id_setor);
-                        $('#detailWaktuSetor').text(setorData.waktu_setor_formatted); // Assuming formatted in controller
+                        $('#detailWaktuSetor').text(setorData.waktu_setor_formatted);
                         $('#detailKodeVerifikasi').text(setorData.kode_verifikasi || '-');
                         $('#detailTotalBerat').text(setorData.calculated_total_berat + ' kg');
                         $('#detailTotalPoin').text(setorData.calculated_total_poin + ' poin');
-                        $('#detailNamaPengguna').text(setorData.pengguna ? setorData.pengguna.nama_lengkap : 'N/A');
-                        $('#detailBankSampah').text(setorData.bank_sampah ? setorData.bank_sampah.nama_bank_sampah : 'N/A');
+                        $('#detailNamaPengguna').text(setorData.pengguna ? setorData.pengguna.nama : 'N/A'); // pastikan properti `nama`
+                        $('#detailBankSampah').text(setorData.bank_sampah ? setorData.bank_sampah.nama : 'N/A'); // pastikan properti `nama`
                         $('#detailLokasiPenjemputan').text(setorData.lokasi_penjemputan);
-                        $('#detailWaktuPenjemputan').text(setorData.waktu_penjemputan_formatted || '-'); // Assuming formatted
+                        $('#detailWaktuPenjemputan').text(setorData.waktu_penjemputan_formatted || '-');
                         $('#detailCatatan').text(setorData.catatan || '-');
-                        $('#detailMetodeSetor').text(setorData.metode_setor === 'Dijemput' ? 'Dijemput' : 'Setor Langsung');
+                        $('#detailMetodeSetor').text(setorData.metode_setor);
 
                         let statusClass = '';
                         let statusText = setorData.status_setor ? setorData.status_setor.charAt(0).toUpperCase() + setorData.status_setor.slice(1) : 'N/A';
                         switch(setorData.status_setor) {
-                            case 'Menunggu Konfirmasi':
-                                statusClass = 'bg-blue-100 text-blue-800';
-                                break;
-                            case 'Diproses':
-                                statusClass = 'bg-yellow-100 text-yellow-800';
-                                break;
-                            case 'Selesai':
-                                statusClass = 'bg-green-100 text-green-800';
-                                break;
-                            case 'Dibatalkan':
-                                statusClass = 'bg-red-100 text-red-800';
-                                break;
+                            case 'Menunggu Konfirmasi': statusClass = 'bg-blue-100 text-blue-800'; break;
+                            case 'Di Proses': statusClass = 'bg-yellow-100 text-yellow-800'; break;
+                            case 'Selesai': statusClass = 'bg-green-100 text-green-800'; break;
+                            case 'Dibatalkan': statusClass = 'bg-red-100 text-red-800'; break;
                             default: statusClass = 'bg-gray-100 text-gray-800';
                         }
                         $('#detailStatus').removeClass().addClass('px-2 py-1 text-xs font-semibold rounded-full ' + statusClass).text(statusText);
@@ -437,7 +396,7 @@
                                 sampahTableHtml += `
                                     <tr class="border-b">
                                         <td class="py-2 px-3 text-sm text-black">${item.sampah ? item.sampah.nama_sampah : 'N/A'}</td>
-                                        <td class="py-2 px-3 text-sm text-black">${item.sampah ? item.sampah.nama_jenis_sampah : 'N/A'}</td>
+                                        <td class="py-2 px-3 text-sm text-black">${item.sampah ? item.sampah.jenis_sampah.nama_jenis_sampah : 'N/A'}</td>
                                         <td class="py-2 px-3 text-sm text-black text-right">${item.berat_kg} kg</td>
                                         <td class="py-2 px-3 text-sm text-black text-right">${item.sampah ? item.sampah.bobot_poin : 'N/A'}</td>
                                         <td class="py-2 px-3 text-sm text-black text-right">${(item.berat_kg * (item.sampah ? item.sampah.bobot_poin : 0)).toFixed(2)}</td>
@@ -447,7 +406,7 @@
                         } else {
                             sampahTableHtml = '<tr><td colspan="5" class="py-4 text-center text-gray-500">Tidak ada data detail sampah</td></tr>';
                         }
-                        $('#detailSampahTableBody').html(sampahTableHtml); // Corrected ID
+                        $('#detailSampahTableBody').html(sampahTableHtml);
                         
                         $('#modalDetail').removeClass('hidden');
                     } else {
@@ -468,49 +427,39 @@
                     url: "{{ route('admin.setor-sampah.data') }}",
                     data: function(d) {
                         d.status = $('#status-filtering').val();
-                        d.metode = $('#metode-filtering').val(); // Added metode filter
-                        d.bank_sampah = $('#bank-sampah-filtering').val();
+                        d.metode = $('#metode-filtering').val();
                     }
                 },
                 columns: [
-                    // {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center'},
                     {data: 'id_setor', name: 'id_setor'},
-                    {data: 'nama_lengkap', name: 'pengguna.nama_lengkap'}, // Adjusted for eager loading sort/search
+                    {data: 'nama_pengguna', name: 'pengguna.nama'}, // Sesuaikan dengan relasi dan kolom
                     {data: 'waktu_setor_formatted', name: 'waktu_setor'},
                     {data: 'waktu_penjemputan_formatted', name: 'waktu_penjemputan'},
-                    {data: 'metode_setor_formatted', name: 'metode_setor'}, // Added column for metode
+                    {data: 'metode_setor', name: 'metode_setor'}, // Menggunakan nama kolom langsung
                     {data: 'calculated_total_berat', name: 'calculated_total_berat', className: 'text-center'},
-                    // {data: 'calculated_total_poin', name: 'calculated_total_poin', className: 'text-center'},
-                    {data: 'status_badge', name: 'status_setor', orderable: false, searchable: false}, // Name should be status_setor
+                    {data: 'status_badge', name: 'status_setor'},
                     {data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center'}
                 ],
                 responsive: true,
                 language: { /* ... your language settings ... */ }
             });
 
-            // Filter functionality
-            $('#status-filtering, #metode-filtering, #bank-sampah-filtering').change(function() {
+            $('#status-filtering, #metode-filtering').change(function() {
                 table.draw();
             });
 
-            // Handle detail modal
             $(document).on('click', 'button[data-action="detail"]', function(e) {
                 e.preventDefault();
                 let id = $(this).data('id');
                 showDetailModal(id);
             });
 
-            $('#btnCloseDetail').click(function() {
-                $('#modalDetail').addClass('hidden');
-            });
-
-            $('#modalDetail').click(function(e) {
-                if (e.target === this) {
-                    $(this).addClass('hidden');
+            $('#btnCloseDetail, #modalDetail').click(function(e) {
+                if (e.target === this || $(e.target).closest('#btnCloseDetail').length) {
+                    $('#modalDetail').addClass('hidden');
                 }
             });
             
-       
             $(document).on('click', 'a[href^="#delete-setor/"]', function(e) {
                 e.preventDefault();
                 let id = $(this).attr('href').replace('#delete-setor/', '');
@@ -526,23 +475,10 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Create a form to submit with DELETE method or use AJAX
                         let deleteForm = document.createElement('form');
                         deleteForm.action = "{{ route('admin.setor-sampah.delete', '') }}/" + id;
-                        deleteForm.method = 'POST'; // HTML forms only support GET/POST
-
-                        let csrfInput = document.createElement('input');
-                        csrfInput.type = 'hidden';
-                        csrfInput.name = '_token';
-                        csrfInput.value = '{{ csrf_token() }}';
-                        deleteForm.appendChild(csrfInput);
-
-                        let methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'DELETE'; // To simulate DELETE request
-                        deleteForm.appendChild(methodInput);
-                        
+                        deleteForm.method = 'POST';
+                        deleteForm.innerHTML = `@csrf @method('DELETE')`;
                         document.body.appendChild(deleteForm);
                         deleteForm.submit();
                     }
@@ -564,7 +500,7 @@
                             </div>
                             <div class="form-control">
                                 <input type="number" name="detail_sampah[${sampahIndex}][berat_kg]" step="0.01" min="0.01" 
-                                    class="input input-bordered input-sm" placeholder="Berat (kg)" required>
+                                       class="input input-bordered input-sm" placeholder="Berat (kg)" required>
                             </div>
                             <div class="form-control">
                                 <button type="button" class="btn btn-error btn-sm remove-sampah-item">Hapus</button>
@@ -596,20 +532,17 @@
                         let setorData = response.data.setor_sampah;
                         let sampahDetails = response.data.detail_setor;
                         
-                        // Set form action
                         $('#editSetorForm').attr('action', "{{ route('admin.setor-sampah.update', '') }}/" + id);
                         
-                        // Fill form fields
                         $('#edit_id_pengguna').val(setorData.id_pengguna);
                         $('#edit_id_bank_sampah').val(setorData.id_bank_sampah);
                         $('#edit_metode_setor').val(setorData.metode_setor);
-                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan); // Assuming you send raw datetime
+                        $('#edit_waktu_penjemputan').val(setorData.waktu_penjemputan_raw); // Pastikan controller mengirim format Y-m-d\TH:i
                         $('#edit_lokasi_penjemputan').val(setorData.lokasi_penjemputan);
                         $('#edit_catatan').val(setorData.catatan || '');
                         $('#edit_status_setor').val(setorData.status_setor);
                         $('#edit_kode_verifikasi').val(setorData.kode_verifikasi || '');
                         
-                        // Clear and populate sampah details
                         $('#edit-detail-sampah-container').empty();
                         editSampahIndex = 0;
                         
@@ -618,10 +551,9 @@
                                 addEditSampahItem(item.id_sampah, item.berat_kg, item.id_detail_setor);
                             });
                         } else {
-                            addEditSampahItem();
+                            addEditSampahItem(); // Tambah satu baris kosong jika tidak ada detail
                         }
                         
-                        // Show modal
                         $('#edit-setor-sampah').prop('checked', true);
                     } else {
                         Swal.fire('Error', response.message || 'Gagal memuat data untuk edit', 'error');
@@ -633,21 +565,30 @@
             });
         }
 
-        function addEditSampahItem(selectedSampah = '', beratValue = '', detailId = '') {
+        // =================================================================================
+        // FUNGSI YANG DIPERBAIKI
+        // =================================================================================
+        function addEditSampahItem(selectedSampahId = '', beratValue = '', detailId = '') {
+            // Buat elemen select
+            let selectElement = `<select name="detail_sampah[${editSampahIndex}][id_sampah]" class="select select-bordered select-sm" required>`;
+            selectElement += `<option disabled selected value="">Pilih Jenis Sampah</option>`;
+            
+            // Loop melalui array `allSampahItems` yang sudah kita siapkan
+            allSampahItems.forEach(function(item) {
+                const isSelected = item.id == selectedSampahId ? 'selected' : '';
+                selectElement += `<option value="${item.id}" ${isSelected}>${item.nama} (${item.poin} poin/kg)</option>`;
+            });
+            selectElement += `</select>`;
+
             let html = `
                 <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <div class="form-control">
-                            <select name="detail_sampah[${editSampahIndex}][id_sampah]" class="select select-bordered select-sm" required>
-                                <option disabled value="">Pilih Jenis Sampah</option>
-                                @foreach ($sampah as $item)
-                                    <option value="{{ $item->id_sampah }}" ${selectedSampah == '{{ $item->id_sampah }}' ? 'selected' : ''}>{{ $item->nama_sampah }} ({{ $item->bobot_poin }} poin/kg)</option>
-                                @endforeach
-                            </select>
+                           ${selectElement}
                         </div>
                         <div class="form-control">
                             <input type="number" name="detail_sampah[${editSampahIndex}][berat_kg]" step="0.01" min="0.01" 
-                                class="input input-bordered input-sm" placeholder="Berat (kg)" value="${beratValue}" required>
+                                   class="input input-bordered input-sm" placeholder="Berat (kg)" value="${beratValue}" required>
                         </div>
                         <div class="form-control">
                             <button type="button" class="btn btn-error btn-sm remove-edit-sampah-item">Hapus</button>
@@ -661,19 +602,16 @@
         }
 
         $(document).ready(function() {
-            // Edit button click handler
             $(document).on('click', 'a[href^="#edit-setor/"]', function(e) {
                 e.preventDefault();
                 let id = $(this).attr('href').replace('#edit-setor/', '');
                 showEditModal(id);
             });
 
-            // Add sampah item in edit modal
             $('#edit-add-sampah-item').click(function() {
                 addEditSampahItem();
             });
 
-            // Remove sampah item in edit modal
             $(document).on('click', '.remove-edit-sampah-item', function() {
                 if ($('#edit-detail-sampah-container .detail-sampah-item').length > 1) {
                     $(this).closest('.detail-sampah-item').remove();
@@ -682,7 +620,6 @@
                 }
             });
 
-            // Handle edit form submission
             $('#editSetorForm').submit(function(e) {
                 e.preventDefault();
                 
@@ -707,13 +644,19 @@
                     },
                     error: function(xhr) {
                         let errorMessage = 'Terjadi kesalahan saat mengupdate data';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            let errors = Object.values(xhr.responseJSON.errors).flat();
-                            errorMessage = errors.join('<br>');
+                        if (xhr.responseJSON) {
+                            if (xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            } else if (xhr.responseJSON.errors) {
+                                let errors = Object.values(xhr.responseJSON.errors).flat();
+                                errorMessage = errors.join('<br>');
+                            }
                         }
-                        Swal.fire('Error', errorMessage, 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error Validasi',
+                            html: errorMessage
+                        });
                     }
                 });
             });
