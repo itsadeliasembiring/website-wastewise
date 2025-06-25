@@ -476,7 +476,7 @@
                 },
                 columns: [
                     { data: 'id_setor', name: 'id_setor' },
-                    { data: 'nama_pengguna', name: 'pengguna.nama_lengkap' },
+                    { data: 'nama_lengkap', name: 'pengguna.nama_lengkap' },
                     { data: 'waktu_setor_formatted', name: 'waktu_setor' },
                     { data: 'waktu_penjemputan_formatted', name: 'waktu_penjemputan' },
                     { data: 'metode_setor', name: 'metode_setor' },
