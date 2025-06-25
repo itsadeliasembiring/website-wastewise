@@ -215,7 +215,7 @@
                             <h3 class="text-lg font-medium text-gray-600">Kode Verifikasi Jemput</h3>
                             <p class="text-gray-500 text-sm mb-4">Berikan kode ini kepada petugas dari <strong x-text="verificationCodeData.bank_sampah"></strong></p>
                             <div class="bg-primary-50 border-2 border-dashed border-primary-300 rounded-lg py-4">
-                                <p class="text-4xl font-bold tracking-widest text-primary-700" x-text="verificationCodeData.kode_verifikasi"></p>
+                                <p class="text-4xl font-bold tracking-widest text-white" x-text="verificationCodeData.kode_verifikasi"></p>
                             </div>
                             <p class="text-xs text-gray-400 mt-4">Status saat ini: <span class="font-medium" x-text="verificationCodeData.status"></span></p>
                         </div>
