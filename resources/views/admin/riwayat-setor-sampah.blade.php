@@ -68,7 +68,220 @@
                                         <option disabled selected>Filter Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="all">Semua Status</option>
                                         <option class="text-[#000] bg-[#fff]" value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
-                                        <option class="text-[#000] s
+                                        <option class="text-[#000] bg-[#fff]" value="Di Proses">Di Proses</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Selesai">Selesai</option>
+                                        <option class="text-[#000] bg-[#fff]" value="Dibatalkan">Dibatalkan</option>
+                                    </select>
+                                    <select class="filter select select-sm w-fit h-9 bg-[#3D8D7A] text-[#fff] !outline-none xs:text-[12px] sm:text-[14px]"
+                                        name="metode_filter" id="metode-filtering"> {{-- Changed ID --}}
+                                        <option disabled selected>Filter Metode</option>
+                                        <option class="text-[#000] bg-[#fff]" value="all">Semua Metode</option>
+                                        <option class="text-[#000] bg-[#fff]" value="jemput">Dijemput</option>
+                                        <option class="text-[#000] bg-[#fff]" value="antar">Setor Langsung</option> {{-- Value should match DB --}}
+                                    </select>
+                                    <label for="add-setor-sampah"
+                                        class="btn btn-sm h-9 border-none pl-3 bg-[#00D100] hover:bg-[#00D100] text-white rounded-[10px] inline-flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] h-[17px] sm:mr-3" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        <span class="xs:hidden sm:inline-block xs:text-[12px] sm:text-[14px]">Tambah</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-[100%] h-[100%] shadow-md bg-white text-primary-content px-4 py-4 mt-2">
+                        <div class="overflow-x-auto">
+                            <table id="setorSampahTable" class="stripe hover display responsive nowrap" style="width: 100%">
+                                <thead class="bg-white xl:w-fit sm:w-auto">
+                                    <tr>
+                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">No</th> -->
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">ID Setor</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Pengguna</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Setor</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Waktu Penjemputan</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Metode</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Berat (kg)</th>
+                                        <!-- <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Total Poin</th> -->
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] px-6 py-4 sm:text-xs">Status</th>
+                                        <th scope="col" class="xl:text-sm xs:text-xs font-semibold text-[#35405B] sm:text-xs">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modalDetail" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="absolute inset-0 flex items-center justify-center py-10">
+            <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 max-h-screen overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-[#3D8D7A]">Detail Setor Sampah</h2>
+                    <button id="btnCloseDetail" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">ID Setoran</p>
+                            <p id="detailId" class="text-black font-semibold">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Waktu Setor</p>
+                            <p id="detailWaktuSetor" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Kode Verifikasi</p>
+                            <p id="detailKodeVerifikasi" class="text-black font-mono bg-gray-300 p-1 rounded inline-block">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500 mb-2">Status Setor</p>
+                            <span id="detailStatus" class="px-2 py-1 text-xs font-semibold rounded-full">-</span>
+                        </div>
+                         <div class="mb-3">
+                            <p class="text-sm text-gray-500">Metode Setor</p>
+                            <p id="detailMetodeSetor" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Total Berat</p>
+                            <p id="detailTotalBerat" class="text-black font-semibold">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Total Poin</p>
+                            <p id="detailTotalPoin" class="text-black font-semibold">-</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Nama Pengguna</p>
+                            <p id="detailNamaPengguna" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Bank Sampah</p>
+                            <p id="detailBankSampah" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Lokasi Penjemputan</p>
+                            <p id="detailLokasiPenjemputan" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Waktu Penjemputan</p>
+                            <p id="detailWaktuPenjemputan" class="text-black">-</p>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-500">Catatan</p>
+                            <p id="detailCatatan" class="text-black">-</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-md font-semibold mb-3 text-[#3D8D7A]">Rincian Sampah</h3>
+                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="py-2 px-3 text-left text-xs font-medium text-black uppercase">Nama Sampah</th>
+                                    <th class="py-2 px-3 text-left text-xs font-medium text-black uppercase">Jenis Sampah</th>
+                                    <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Berat (kg)</th>
+                                    <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Poin/kg</th>
+                                    <th class="py-2 px-3 text-right text-xs font-medium text-black uppercase">Total Poin</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailSampahTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="checkbox" id="add-setor-sampah" class="modal-toggle" />
+    <div class="modal">
+        <div class="modal-box w-11/12 max-w-3xl">
+            <label for="add-setor-sampah" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <h3 class="font-bold text-lg text-[#3D8D7A] mb-4">Tambah Setor Sampah Baru</h3>
+            
+            <form action="{{ route('admin.setor-sampah.add') }}" method="POST">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Pengguna <span class="text-red-500">*</span></span></label>
+                        <select name="id_pengguna" class="select select-bordered" required>
+                            <option disabled selected value="">Pilih Pengguna</option>
+                            @foreach ($pengguna as $user)
+                                <option value="{{ $user->id_pengguna }}">{{ $user->nama }} ({{ $user->id_pengguna }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Bank Sampah <span class="text-red-500">*</span></span></label>
+                        <select name="id_bank_sampah" class="select select-bordered" required>
+                            <option disabled selected value="">Pilih Bank Sampah</option>
+                            @foreach ($bank_sampah as $bank)
+                                <option value="{{ $bank->id_bank_sampah }}" class="text-[#000] bg-[#fff]">{{ $bank->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                     <div class="form-control">
+                        <label class="label"><span class="label-text">Metode Setor <span class="text-red-500">*</span></span></label>
+                        <select name="metode_setor" class="select select-bordered" required>
+                            <option disabled selected value="">Pilih Metode</option>
+                            <option value="Dijemput">Dijemput</option>
+                            <option value="Setor Langsung">Setor Langsung</option>
+                        </select>
+                    </div>
+                    <div class="form-control">
+                        <label class="label"><span class="label-text">Waktu Penjemputan/Pengantaran <span class="text-red-500">*</span></span></label>
+                        <input type="datetime-local" name="waktu_penjemputan" class="input input-bordered" required>
+                    </div>
+                </div>
+                 <div class="form-control mb-4">
+                    <label class="label"><span class="label-text">Lokasi Penjemputan <span class="text-red-500">*</span></span></label>
+                    <textarea name="lokasi_penjemputan" class="textarea textarea-bordered" placeholder="Masukkan alamat lengkap penjemputan atau '-' jika diantar langsung" required></textarea>
+                </div>
+
+
+                <div class="form-control mb-4">
+                    <label class="label"><span class="label-text">Catatan</span></label>
+                    <textarea name="catatan" class="textarea textarea-bordered" placeholder="Catatan tambahan (opsional)"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <h4 class="font-semibold text-[#3D8D7A] mb-2">Detail Sampah <span class="text-red-500">*</span></h4>
+                    <div id="detail-sampah-container">
+                        <div class="detail-sampah-item border border-gray-200 rounded-lg p-3 mb-2">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="form-control">
+                                    <select name="detail_sampah[0][id_sampah]" class="select select-bordered select-sm" required>
+                                        <option disabled selected value="">Pilih Jenis Sampah</option>
+                                        @foreach ($sampah as $item)
+                                            <option value="{{ $item->id_sampah }}">{{ $item->nama_sampah }} ({{ $item->bobot_poin }} poin/kg)</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-control">
+                                    <input type="number" name="detail_sampah[0][berat_kg]" step="0.01" min="0.01" 
+                                        class="input input-bordered input-sm" placeholder="Berat (kg)" required>
+                                </div>
                                 <div class="form-control">
                                     <button type="button" class="btn btn-error btn-sm remove-sampah-item">Hapus</button>
                                 </div>
