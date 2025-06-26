@@ -69,7 +69,7 @@
             <!-- Plastic -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/plastik.png') }}" alt="Plastic" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/plastik.png') }}" alt="Plastic" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Plastik</h3>
             </div>
@@ -77,7 +77,7 @@
             <!-- Glass -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/kaca.png') }}" alt="Glass" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/kaca.png') }}" alt="Glass" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kaca</h3>
             </div>
@@ -85,7 +85,7 @@
             <!-- Cooking Oil -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/minyak.png') }}" alt="Cooking Oil" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/minyak.png') }}" alt="Cooking Oil" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Minyak Jelantah</h3>
             </div>
@@ -93,7 +93,7 @@
             <!-- Food Waste -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/organik.png') }}" alt="Food Waste" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/organik.png') }}" alt="Food Waste" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Sampah Makanan</h3>
             </div>
@@ -101,7 +101,7 @@
             <!-- Paper -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/kardus.png') }}" alt="Paper" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/kardus.png') }}" alt="Paper" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kertas</h3>
             </div>
@@ -109,7 +109,7 @@
             <!-- Cans -->
             <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-4 flex flex-col items-center justify-center h-56">
                 <div class="bg-green-100 rounded-full p-4 mb-4 w-24 h-24 flex items-center justify-center">
-                    <img src="{{ asset('Assets/icon-sampah/kaleng.png') }}" alt="Cans" class="w-14 h-14">
+                    <img src="{{ asset('Assets/Icon-sampah/kaleng.png') }}" alt="Cans" class="w-14 h-14">
                 </div>
                 <h3 class="font-semibold text-xl text-center text-gray-800">Kaleng</h3>
             </div>
