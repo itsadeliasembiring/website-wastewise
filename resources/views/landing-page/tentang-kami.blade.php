@@ -15,7 +15,7 @@
         </header>
 
         <!-- Tentang Kami Section -->
-        <section id="tentangkami" class="py-16 bg-gradient-to-b from-white to-gray-50">
+        <section id="tentangkami" class="py-16 bg-gradient-to-b bg-gray-100">
             <div class="container mx-auto px-4">
                 <!-- Heading -->
                 <div class="text-center mb-12">
@@ -29,7 +29,7 @@
                     <!-- Image -->
                     <div class="lg:w-1/2">
                         <div class="rounded-lg overflow-hidden shadow-xl">
-                            <img src="{{ asset('assets/logo-wastewise.svg') }}" alt="Tim WasteWise" class="w-full h-auto object-cover"/>
+                            <img src="{{ asset('Assets/logo-wastewise.svg') }}" alt="Tim WasteWise" class="w-full h-auto object-cover"/>
                         </div>
                     </div>
                     
@@ -131,7 +131,7 @@
         </section>
 
         <!-- Contact Section -->
-        <x-footer.guest id="kontak"/>
+                <x-footer.guest id="kontak" fill="#f3f4f6"/>
 
     </body>
 </html>

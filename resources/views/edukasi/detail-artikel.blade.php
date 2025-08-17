@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WasteWise - Detail Artikel</title>
+    <title>{{ $artikel->judul_artikel }} - WasteWise</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,28 +20,46 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-        <!-- Header -->
+    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <x-header.pengguna/>
     </header>
-
 
     <!-- Konten Artikel -->
     <main class="bg-gray-45 py-6">
         <div class="container mx-auto px-4">
 
+            <!-- Breadcrumb -->
+            <nav class="mb-6">
+                <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                    <li><a href="{{ route('beranda-edukasi') }}" class="hover:text-teal-700">Beranda Edukasi</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li><a href="{{ route('daftar-artikel') }}" class="hover:text-teal-700">Artikel</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li class="text-gray-400">{{ \Str::limit($artikel->judul_artikel, 50) }}</li>
+                </ol>
+            </nav>
+
             <!-- Gambar Utama -->
             <div class="mt-3">
                 <div class="flex flex-col items-center justify-center py-18 mb-8">
-                    <img src="{{ asset('Assets/waste-wise-artikel.png') }}" alt="WasteWise Banner" 
-                        class="w-full max-w-5xl mx-auto rounded-xl">
+                    @if($artikel->foto)
+                        <img src="{{ Storage::url('artikel/' . $artikel->foto) }}" alt="{{ $artikel->judul_artikel }}" 
+                             class="w-full max-w-5xl mx-auto rounded-xl object-cover h-[300px]">
+                    @else
+                        <div class="w-full max-w-5xl mx-auto h-96 bg-gray-200 rounded-xl flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    @endif
                 </div>
             </div>
 
             <div class="max-w-5xl mx-auto">
                 <!-- Judul Artikel -->
                 <h1 class="text-3xl md:text-3xl font-bold text-gray-900 mb-3 text-justify">
-                    WasteWise: Inovasi Aplikasi Bank Sampah untuk Lingkungan Lebih Bersih
+                    {{ $artikel->judul_artikel }}
                 </h1>
 
                 <!-- Meta -->
@@ -52,76 +70,70 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-[#3D8D7A] font-semibold text-base">Nama Bank Sampah</p>
-                        <p class="text-sm text-gray-500">17/02/2024, 08:30 WIB</p>
+                        <p class="text-[#3D8D7A] font-semibold text-base">WasteWise Admin</p>
+                        <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($artikel->created_at)->format('d/m/Y, H:i') }} WIB</p>
                     </div>
                 </div>
 
                 <!-- Isi Artikel -->
                 <div class="text-base text-gray-700 leading-relaxed space-y-4 mb-12 text-justify [text-align:justify]">
-                    <p>
-                        Surabaya - Inovasi teknologi terus berkembang untuk mendukung keberlanjutan lingkungan. Salah satu solusi terbaru yang hadir adalah WasteWise, sebuah aplikasi bank sampah digital yang dirancang untuk membantu masyarakat dalam mengelola sampah dengan lebih efektif dan efisien. Dengan fitur-fitur canggih dan sistem insentif yang menarik, WasteWise diharapkan mampu meningkatkan kesadaran masyarakat dalam mendaur ulang sampah serta mendorong praktik pengelolaan limbah yang lebih bertanggung jawab.
-                    </p>
-                    <p>
-                        Aplikasi ini menawarkan berbagai fitur unggulan, termasuk pencatatan transaksi sampah, edukasi mengenai jenis-jenis sampah dan cara pengolahannya, serta program insentif berbasis poin yang dapat ditukarkan dengan berbagai hadiah menarik. Dengan adanya sistem insentif ini, pengguna semakin termotivasi untuk memilah dan mendaur ulang sampah mereka secara lebih aktif.
-                    </p>
-                    <p>
-                        CEO WasteWise, Adelia Trisna, menyatakan bahwa aplikasi ini hadir sebagai jawaban atas permasalahan sampah yang kian meningkat di Indonesia. Menurutnya, masih banyak masyarakat yang belum memiliki kebiasaan memilah sampah, sehingga limbah yang seharusnya dapat didaur ulang justru berakhir di tempat pembuangan akhir.
-                    </p>
-                    <p>
-                        “Kami ingin mengubah cara pandang masyarakat tentang sampah. Dengan WasteWise, sampah bukan lagi limbah yang harus dibuang, tetapi bisa memiliki nilai ekonomi. Kami berharap aplikasi ini dapat membantu menciptakan lingkungan yang lebih bersih serta meningkatkan kesejahteraan masyarakat melalui konsep ekonomi sirkular,” ujar Adelia.
-                    </p>
-                    <p>
-                        Dukungan teknologi yang diterapkan dalam WasteWise memungkinkan pengguna untuk melacak dan memantau jumlah sampah yang telah mereka kumpulkan serta dampak positif yang telah mereka ciptakan terhadap lingkungan. Aplikasi ini juga dilengkapi dengan modul edukasi interaktif yang memberikan informasi tentang pengolahan sampah organik dan anorganik, serta cara mengurangi limbah rumah tangga secara efektif.
-                    </p>
-                    <p>
-                        Saat ini, WasteWise sudah tersedia untuk diunduh di perangkat berbasis Android maupun iOS. Dengan semakin banyaknya pengguna yang bergabung, diharapkan aplikasi ini dapat menjadi solusi nyata dalam mengatasi permasalahan sampah dan membangun budaya peduli lingkungan di Indonesia.
-                    </p>
+                    {!! nl2br(e($artikel->detail_artikel)) !!}
                 </div>
 
+                <!-- Tombol Kembali -->
+                <div class="mb-8">
+                    <a href="{{ route('daftar-artikel') }}" 
+                       class="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Kembali ke Daftar Artikel
+                    </a>
+                </div>
+
+                @if($artikelLainnya->isNotEmpty())
                 <!-- Artikel Lainnya -->
                 <h2 class="text-xl font-bold text-[#1C5EAC] mb-6">Baca Artikel Lainnya</h2>
                 <div class="space-y-6">
-
-                <!-- Artikel Terkait 1 -->
-                <div class="bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden flex flex-col sm:flex-row h-[200px]">
-                    <img src="{{ asset('Assets/kura-kura.jpg') }}" alt="Sampah di Laut" 
-                         class="w-full sm:w-1/3 h-48 sm:h-full object-cover">
-                    <div class="p-4 flex flex-col justify-between sm:w-2/3">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Sampah Plastik di Laut Ancam Ekosistem dan Biota Laut</h3>
-                            <p class="text-xs text-gray-600 mt-2 leading-relaxed text-justify">
-                                Surabaya - Sampah plastik di laut semakin mengancam ekosistem perairan Indonesia. Berdasarkan laporan terbaru dari organisasi lingkungan hidup, jumlah sampah yang tersebar di lautan semakin meningkatkan kekhawatiran biota laut, terutama kura-kura, banteng, dan fauna laut. Sisa makanan dari penangkap ikan yang sering kali melewati plastik secara tidak sengaja. Jika tidak segera ditangani...
-                            </p>
+                    @foreach($artikelLainnya as $item)
+                    <!-- Artikel Terkait -->
+                    <div class="bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden flex flex-col sm:flex-row h-[200px]">
+                        <div class="w-full sm:w-1/3 h-48 sm:h-full">
+                            @if($item->foto)
+                                <img src="{{ Storage::url('artikel/' . $item->foto) }}" alt="{{ $item->judul_artikel }}" 
+                                     class="w-full h-full object-cover">
+                            @else
+                                <div class="bg-gray-200 w-full h-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            @endif
                         </div>
-                        <div class="text-right pt-2 mt-auto">
-                            <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Artikel Terkait 2 -->
-                <div class="bg-white border border-gray-200 shadow-md rounded-xl overflow-hidden flex flex-col sm:flex-row h-[200px]">
-                    <img src="{{ asset('Assets/bersih-pantai.jpg') }}" alt="Bersih Pantai" 
-                        class="w-full sm:w-1/3 h-48 sm:h-full object-cover">
-                    <div class="p-4 flex flex-col justify-between sm:w-2/3">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Aksi Bersih Pantai di Surabaya: Warga dan Relawan Bersatu Demi Laut yang Lebih Bersih</h3>
-                            <p class="text-xs text-gray-600 mt-2 leading-relaxed text-justify">
-                                Surabaya - Ratusan warga dan relawan lingkungan hidup berkumpul di Pantai Kenjeran, Surabaya, untuk melakukan aksi bersih-bersih pantai. Kegiatan ini merupakan bagian dari gerakan peduli lingkungan yang bertujuan mengurangi pencemaran sampah di pesisir laut. Sampah plastik mendominasi temuan.....
-                            </p>
-                        </div>
-                        <div class="text-right pt-2 mt-auto">
-                            <a href="#" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                        <div class="p-4 flex flex-col justify-between sm:w-2/3">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800">{{ $item->judul_artikel }}</h3>
+                                <p class="text-xs text-gray-600 mt-2 leading-relaxed text-justify">
+                                    {{ \Str::limit(strip_tags($item->detail_artikel), 200) }}
+                                </p>
+                                <p class="text-xs text-gray-500 mt-2">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y H:i') }} WIB
+                                </p>
+                            </div>
+                            <div class="text-right pt-2 mt-auto">
+                                <a href="{{ route('detail-artikel', $item->id_artikel) }}" class="text-teal-700 mt-4 text-sm inline-block font-semibold hover:underline">Baca Selengkapnya »</a>
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
+                @endif
             </div>
         </div>
     </main>
+    
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak"/>
-
+     <x-footer.pengguna id="kontak" fill="#f3f4f6"/>
 
 </body>
 </html>

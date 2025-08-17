@@ -1,8 +1,12 @@
+
+@props([
+     'fill' => 'currentColor',
+])
 <section id="kontak" class="relative bg-[#3D8D7A] text-white">
     <!-- Wave Decoration Top -->
     <div class="absolute top-0 left-0 right-0 transform rotate-180">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full">
-            <path fill="#ffffff" fill-opacity="1" d="M0,96L80,80C160,64,320,32,480,32C640,32,800,64,960,69.3C1120,75,1280,53,1360,42.7L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            <path fill="{{ $fill }}" fill-opacity="1" d="M0,96L80,80C160,64,320,32,480,32C640,32,800,64,960,69.3C1120,75,1280,53,1360,42.7L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
         </svg>
     </div>
     
@@ -19,7 +23,7 @@
                     <li><a href="{{ route('landing-page') }}" class="hover:text-emerald-200">Halaman Beranda</a></li>
                     <li><a href="{{ route('tentang-kami') }}" class="hover:text-emerald-200">Tentang Kami</a></li>
                     <li><a href="{{ route('detail-layanan') }}" class="hover:text-emerald-200">Layanan</a></li>
-                    <li><a href="{{ route('artikel') }}" class="hover:text-emerald-200">Artikel</a></li>
+                    <li><a href="{{ route('daftar-artikel-guest') }}" class="hover:text-emerald-200">Artikel</a></li>
                     <li><a href="{{ route('landing-page') }}#kontak" class="hover:text-emerald-200">Kontak Kami</a></li>
                 </ul>
             </div>

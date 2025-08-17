@@ -1,0 +1,203 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/jenis-sampah
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'API endpoint untuk mendapatkan data jenis sampah'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlB3Vmh6eE9LWUZvWUVwaEhiMHJCbXc9PSIsInZhbHVlIjoieENFL0VxS0ZsMTR0U2dVRExQQnNlSFNkVVR1NWg4SStFQ2M3SkhQeGlCeFhDZ0RyVUNaQmNEeVZvb0hNQVhpNklvbGVpalo0eWlnMWlxcC9wL0l1dUtiSU51S0o1Qlp5eU1LRDVRR0Vqc3MxUEpkV0lvcVZ2UlgxOGNzK3JNamkiLCJtYWMiOiJkMzgxN2JhMTdjODQyOTFlNDA2ZWIzYzdiOTM4ZTc4YmY2NzJhMDgzN2VhNTRkNTRiMzZkNDgzYmEwMDY1MTU4IiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImphZVlhSXJiNHpZYTU3VFBNZzluK3c9PSIsInZhbHVlIjoiUkJHRnpDelRkbTlaZERXb0pjQVhsT0JSQ3BVaEF5SWFuaEF6UkhDR1Q5VmJsbk1QNVlmaDVWRUJhQ3dtazJsalUvVGRiZS83amJ4Y2JZZ3JWZGMxOVowWktNZXdOb2Rwb0t5dU4rMlRMZ1hRcnM5ZVVROUJSR1duUGJqcjFpbHkiLCJtYWMiOiI4NjU5MTBiNjMwNWM4OGIzOTJmYzM0MGM1YzZkMjI4M2MzODE3NmY4MWE0YThhNWRlZGM4OGIxMWQxMDA5YzEyIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/jadwal-tersedia
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Mendapatkan daftar jadwal penjemputan yang tersedia'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6InZGVVptYjIvaC82SjNvQXZLRXhwOFE9PSIsInZhbHVlIjoidlpFK3VDTnkxU2ZnNWZRSmJyMThkcDBuNjZlb2tZWWFPbWNDQk9tSERTMFJObUFOcURMNlVGNm9vSGtVMFVBano3OUh4V1U4NmJxVERrM2ZROUFxK1JrV0xXZGg1OUJQT0EzbFRwdjJqQ1cwMXRtSG5nY1g4WVpQRHkxbXVFYjMiLCJtYWMiOiJiNzJiZWJiYzRlMjMzYmQ2MzJkZjQ1YjQ4Y2I0OGU5MTQwMThiMDJlNmUwMWZlNTczYjM4ZGQyZDRlOTVjMWI1IiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InlBSXQ0a0M5bVQrMTR4aUI5VXlkUEE9PSIsInZhbHVlIjoicUdnaTdqdG9LQ3BrQWJzMGswMGRBQy91clR6ZWxkb01IeUNYYkRTcXJaU0FlNmxndHNHOGhKdHFXZE1JQmNRMEtxczkrOHBtQkljMDBTblpzaHRxazR2SWptelFvT1FUS2Jwa1ltSXR4c1ZDR0huYnBZOGx5NXZqYVdoYmtZbkMiLCJtYWMiOiI3N2ZjNThiMmNlNTY3YTFlNTk0MjgwZDkyMTVlYzg0ZmViZjJiOTIyZDlmNWYyNWEwMzJhZmZmMGEyYjA2N2I4IiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/chart-data
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'API endpoint untuk data chart pie'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6ImM5YzZCajNTdWJ6VDlZeVFVWUZQd1E9PSIsInZhbHVlIjoiVkZ0T0hxSzJnMEZ4WGk2YndUcVBKbU1tMWdvaWxTM2lGTDR2QlVBVlVGczZGTGd2NnRrdHF2QnZqRkdDcEsxQXVNM2thTkNaMlc2N1oxU0I4UlFWVkVIYTl1aFRMMDl4eHJNMzVubytYZHYvYWVUWCtWa3NvZmlPNFhsanMzUVMiLCJtYWMiOiJiYmZlOWU4NmFjZjRlYTFhOWI2ODkzNmE1NjdkYTM3OWJiMzdlODNiZTRkNTRjYjFiOTg5ZjY4OTJlMzYzZGQzIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6IjJkSitjaTJCNnRHTXF6RkdTWVExTGc9PSIsInZhbHVlIjoiMlEzb0YyaURQd0lUejhESFJFM3JGUXB4RFNSMzljM1h5aU9ENWpoK0NyZ1duRXFhWDJFTW1pWnNocEFXektlQ0RnVGc1bEZjRzJFWjB2cGliaTl5dk1COEJEUm1kblVCWUptNUNha0kvRm1vMExYd3ZRU0FDTjlGRXYwZUZYYmEiLCJtYWMiOiIzMDc4MzlkYTUwYTUyYWI4Mzk2ZWEzNTBjNWI2NjczNTNkZDc1ODJhZjEyM2ZkMmM0NjAzMGU1MWJkMmIwYjFjIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/refresh-stats
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'API endpoint untuk refresh dashboard stats'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6ImRzVDF6Qm5YUVF3RXJDb0JldXVod2c9PSIsInZhbHVlIjoiNStQRWtpSHpNbVUyZndnQUFTQlk4TWdrbFV5YmxOQWk0aGJhNDcwOWNwS1YwQkFwcVFZcno4bXRWdGIzcUs5Wll4c2RLU201eGFWbWJvUzhLTXRhQzdSc1dwQkFFbzU0NGtXbmNOYTdrS2tEWnRlSVNHRWIrbEN0MzcwbFZ2MzAiLCJtYWMiOiJhZmMwZWI5ZjNjZTQzODRmM2I5Yzg2ZGZjMjg5NDk2OTcwYmU3NmEzYjg4MzYxNmVhMDMxM2ZiOWE1NmYwZjMwIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InJTanBGTS9mREZ6VFhVQ01jZUJmQmc9PSIsInZhbHVlIjoiVHR3QWMzQ0VtazBtUWNZSFhUMFJ4RFFEZEZuSWFqTVJnZ3NINWJLM3pkeGRsclZHeHpaSFJGSUFzUTlkQVdTcU1aUm1jMWJ4MEo5Q1paTGF4blVGUldadEpGQzMxT1laT05HdkxkYmw1YnNkbERMQVFCZzJCRTRoVjhUcDhFYW8iLCJtYWMiOiI0YmU2ZTRjNzBkMzZmNTk2NGFiOGNjMjFjYjRiNzUwZjUyMGJmMDc0OGRlZTQzNzcxYzY3OTFlODk4MjBmY2E2IiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/monthly-trends
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get monthly transaction trends (contoh tambahan, tidak digunakan di view saat ini)'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlhORk96eHJoWk1WT0VOUHBlN1J6M1E9PSIsInZhbHVlIjoibE50QU83WE9WNldKUEYrSHQ4N3h3R0hXY3o0ZXB1ZTYzcVVYRU1mMDFOSk1NOFlyNktQVExVSEovVUdTL3psM2VTT1dBc0xZWmRwWUs5aTZjZ2t0NTVON05FWkxHbkVWMDZ3VjQvYllDSjhWdkYwWkFPRXJMUStZTElRZk5hNisiLCJtYWMiOiIwMTIwN2UxMWU5MGI4ZDViY2IwYjA0YzJjMzBkNzU0Mjk3OWNmOTZjMDg1NDExOTczMzZlNTI3OGU5M2U3YzYzIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImFMdWM3dDFraTdxN3FsTmFKekpaTUE9PSIsInZhbHVlIjoiZGx4Q2NtT3F3TjgrY0dVaEtoc1ZVMzVhOU5YY0gxZkVyOCt0elFtcGdOTFNWaEIvY0pWWTJuWWhEN2ZzQXRYYlE2QnhRVG9aQ2NVYU05Qnd3L2YzZ2Z1eVVJLzBFK3U1THFWUEhDL0pERytORENtUytrWXdMdjI1M1YvT0ZKaEIiLCJtYWMiOiI0NWJjYjcxN2ExYTM4NGNjNDNkMDlhNDIyMTE2Y2Q3OTcxYmUyODNmMGJhMGEyODZlZTFlMzU5YjRjMzc0YWUxIiwidGFnIjoiIn0%3D; expires=Mon, 16 Jun 2025 13:05:43 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

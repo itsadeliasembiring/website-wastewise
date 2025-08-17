@@ -24,21 +24,30 @@
                             </a>
                         </li>
 
+                        <!-- Verifikasi Setor Sampah -->
+                        <li class="min-w-max {{ Route::is('admin.verifikasi-setor-sampah') ? 'bg-[#D6EFD8]' : '' }}">
+                            <a href="{{ route('admin.verifikasi-setor-sampah') }}" aria-label="verifikasisetorsampah"
+                                class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30 active:bg-opacity-30">
+                                <x-fas-check-circle class="w-[21px] h-[21px] mr-5 {{ Route::is('admin.verifikasi-setor-sampah') ? 'text-[#3D8D7A]' : 'text-[#464748]' }}" />
+                                <span class="text-[15px] {{ Route::is('admin.verifikasi-setor-sampah') ? 'text-[#3D8D7A] font-semibold' : 'text-[#464748]' }}">Verifikasi Setor</span>
+                            </a>
+                        </li>
+
+                        <!-- Verifikasi Tukar Barang -->
+                        <li class="min-w-max {{ Route::is('admin.beranda-verifikasi-tukar-barang') ? 'bg-[#D6EFD8]' : '' }}">
+                            <a href="{{ route('admin.beranda-verifikasi-tukar-barang') }}" aria-label="verifikasitukarbarang"
+                                class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30 active:bg-opacity-30">
+                                <x-fas-clipboard-check class="w-[21px] h-[21px] mr-5 {{ Route::is('admin.beranda-verifikasi-tukar-barang') ? 'text-[#3D8D7A]' : 'text-[#464748]' }}" />
+                                <span class="text-[15px] {{ Route::is('admin.beranda-verifikasi-tukar-barang') ? 'text-[#3D8D7A] font-semibold' : 'text-[#464748]' }}">Verifikasi Penukaran</span>
+                            </a>
+                        </li>
+
                         <!-- Kelola akun -->
                         <li class="min-w-max {{ Route::is('kelola-akun') ? 'bg-[#D6EFD8]' : '' }}">
                             <a href="{{ route('kelola-akun') }}" aria-label="riwayattukarpoin"
                                 class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30 active:bg-opacity-30">
                                 <x-ri-account-pin-box-fill class="w-[21px] h-[21px] mr-5 {{ Route::is('kelola-akun') ? 'text-[#3D8D7A]' : 'text-[#464748]' }}" />
                                 <span class="text-[15px] {{ Route::is('kelola-akun') ? 'text-[#3D8D7A] font-semibold' : 'text-[#464748]' }}">Kelola Akun</span>
-                            </a>
-                        </li>
-
-                        <!-- Kelola Bank Sampah -->
-                        <li class="min-w-max {{ Route::is('kelola-bank-sampah') ? 'bg-[#D6EFD8]' : '' }}">
-                            <a href="{{ route('kelola-bank-sampah') }}" aria-label="kelolabanksampah"
-                                class="relative flex items-center space-x-4 hover:bg-[#B5B5B5] px-4 py-3 hover:bg-opacity-30 active:bg-opacity-30">
-                                <x-fas-home class="w-[21px] h-[21px] mr-5 {{ Route::is('kelola-bank-sampah') ? 'text-[#3D8D7A]' : 'text-[#464748]' }}" />
-                                <span class="text-[15px] {{ Route::is('kelola-bank-sampah') ? 'text-[#3D8D7A] font-semibold' : 'text-[#464748]' }}">Kelola Bank Sampah</span>
                             </a>
                         </li>
 

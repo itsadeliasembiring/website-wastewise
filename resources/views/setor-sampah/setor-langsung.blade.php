@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WasteWise - Setor Sampah</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,8 +21,8 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-          <!-- Header -->
-          <header class="bg-white shadow-sm sticky top-0 z-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
         <x-header.pengguna/>
     </header>
 
@@ -33,247 +34,252 @@
                 <h2 class="text-2xl font-bold text-teal-700">Setor Langsung</h2>
                 <div class="flex space-x-2">
                     <button 
-                        class="px-4 py-2 rounded-lg font-medium transition duration-200 
-                            @if (Route::is('setor-langsung')) text-white @else text-gray-700 border border-gray-400 @endif" 
-                        style="@if (Route::is('setor-langsung')) background-color: #3D8D7A; @endif"
+                        class="px-4 py-2 rounded-lg font-medium transition duration-200 text-white" 
+                        style="background-color: #3D8D7A;"
                         onclick="window.location.href='{{ route('setor-langsung') }}'">
                         Setor Langsung
                     </button>
 
                     <button 
-                        class="px-4 py-2 rounded-lg font-medium transition duration-200 
-                            @if (Route::is('jemput-sampah')) text-white @else text-gray-700 border border-gray-400 @endif" 
-                        style="@if (Route::is('jemput-sampah')) background-color: #3D8D7A; @endif"
+                        class="px-4 py-2 rounded-lg font-medium transition duration-200 text-gray-700 border border-gray-400"
                         onclick="window.location.href='{{ route('jemput-sampah') }}'">
                         Jemput Sampah
                     </button>
                 </div>
             </div>
 
-            <div class="flex flex-col lg:flex-row gap-6 items-stretch">
-                <!-- Pilih Bank Sampah -->
-                <div class="bg-white w-full lg:w-1/2 p-6 rounded-xl shadow min-h-[600px]">
-                    <h3 class="text-xl font-semibold mb-4 text-center">1. Pilih Bank Sampah Terdekat</h3>
-                    <!-- Search Box -->
-                     <div class="relative mb-6">
-                        <input type="text" placeholder="Search" class="w-full py-2 pl-10 pr-4 bg-gray-100 rounded-full text-gray-700">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+            <!-- Form Setor Sampah -->
+            <form id="setorSampahForm">
+                @csrf
+                <div class="flex flex-col gap-6 items-stretch">
+                    <!-- Input Sampah -->
+                    <div class="bg-white w-full p-6 rounded-xl shadow min-h-[600px] flex flex-col justify-between">
+                        <h3 class="text-xl font-semibold mb-4 text-center">Input Sampah</h3>
+                        <div class="flex-1">
+                            <div class="space-y-4">
+                                @forelse($jenisSampah as $index => $sampah)
+                                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="{{ asset('storage/sampah/'.$sampah->foto) }}"
+                                             alt="{{ $sampah->nama_sampah }}" 
+                                             class="w-10 h-10">
+                                        <div>
+                                            <h4 class="font-semibold text-base">{{ $sampah->nama_sampah }}</h4>
+                                            <p class="text-sm text-gray-500">{{ $sampah->bobot_poin }} Poin/Kg</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="number" 
+                                               name="sampah[{{ $index }}][berat_kg]" 
+                                               data-id-sampah="{{ $sampah->id_sampah }}"
+                                               data-bobot-poin="{{ $sampah->bobot_poin }}"
+                                               value="0" 
+                                               min="0" 
+                                               step="0.1" 
+                                               class="w-20 border rounded px-2 py-1 text-right sampah-input">
+                                        <span class="text-sm text-gray-500">Kg</span>
+                                    </div>
+                                    <input type="hidden" name="sampah[{{ $index }}][id_sampah]" value="{{ $sampah->id_sampah }}">
+                                </div>
+                                @empty
+                                <div class="text-center py-8">
+                                    <p class="text-gray-500">Tidak ada data jenis sampah tersedia</p>
+                                </div>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Bank List -->
-                     <div class="space-y-4">
-                        <!-- Bank 1 -->
-                        <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer">
-                            <div class="flex items-center">
-                                <div class="bg-gray-200 rounded-full p-2 flex-shrink-0">
-                                    <img src="{{ asset('assets/bank-sampah.png') }}" alt="Bank Icon" class="w-11 h-11">
-                                </div>
-                                <div class="ml-3 flex-grow">
-                                    <h4 class="font-semibold text-base">Bank Sampah Wiyung</h4>
-                                    <p class="text-sm text-gray-500">Jl. Wiyung No 64 Mulyorejo Utara</p>
-                                </div>
-                                <div class="flex items-center text-green-600">>
-                                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span>7 KM</span>
-                                </div>
+                    <!-- Ringkasan dan Catatan -->
+                    <div class="bg-white w-full p-6 rounded-xl shadow">
+                        <h3 class="text-xl font-semibold mb-4">Ringkasan</h3>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-teal-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-600">Total Berat</p>
+                                <p class="text-2xl font-bold text-teal-700"><span id="totalBerat">0</span> Kg</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-600">Estimasi Poin</p>
+                                <p class="text-2xl font-bold text-green-700"><span id="totalPoin">0</span> Poin</p>
                             </div>
                         </div>
-
-                        <!-- Bank 2 -->
-                        <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer">
-                            <div class="flex items-center">
-                                <div class="bg-gray-200 rounded-full p-2 flex-shrink-0">
-                                    <img src="{{ asset('assets/bank-sampah.png') }}" alt="Bank Icon" class="w-11 h-11">
-                                </div>
-                                <div class="ml-3 flex-grow">
-                                    <h4 class="font-semibold text-base">Bank Sampah Jojoran</h4>
-                                    <p class="text-sm text-gray-500">Jl. Jojoran IV No 6 Gubeng</p>
-                                </div>
-                                <div class="flex items-center text-green-600">
-                                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span>7 KM</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bank 3 -->
-                        <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer">
-                            <div class="flex items-center">
-                                <div class="bg-gray-200 rounded-full p-2 flex-shrink-0">
-                                    <img src="{{ asset('assets/bank-sampah.png') }}" alt="Bank Icon" class="w-11 h-11">
-                                </div>
-                                <div class="ml-3 flex-grow">
-                                    <h4 class="font-semibold text-base">Bank Sampah Wiyung</h4>
-                                    <p class="text-sm text-gray-500">Jl. Wiyung No 64 Mulyorejo Utara</p>
-                                </div>
-                                <div class="flex items-center text-green-600">
-                                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span>7 KM</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bank 4 -->
-                        <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 cursor-pointer">
-                            <div class="flex items-center">
-                                <div class="bg-gray-200 rounded-full p-2 flex-shrink-0">
-                                    <img src="{{ asset('assets/bank-sampah.png') }}" alt="Bank Icon" class="w-11 h-11">
-                                </div>
-                                <div class="ml-3 flex-grow">
-                                    <h4 class="font-semibold text-base">Bank Sampah Wiyung</h4>
-                                    <p class="text-sm text-gray-500">Jl. Wiyung No 64 Mulyorejo Utara</p>
-                                </div>
-                                <div class="flex items-center text-green-600">
-                                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span>7 KM</span>
-                                </div>
-                            </div>
+                        
+                        <!-- Catatan -->
+                        <div class="mb-4">
+                            <label for="catatan" class="block text-sm font-medium text-gray-700 mb-2">Catatan (Opsional)</label>
+                            <textarea name="catatan" id="catatan" rows="3" 
+                                      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                                      placeholder="Tambahkan catatan jika diperlukan..."></textarea>
                         </div>
                     </div>
                 </div>
 
-
-                <!-- Input Sampah -->
-                <div class="bg-white w-full lg:w-1/2 p-6 rounded-xl shadow min-h-[600px] flex flex-col justify-between">
-                    <h3 class="text-xl font-semibold mb-4 text-center">2. Input Sampah</h3>
-                    <div class="flex-1">
-                    <!-- Halaman 1 -->
-                    <div id="page-1" class="space-y-4">
-                        <!-- Plastik -->
-                        <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/plastik.png') }}" alt="Plastik" class="w-10 h-10">
-                                <div>
-                                    <h4 class="font-semibold text-base">Plastik</h4>
-                                    <p class="text-sm text-gray-500">110 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="10" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                        <!-- Sampah Makanan -->
-                        <div class="bg-gray-50 rounded-lg p-5 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/organik.png') }}" alt="Sampah Makanan" class="w-10 h-10">
-                                <div>
-                                    <h4 class="font-semibold">Sampah Makanan</h4>
-                                    <p class="text-sm text-gray-500">90 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="0" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                        <!-- Minyak Jelantah -->
-                        <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/minyak.png') }}" alt="Minyak Jelantah" class="w-10 h-10">
-                                <div>
-                                    <h4 class="font-semibold">Minyak Jelantah</h4>
-                                    <p class="text-sm text-gray-500">100 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="3" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                        <!-- Kertas -->
-                        <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/kardus.png') }}" alt="Kertas" class="w-10 h-10">
-                                <div>
-                                    <h4 class="font-semibold">Kertas</h4>
-                                    <p class="text-sm text-gray-500">110 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="2" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                        <!-- Kaleng -->
-                        <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/kaleng.png') }}" alt="Kaleng" class="w-10 h-10">
-                                <div>
-                                    <h4 class="font-semibold">Kaleng</h4>
-                                    <p class="text-sm text-gray-500">120 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="0" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                    </div>
-
-                    <!-- Halaman 2 -->
-                    <div id="page-2" class="space-y-4 hidden">
-                        <!-- Kaca -->
-                        <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <img src="{{ asset('assets/icon-sampah/kaca.png') }}" alt="Kaca" class="w-10 h-102">
-                                <div>
-                                    <h4 class="font-semibold">Kaca</h4>
-                                    <p class="text-sm text-gray-500">120 Poin/Kg</p>
-                                </div>
-                            </div>
-                            <input type="number" value="0" class="w-16 border rounded px-2 py-1 text-right">
-                        </div>
-                    </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pt-4 flex justify-center space-x-2 text-sm">
-                        <button id="prevBtn" class="text-gray-500 hover:underline">Prev</button>
-                        <button id="page1Btn" class="bg-green-700 text-white rounded px-3 py-1">1</button>
-                        <button id="page2Btn" class="bg-green-700 text-white rounded px-3 py-1">2</button>
-                        <button id="nextBtn" class="text-gray-500 hover:underline">Next</button>
-                    </div>
+                <!-- Submit Button -->
+                <div class="flex justify-end mt-6">
+                    <button type="submit" id="submitBtn" 
+                            class="text-white px-6 py-2 rounded-lg hover:bg-green-800 active:bg-green-900 transition duration-150 ease-in-out disabled:bg-gray-400" 
+                            style="background-color: #3D8D7A;" 
+                            disabled>
+                        <span id="submitText">Submit</span>
+                        <span id="loadingText" class="hidden">Memproses...</span>
+                    </button>
                 </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="flex justify-end mt-6">
-                <button class="text-white px-6 py-2 rounded-lg hover:bg-green-800 active:bg-green-900 transition duration-150 ease-in-out" style="background-color: #3D8D7A;">Submit</button>
-            </div>
+            </form>
         </div>
     </main>
+    <!-- Kontak -->
+    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
 
-    <!-- Script Pagination -->
+
+    <!-- Modal Sukses -->
+    <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Berhasil!</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500" id="successMessage">Sampah berhasil disetor!</p>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <p><strong>ID Setor:</strong> <span id="idSetor"></span></p>
+                        <p><strong>Kode Verifikasi:</strong> <span id="kodeVerifikasi" class="font-mono bg-gray-100 px-2 py-1 rounded"></span></p>
+                        <p><strong>Total Berat:</strong> <span id="totalBeratResult"></span> Kg</p>
+                        <p><strong>Total Poin:</strong> <span id="totalPoinResult"></span> Poin</p>
+                    </div>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="closeModal" class="px-4 py-2 bg-teal-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
     <script>
-        const page1 = document.getElementById('page-1');
-        const page2 = document.getElementById('page-2');
-        const page1Btn = document.getElementById('page1Btn');
-        const page2Btn = document.getElementById('page2Btn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        // Setup CSRF token untuk AJAX
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        let currentPage = 1;
+        // Perhitungan total berat dan poin
+        function updateTotals() {
+            const inputs = document.querySelectorAll('.sampah-input');
+            let totalBerat = 0;
+            let totalPoin = 0;
+            let hasInput = false;
 
-        function showPage(page) {
-            currentPage = page;
-            page1.classList.toggle('hidden', page !== 1);
-            page2.classList.toggle('hidden', page !== 2);
+            inputs.forEach(input => {
+                const berat = parseFloat(input.value) || 0;
+                const bobotPoin = parseFloat(input.dataset.bobotPoin) || 0;
+                
+                if (berat > 0) {
+                    hasInput = true;
+                    totalBerat += berat;
+                    totalPoin += berat * bobotPoin;
+                }
+            });
 
-            page1Btn.classList.toggle('bg-green-700', page === 1);
-            page1Btn.classList.toggle('text-white', page === 1);
-            page1Btn.classList.toggle('text-green-700', page !== 1);
-
-            page2Btn.classList.toggle('bg-green-700', page === 2);
-            page2Btn.classList.toggle('text-white', page === 2);
-            page2Btn.classList.toggle('text-green-700', page !== 2);
+            document.getElementById('totalBerat').textContent = totalBerat.toFixed(1);
+            document.getElementById('totalPoin').textContent = Math.round(totalPoin);
+            
+            // Enable/disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = !hasInput;
         }
 
-        page1Btn.addEventListener('click', () => showPage(1));
-        page2Btn.addEventListener('click', () => showPage(2));
-        prevBtn.addEventListener('click', () => showPage(Math.max(1, currentPage - 1)));
-        nextBtn.addEventListener('click', () => showPage(Math.min(2, currentPage + 1)));
+        // Event listener untuk input sampah
+        document.querySelectorAll('.sampah-input').forEach(input => {
+            input.addEventListener('input', updateTotals);
+        });
+
+        // Form submission
+        document.getElementById('setorSampahForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Disable button dan show loading
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            loadingText.classList.remove('hidden');
+
+            try {
+                const formData = new FormData(this);
+                
+                // Convert FormData ke format yang diharapkan controller
+                const sampahData = [];
+                const inputs = document.querySelectorAll('.sampah-input');
+                
+                inputs.forEach(input => {
+                    const berat = parseFloat(input.value) || 0;
+                    if (berat > 0) {
+                        sampahData.push({
+                            id_sampah: input.dataset.idSampah,
+                            berat_kg: berat
+                        });
+                    }
+                });
+
+                // Validasi jika tidak ada sampah yang diinput
+                if (sampahData.length === 0) {
+                    alert('Silakan masukkan minimal satu jenis sampah dengan berat > 0');
+                    return;
+                }
+
+                const requestData = {
+                    sampah: sampahData,
+                    catatan: document.getElementById('catatan').value
+                };
+
+                const response = await fetch('{{ route("proses-setor-langsung") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Tampilkan modal sukses
+                    document.getElementById('idSetor').textContent = result.data.id_setor;
+                    document.getElementById('kodeVerifikasi').textContent = result.data.kode_verifikasi;
+                    document.getElementById('totalBeratResult').textContent = result.data.total_berat;
+                    document.getElementById('totalPoinResult').textContent = result.data.total_poin;
+                    
+                    document.getElementById('successModal').classList.remove('hidden');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                loadingText.classList.add('hidden');
+            }
+        });
+
+        // Modal handler
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('successModal').classList.add('hidden');
+            // Reset form
+            document.getElementById('setorSampahForm').reset();
+            updateTotals();
+        });
+
+        // Initial calculation
+        updateTotals();
     </script>
 </body>
 </html>
