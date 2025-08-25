@@ -199,11 +199,7 @@
     </main>
     
     <!-- Kontak -->
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
-    <x-footer.pengguna id="kontak" fill="#f9fafb"/>
+    <x-footer.pengguna id="kontak" fill="#000000"/>
 
     <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
         <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
